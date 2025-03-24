@@ -1,0 +1,46 @@
+{
+  "name": "quickcred",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --experimental-https",
+    "dev:http-server": "http-server -p 8080",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.6.0",
+    "@fortawesome/free-solid-svg-icons": "^6.6.0",
+    "@fortawesome/react-fontawesome": "^0.2.2",
+    "@iframe-resizer/parent": "^5.3.2",
+    "@mono.co/connect.js": "^2.0.2",
+    "@react-pdf/fontkit": "^2.1.2",
+    "@react-pdf/renderer": "^4.1.6",
+    "axios": "^1.7.7",
+    "firebase": "^11.0.1",
+    "iframe-resizer": "^5.3.2",
+    "iframe-resizer-react": "^5.1.5",
+    "jose": "^5.9.6",
+    "jsonwebtoken": "^9.0.2",
+    "nanoid": "^5.0.8",
+    "next": "14.2.15",
+    "next-themes": "^0.4.3",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-icons": "^5.3.0",
+    "react-loader-spinner": "^6.1.6",
+    "react-spinners": "^0.14.1",
+    "sonner": "^1.7.0"
+  },
+  "devDependencies": {
+    "@types/iframe-resizer": "^3.5.13",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
+  }
+}

@@ -1,0 +1,302 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.custom-gradient {
+  background: linear-gradient(304.63deg, #5A5A5A 33.66%, #F6011B 74.31%, #F6011B 76.96%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.herobanner {
+  background-image: url('/images/banner.png');
+  background-size: auto 120% ;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
+.notifybanner {
+  background-image: url('/images/notification.png');
+  background-repeat: no-repeat;
+  background-position: center; /* Center the image */
+  background-size: cover; /* Ensure the image is fully visible without cropping */
+  
+ 
+}
+
+.index{
+  z-index: 200;
+}
+
+
+.animate-marquee {
+  animation: scrollGreetings 5s ease-in-out infinite both; /* Stay visible for 4 seconds, then scroll away */
+  display: inline-block;
+  white-space: nowrap;
+  position: relative;
+}
+
+.animate-marqueecard { 
+  animation: scrollCards 5s ease-in-out infinite both; /* Smooth right-to-left animation */ 
+  display: inline-block; 
+  white-space: nowrap; 
+  position: relative; 
+  overflow: hidden; /* Ensure no clipping */ }
+
+.marquee-container {
+  overflow: hidden;
+  height: 100px;
+  position: relative;
+}
+
+@keyframes scrollGreetings {
+  0% {
+    transform: translateY(100%); /* Start below the view */
+  }
+  5% {
+    transform: translateY(0); /* Slide into view */
+  }
+  95% {
+    transform: translateY(0); /* Stay visible for 95% of the time (4 seconds) */
+  }
+  100% {
+    transform: translateY(-100%); /* Scroll off the screen */
+  }
+}
+
+@keyframes scrollCards {
+  0% {
+    transform: translateX(100%); /* Start completely off-screen to the right */
+  }
+  5% {
+    transform: translateX(0); /* Slide fully into view */
+  }
+  90% {
+    transform: translateX(0); /* Stay fully visible */
+  }
+  100% {
+    transform: translateX(-100%); /* Slide completely out to the left */
+  }
+}
+
+
+@media (max-width: 768px) {
+  .herobanner {
+    background-size: 110% 110%;
+    
+  }
+}
+
+@media (max-width: 480px) {
+  .herobanner {
+    background-size: 110% 110%;
+    background-image:none;
+  }
+}
+
+
+
+@media (max-width: 480px) {
+  .herobanner {
+    background-image: url('/images/mobilehero.png'); /* Ensure consistent fallback */
+   
+  }
+}
+ul {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+.bank{
+  background-image: url('/images/bankcard.png');
+  background-repeat: no-repeat;
+  background-position: center; /* Center the image */
+  background-size:cover;
+}
+.card{
+  background-image: url('/images/cardlink.png');
+  background-repeat: no-repeat;
+  background-position: center; /* Center the image */
+  background-size: cover; /* Ensure the image is fully visible without cropping */
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOut {
+  0% {
+    transform: translateX(0); /* Start in the visible position */
+  }
+  100% {
+    transform: translateX(-100%); /* Move fully off-screen to the left */
+  }
+}
+
+
+.sidebar-enter {
+  animation: slideIn 0.5s ease-in-out forwards;
+}
+
+.sidebar-exit {
+  animation: slideOut 0.5s ease-in-out forwards;
+
+}
+
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  background-color: rgba(0, 0, 0, 0.5);
+  height: 100vh;
+  transition: 0.5s ease-in-out;
+ 
+}
+
+.sidebar-content {
+  background-color: #282828;
+  border-radius: 18px;
+  height: 100vh;
+  margin-left: 1rem;
+  width: 75%; /* Matches 9/12 */
+  padding: 1.5rem;
+  position: relative;
+  margin-top: 20px;
+}
+
+
+
+@keyframes contactIn {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes contactOut {
+  0% {
+    transform: translateX(0); /* Start in the visible position */
+  }
+  100% {
+    transform: translateX(-100%); /* Move fully off-screen to the left */
+  }
+}
+
+
+.contact-enter {
+  animation: slideIn 0.5s ease-in-out forwards;
+}
+
+.contact-exit {
+  animation: slideOut 0.5s ease-in-out forwards;
+
+}
+
+@keyframes cardIn {
+  0% {
+    transform: translateY(100%); /* Start just below the visible area */
+  }
+  100% {
+    transform: translateY(0); /* Move to the original position */
+  }
+}
+
+@keyframes cardOut {
+  0% {
+    transform: translateY(0); /* Start in the visible position */
+  }
+  100% {
+    transform: translateY(100%); /* Move fully off-screen to the bottom */
+  }
+}
+
+.card-enter {
+  animation: cardIn 0.5s ease-in-out forwards;
+}
+
+.card-exit {
+  animation: cardOut 0.5s ease-in-out forwards;
+}
+
+
+.card-content {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  transition: 0.5s ease-in-out;
+}
+
+
+
+@keyframes loanIn {
+  0% {
+    transform: translateY(100%); /* Start just below the visible area */
+  }
+  100% {
+    transform: translateY(0); /* Move to the original position */
+  }
+}
+
+@keyframes loanOut {
+  0% {
+    transform: translateY(0); /* Start in the visible position */
+  }
+  100% {
+    transform: translateY(100%); /* Move fully off-screen to the bottom */
+  }
+}
+
+.loan-enter {
+  animation: loanIn 0.5s ease-in-out forwards;
+}
+
+.loan-exit {
+  animation: loanOut 0.5s ease-in-out forwards;
+}
+
+
+.loan-content {
+  
+  z-index: 50;
+  transition: 0.5s ease-in-out;
+}
+
+
+.contactoverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  background-color: rgba(0, 0, 0, 0.5);
+  min-height: 100vh;
+  height: auto;
+  transition: 0.5s ease-in-out;
+ 
+}
+
+.contact-content {
+  background-color:white;
+  min-height: 100vh;
+  height: auto;
+  width: 100%;
+  overflow-y: auto;
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  transition: 0.5s ease-in-out;
+}
+
