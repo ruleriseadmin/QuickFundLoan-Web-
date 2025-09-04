@@ -9,12 +9,12 @@ const MeetCustomers = () => {
 
 
   const gridItems = [
-    { id: 1, name: 'Adebayo Oluyemi', text: 'AD', testimonial: 'Using QuickFund was a great experience! The loan application was simple, and I got my funds within minutes without any hassle. I loved that no collateral was required, and the repayment terms were very flexible.' },
-    { id: 2, name: 'Olashile Ayobami', text: 'OA', testimonial: 'QuickFund made getting a loan so easy and fast. I received my funds in minutes with no collateral required. Their repayment terms are flexible, and the entire process is stress-free!.' },
-    { id: 3, name: 'Obafemi Ogunleye', text: 'OO', testimonial: 'QuickFund is defintely  a lifesaver! The loan process was simple, and I got the funds I needed right when I needed them, with no stress or delays.' },
-    { id: 4, name: 'Rita Echere  ', text: 'RE',testimonial: 'QuickFund has been a lifesaver! I needed an emergency loan to cover a medical bill, and the process was so fast and seamless. The app is user-friendly, and the repayment terms are fair. I would Highly recommend!' },
-    { id: 5, name: 'Temilade Damola', text: 'TD', testimonial: 'QuickFund makes managing my finances so much easier. I love the repayment reminders and flexible loan options. It’s perfect for anyone who needs quick cash without the stress.' },
-    { id: 6, name: 'Chinenye Nmoh', text: 'CN', testimonial: 'I’ve used QuickFund multiple times for short-term loans, and it’s always been a smooth experience. The dashboard makes it easy to track payments, and their customer service is excellent. Keep up the great work!"' },
+    { id: 1, name: 'Chinaza Okonkwo', text: 'CO', testimonial: 'QuickFund Loan Application has truly made access to emergency funds seamless. The application process is straightforward, and I was able to apply and receive my loan in minutes without unnecessary paperwork.' },
+    { id: 2, name: 'Rita Echere', text: 'RE', testimonial: "QuickFund is one of the best loan apps I've used. The application process is smooth, and I received my loan within minutes. The interest rate is fair, and everything is clearly explained. It's a reliable option when you need urgent funds." },
+    { id: 3, name: 'Temilade Damola', text: 'TD', testimonial: 'Quickfund is defintely  a lifesaver! The loan process was simple, and I got the funds I needed right when I needed them, with no stress or delays.' },
+    { id: 4, name: 'Kings Davis  ', text: 'KD',testimonial: 'Quickfund has been a lifesaver! I needed an emergency loan to cover a medical bill, and the process was so fast and seamless. The app is user-friendly, and the repayment terms are fair. I would Highly recommend!' },
+    { id: 5, name: 'Deb Damola', text: 'DD', testimonial: 'Quickfund makes managing my finances so much easier. I love the repayment reminders and flexible loan options. It’s perfect for anyone who needs quick cash without the stress.' },
+    { id: 6, name: 'Chinenye Nmoh', text: 'CN', testimonial: 'I’ve used Quickfund multiple times for short-term loans, and it’s always been a smooth experience. The dashboard makes it easy to track payments, and their customer service is excellent. Keep up the great work!"' },
   ];
 
   useEffect(() => {
@@ -80,13 +80,13 @@ const MeetCustomers = () => {
       <div className='w-11/12 h-auto mt-10 mx-auto rounded-[44px] overflow-hidden font-outfit'>
         <div className='mx-auto  text-center font-outfit mt-28 '>
           <p className='lg:leading-none md:leading-none leading-[60px] text-[#282828] lg:text-[58px] text-[50px] font-bold'>
-            Meet some of
+            Stories from
           </p>
           <p className='mb-1  font-bold lg:text-[58px] text-[50px]  md:text-[35px] bg-gradient4 bg-clip-text text-transparent'>
-            Our Happy Customers
+            Our Satisfied Customers
           </p>
           <p className='text-[24px]  leading-[35px] text-center px-6 lg:px-0 md:px-0 text-[#282828] mt-4  font-medium'>
-          Our customers are at the heart of everything we do. see how we’ve helped <br/> them achieve their goals.
+          Our customers are our top priority. Discover how we've supported them in  <br/> reaching their goals.
           </p>
         </div>
          {/* small screen Carousel Grid */}
@@ -96,12 +96,12 @@ const MeetCustomers = () => {
       key={item.id}
       className={`bg-[#FFFFFF] flex-shrink-0 mx-auto lg:w-[387.41px] w-[334.41px] md:w-[337.41px] h-[340.96px] my-2  overflow-y-hidden shadow-[0_0_25px_0_#0000000D] rounded-[22px] md:rounded-[44px] lg:rounded-[44px] backdrop-blur-[5px] opacity-100 z-20 text-white text-2xl font-bold`}
     >
-      <div className='w-[80px] h-[80px] rounded-full  bg-[#F6011B40]  flex justify-center items-center leading-none text-[32px] text-[#F6011B] font-comic  relative  mt-4 ml-8'>
+      <div className='w-[80px] h-[80px] rounded-full  bg-[#FBD6D7]  flex justify-center items-center leading-none text-[32px] text-[#263238] font-comic  relative  mt-4 ml-8'>
        <p >{item.text}</p>
       </div>
       <div>
         <p className='text-[20px] mt-4 ml-4 font-comic font-bold text-[#282828]'>{item.name}</p>
-        <p className='text-[16px] w-10/12 ml-4  font-comic font-thin text-[#5A5A5A]'>{item.testimonial}</p>
+        <p className='text-[16px] w-10/12 ml-4  font-comic font-thin text-[#282828]'>{item.testimonial}</p>
       </div>
     </div>
   ))}
@@ -114,10 +114,10 @@ const MeetCustomers = () => {
           {visibleGridItems.map((item, index) => (
             <div
               key={item.id}
-              className={`bg-[#ffff] mx-auto  lg:w-[387.41px] w-[394.41px] md:w-[337.41px] h-[350.96px] lg:h-[434.96px] md:h-[450.96px]  shadow-[0_0_25px_0_#0000000D] rounded-[22px] md:rounded-[44px] lg:rounded-[44px] backdrop-blur-[5px] opacity-100 z-6 text-white text-2xl font-bold ${itemsPerSlide === 1 ? '' : getRotationClass(index)}`}
+              className={`bg-[#FFFFFF] mx-auto  lg:w-[387.41px] w-[394.41px] md:w-[337.41px] h-[350.96px] lg:h-[434.96px] md:h-[450.96px]  shadow-[0_0_25px_0_#0000000D] rounded-[22px] md:rounded-[44px] lg:rounded-[44px] backdrop-blur-[5px] opacity-100 z-6 text-white text-2xl font-bold ${itemsPerSlide === 1 ? '' : getRotationClass(index)}`}
 
               >
-              <div className='w-[80px] h-[80px] rounded-full flex justify-center items-center text-[32px] text-[#F6011B] font-comic bg-[#F6011B40] relative lg:mt-10 md:mt-16 mt-4 ml-8'>
+              <div className='w-[80px] h-[80px] rounded-full flex justify-center items-center text-[32px] text-[#263238] font-comic  bg-[#FBD6D7] relative lg:mt-10 md:mt-16 mt-4 ml-8'>
               <p >{item.text}</p>
               </div>
               <div>

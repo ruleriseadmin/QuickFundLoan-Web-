@@ -34,12 +34,12 @@ const config: Config = {
         'text-gradient': 'linear-gradient(101.65deg, #58E427 -11.07%, #4D8A28 76.56%)',
         'gradient2': 'linear-gradient(101.65deg, #F97870 -11.07%, #B57C0F 76.56%)',
         'gradient3': 'linear-gradient(101.65deg, #CBC6C5 -11.07%, #464542 76.56%)',
-        'gradient4': 'linear-gradient(304.63deg, #F6011B 17.17%, #13171D 76.96%)',
-        'gradient6': 'linear-gradient(274.94deg, #46A4B5 60.47%, #13171D 95.86%)',
+        'gradient4': 'linear-gradient(304.63deg, #F24C5D 17.17%, #13171D 76.96%)',
+        'gradient6': 'linear-gradient(274.94deg, #F24C5D 60.47%, #13171D 95.86%)',
         'gradient7': 'linear-gradient(272.62deg, #3F1A6B -12.06%, #E76229 102.84%)',
         'gradient8': 'linear-gradient(279.76deg, #2A2F2D 0%, #4F040C 51.24%, rgba(0, 0, 0, 0.92) 109.32%)',
         'gradient9': 'linear-gradient(279.76deg, #424DB1 0%, rgba(66, 77, 177, 0.9625) 51.24%, rgba(66, 77, 177, 0.92) 109.32%)',
-        'gradient10': 'linear-gradient(90deg, #F6011B 0%, #13171D 100%)',
+        'gradient10': 'linear-gradient(90deg, #FF2626 0%, #13171D 100%)',
         'gradient11': 'linear-gradient(149.87deg, #FFFFFF -10.32%, #72B3BD 201.33%)',
         
         

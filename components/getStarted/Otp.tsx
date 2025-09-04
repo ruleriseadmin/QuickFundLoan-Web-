@@ -85,7 +85,7 @@ const Otp: React.FC<otpType> = ({ handleShowPassword, phone_number, title, subti
                     'x-api-key': `${process.env.NEXT_PUBLIC_LENDING_SERVICE_API_KEY}`
                 }
             });
-            console.log(res?.data);
+            
             setSuccess(res?.data?.message);
             setSuccessNotification(true);
             setTimeLeft(30); // Reset countdown timer
@@ -122,7 +122,7 @@ const Otp: React.FC<otpType> = ({ handleShowPassword, phone_number, title, subti
                     <button
                         type="submit"
                         disabled={!otp}
-                        className="disabled:opacity-50 disabled:cursor-not-allowed w-full lg:w-11/12 bg-[#F6011BB2]  text-white font-outfit rounded-full h-[55px] py-1 px-4 text-[15px] mt-4"
+                        className="disabled:opacity-50 disabled:cursor-not-allowed w-full lg:w-11/12 bg-[#F24C5D]  text-white font-outfit rounded-full h-[55px] py-1 px-4 text-[15px] mt-4"
                     >
                         Next
                     </button>

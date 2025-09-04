@@ -68,7 +68,7 @@ const NavBar = () => {
 
 
   const isActive = (route: string) => {
-    return route === pathname ? 'text-[#F6011BB2]' : 'text-navfont';
+    return route === pathname ? 'text-[#F24C5D]' : 'text-navfont';
   };
 
   return (
@@ -77,7 +77,7 @@ const NavBar = () => {
         <div className="absolute flex  justify-between w-full items-center align-middle lg:mt-1 md:mt-[12px] lg:py-2 md:py-1 ">
           <Link href="/">
             <Image
-              src="/images/quick-logo.png"
+              src="/images/icon.png"
               width={128}
               height={52}
               alt="logo"
@@ -104,23 +104,30 @@ const NavBar = () => {
           <div className="hidden lg:flex md:flex justify-center items-center font-outfit gap-6 font-medium text-[14px] md:text-[15px] lg:md:text-[18px] ">
           <button
       
-      className="py-2 text-navfont text-[18px] hover:text-[#F6011BB2] ml-4 transition-colors duration-300"
+      className="py-2 text-navfont text-[18px] hover:text-[#F24C5D] ml-4 transition-colors duration-300"
       onClick={navigateToHero2}
     >
       Loan solutions
     </button>
-           
+            <Link className={`hover:text-[#F24C5D] ${isActive('/aboutus')}`} href="/aboutus">
+              About us
+            </Link>
             <button 
-            className={`hover:text-[#F6011BB2] ${isActive('')}`}
+            className={`hover:text-[#F24C5D] ${isActive('')}`}
             onClick={toggleContact}
             >
               Contact
             </button>
-           
+            <Link className={`hover:text-[#F24C5D] ${isActive('/faq')}`} href="/faq">
+              FAQ
+            </Link>
+            <Link className={`hover:text-[#F24C5D] ${isActive('/career')}`} href="/career">
+              Career
+            </Link>
           </div>
           <button
             onClick={handleCheckUserStatus}
-            className="bg-[#282828] hidden lg:flex md:flex hover:bg-[#F6011BB2] text-white font-outfit font-bold rounded-full lg:w-[146px] m:w-[126px] h-[54px] text-center md:py-4 md:px-6 lg:items-center lg:text-[18px] lg:justify-center lg:mr-8 mr-4 md:text-[15px]"
+            className="bg-[#282828] hidden lg:flex md:flex hover:bg-[#F24C5D] text-white font-outfit font-bold rounded-full lg:w-[146px] m:w-[126px] h-[54px] text-center md:py-4 md:px-6 lg:items-center lg:text-[18px] lg:justify-center lg:mr-8 mr-4 md:text-[15px]"
           >
            Apply now
           </button>
@@ -136,7 +143,7 @@ const NavBar = () => {
             <div className="md:hidden lg:hidden absolute top-[60px] right-3 w-8/12 min-h-[415px] h-auto bg-white rounded-xl shadow-lg flex flex-col items-start font-outfit font-medium py-4 z-50">
               <Link
                 href="#hero2"
-                className={`py-2 text-navfont text-[18px] hover:text-[#F6011BB2] ml-4 transition-colors duration-300 ${isActive(
+                className={`py-2 text-navfont text-[18px] hover:text-[#F24C5D] ml-4 transition-colors duration-300 ${isActive(
                   ''
                 )}`}
                 onClick={() => setMenuOpen(false)}
@@ -145,7 +152,7 @@ const NavBar = () => {
               </Link>
               <Link
                 href="/aboutus"
-                className={`py-2 ml-4 text-navfont text-[18px] hover:text-[#F6011BB2] transition-colors duration-300 ${isActive(
+                className={`py-2 ml-4 text-navfont text-[18px] hover:text-[#F24C5D] transition-colors duration-300 ${isActive(
                   '/aboutus'
                 )}`}
                 onClick={() => setMenuOpen(false)}
@@ -154,7 +161,7 @@ const NavBar = () => {
               </Link>
               <button
                 
-                className={`py-2 ml-4 text-navfont text-[18px] hover:text-[#F6011BB2] transition-colors duration-300 ${isActive(
+                className={`py-2 ml-4 text-navfont text-[18px] hover:text-[#F24C5D] transition-colors duration-300 ${isActive(
                   '/aboutus'
                 )}`}
                 onClick={() => {
@@ -167,7 +174,7 @@ const NavBar = () => {
               
               <Link
                 href="/faq"
-                className={`py-2 ml-4 text-navfont text-[18px] hover:text-[#F6011BB2] transition-colors duration-300 ${isActive(
+                className={`py-2 ml-4 text-navfont text-[18px] hover:text-[#F24C5D] transition-colors duration-300 ${isActive(
                   '/faq'
                 )}`}
                 onClick={() => setMenuOpen(false)}
@@ -176,7 +183,7 @@ const NavBar = () => {
               </Link>
               <Link
                 href="/career"
-                className={`py-2 ml-4 text-navfont text-[18px] hover:text-[#F6011BB2] transition-colors duration-300 ${isActive(
+                className={`py-2 ml-4 text-navfont text-[18px] hover:text-[#F24C5D] transition-colors duration-300 ${isActive(
                   '/career'
                 )}`}
                 onClick={() => setMenuOpen(false)}
@@ -189,12 +196,13 @@ const NavBar = () => {
                   handleCheckUserStatus();
                   setMenuOpen(false); // Close the mobile menu
                 }}
-                className="py-2 ml-4 text-navfont text-[18px] hover:text-[#F6011BB2] transition-colors duration-300"
+                className="py-2 ml-4 text-navfont text-[18px] hover:text-[#F24C5D] transition-colors duration-300"
               >
                 Apply now
               </button>
               <button
                 type="button"
+                onClick={() => window.open('https://play.google.com/store/apps/details?id=com.quickfund.quickfund', '_blank')}
                 className="w-[215px]  ml-4  bg-[#2B2323]  flex justify-between align-middle items-center text-white font-outfit  rounded-full h-[58px] py-1 px-2 text-[15px] mt-8"
               >
                 <p className="pl-2">Download for android</p>
@@ -208,6 +216,7 @@ const NavBar = () => {
               </button>
               <button
                 type="button"
+               onClick={() => window.open('https://apps.apple.com/ng/app/quickfund/id6740584720', '_blank')}
                 className="w-[215px] ml-4 bg-[#2B2323] flex justify-between  align-middle items-center text-white font-outfit  rounded-full h-[58px] py-1 px-2 text-[15px] mt-4"
               >
                 <p className="pl-2">Download for apple</p>

@@ -6,7 +6,7 @@ const CareerInfo = () => {
         {
             image: '/images/hearts.png',
             title: 'Healthy work-life balance',
-            description: 'At QuickCred, our work schedules incorporate quality work ethics, fun and productivity. Ours is a wholesome work environment that promotes a balance of workflow, happiness, performance and profit among employees.'
+            description: 'At Quickfund, our work schedules incorporate quality work ethics, fun and productivity. Ours is a wholesome work environment that promotes a balance of workflow, happiness, performance and profit among employees.'
         },
         {
             image: '/images/flexible.png',

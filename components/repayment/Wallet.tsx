@@ -160,7 +160,7 @@ const Wallet: React.FC<WalletProps> = ({ toggleRepayment, handleShowOptions,loan
         );
         toggleRepayment();
       }}
-        className="bg-[#46A4B5] mt-16 text-white disabled:cursor-not-allowed disabled:opacity-50 h-[47px] w-full rounded-[45px] px-4 py-2 my-2 font-semibold"
+        className="bg-[#F83449] mt-16 text-white disabled:cursor-not-allowed disabled:opacity-50 h-[47px] w-full rounded-[45px] px-4 py-2 my-2 font-semibold"
       >
         Continue
       </button>

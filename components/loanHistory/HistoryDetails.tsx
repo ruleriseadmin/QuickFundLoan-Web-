@@ -106,7 +106,7 @@ const toggleDetails = () => {
         {loanHistory.status === 'OVERDUE' && (
           <span
           onClick={toggleDetails}
-          className='font-medium hover:cursor-pointer text-[14px] text-[#1F96A9] '>View loan details</span>
+          className='font-medium hover:cursor-pointer text-[14px] text-[#F83449] '>View loan details</span>
         )}
         </div>
        

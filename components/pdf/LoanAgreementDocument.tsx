@@ -12,8 +12,6 @@ import {
 import { Font } from '@react-pdf/renderer';
 import {getFormattedDateTime,
   formatDateLoan, 
-  calculateDaysToDue,
-  getPercentage,
   formatCurrency} from '@/utils/bankFunctions';
 
 
@@ -86,11 +84,12 @@ interface User {
 interface LoanAgreementDocumentProps {
   loanSchedule: LoanSchedule;
   user: User;
+  interest:string | null
 }
 
 
 
-const LoanAgreementDocument: React.FC<LoanAgreementDocumentProps> = ({loanSchedule,user,}) => { 
+const LoanAgreementDocument: React.FC<LoanAgreementDocumentProps> = ({loanSchedule,user,interest}) => { 
   const totaDate = loanSchedule[loanSchedule?.length - 1]?.due_date;
   const now = new Date();
   const dueDate = new Date(totaDate);
@@ -111,7 +110,7 @@ const LoanAgreementDocument: React.FC<LoanAgreementDocumentProps> = ({loanSchedu
       <Text style={{ color: '#282828', textAlign:'center',fontWeight:'medium', fontSize:'13px',paddingTop:'10px' }}>{getFormattedDateTime()}</Text>
       <Image 
        style={{ width: 158, height: 65, margin: '10px' }} 
-       src="/images/quick-logo.png"
+       src="/images/icon.png"
        />
       <View style={styles.section}>
         <Text style={{ fontWeight:'normal',fontSize:'13px',lineHeight:'23px' }}>Quickfund Nig. Limited,</Text>
@@ -147,10 +146,7 @@ and conditions applicable to this loan facility, and may be considered as your c
   </Text>
 </View>
 
-        <View style={{ flexDirection: 'row', justifyContent:'flex-start', gap:'5px', fontFamily:'Euclid' }}>
-        <Text style={{ fontWeight:'semibold',fontSize:'13px',lineHeight:'25px' }}>Pricing:</Text>
-        <Text style={{ fontWeight:'normal',fontSize:'13px',lineHeight:'25px' }}>{getPercentage(loanSchedule[0]?.payment_amount,loanSchedule[0]?.interest_payment)}%</Text>
-        </View>
+        
       </View>
       <View style={{  width: '90%', height: 1, backgroundColor: '#D2D2D2',marginVertical: '5px',marginHorizontal:'20px'  }} />
 
@@ -182,7 +178,7 @@ and conditions applicable to this loan facility, and may be considered as your c
 <Page size="A4" style={styles.page}>
   <Image 
     style={{ width: 158, height: 65, marginHorizontal: '10px', marginVertical: '25px' }} 
-    src="/images/quick-logo.png"
+    src="/images/icon.png"
   />
   <View style={styles.section}>
     <Text style={{ fontWeight: 'semibold', fontSize: '13px', lineHeight: '23px' }}>Repayment Schedule</Text>
@@ -248,7 +244,7 @@ and conditions applicable to this loan facility, and may be considered as your c
         <Page size="A4" style={styles.page}>
       <Image 
        style={{ width: 158, height: 65, marginHorizontal: '10px',marginVertical:'25px' }} 
-       src="/images/quick-logo.png"
+       src="/images/icon.png"
        />
       <View style={styles.section}>
       <Text style={{ fontWeight:'normal',fontSize:'13px',lineHeight:'20px' }}>5. For every day of delay past the payment due date, interest will continue to accrue daily, at the rate
@@ -287,7 +283,7 @@ unpaid amount in addition to charging current rate of interest.
             <Page size="A4" style={styles.page}>
       <Image 
        style={{ width: 158, height: 65, marginHorizontal: '10px',marginVertical:'25px' }} 
-       src="/images/quick-logo.png"
+       src="/images/icon.png"
        />
       <View style={styles.section}>
       <Text style={{ fontWeight:'normal',fontSize:'13px',lineHeight:'20px' }}>4. He/she has the right to access and operate the bank account(s)/ card(s) that has been connected for repayment. 
@@ -342,7 +338,7 @@ extend the facility to the Borrower.
      <Page size="A4" style={styles.page}>
       <Image 
        style={{ width: 158, height: 65, marginHorizontal: '10px',marginVertical:'25px' }} 
-       src="/images/quick-logo.png"
+       src="/images/icon.png"
        />
       
       <View style={styles.section}>
@@ -392,7 +388,7 @@ Borrower shall be duly notified ten (10) days prior to the implementation of sai
      <Page size="A4" style={styles.page}>
       <Image 
        style={{ width: 158, height: 65, marginHorizontal: '10px',marginVertical:'25px' }} 
-       src="/images/quick-logo.png"
+       src="/images/icon.png"
        />
       
       <View style={styles.section}>

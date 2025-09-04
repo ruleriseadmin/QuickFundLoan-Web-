@@ -66,7 +66,7 @@ const DashboardHero: React.FC<DashboardHeroProps> = ({loanHistory}) => {
         </div>
         <div className='md:block lg:block hidden'>
         <Image 
-            src='/images/fundDashboard.png'
+            src='/images/dashboardhero.png'
             width={278}
             height={193}
             alt='hero'

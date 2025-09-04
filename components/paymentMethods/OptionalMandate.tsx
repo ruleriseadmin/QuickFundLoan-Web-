@@ -101,7 +101,7 @@ const OptionalMandate: React.FC<OptionalMandateProps> = ({id}) => {
      height={20}
      className="pt-3"
      />
-     <p className="pl-2 pr-2 pt-3">This electronic mandate will authorize us to debit your bank account for loan repayments. See <span className="text-[#ED3237]">Direct Debit policy.</span></p>
+     <p className="pl-2 pr-2 pt-3">This electronic mandate will authorize us to debit your bank account for loan repayments. See <span className="text-[#007BA1]">Direct Debit policy.</span></p>
 
         </div>
         <div className="lg:text-[17px] md:text-[17px] text-[15px] mt-3 text-[#282828] font-comic w-full  mx-auto h-[91px] flex items-start bg-[#F3F3F3] rounded-[12px] pl-3 ">
@@ -117,7 +117,7 @@ const OptionalMandate: React.FC<OptionalMandateProps> = ({id}) => {
         </div>
       </div>
 
-      <p className="mt-12 text-[#ED3237] font-black text-center w-full text-[15px] font-saira">Secured by PAYSTACK</p>
+      <p className="mt-12 text-[#09A5DB] font-black text-center w-full text-[15px] font-saira">Secured by PAYSTACK</p>
      {loading && <LoadingPage />}
       <button
           type='button'

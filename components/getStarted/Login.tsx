@@ -56,7 +56,7 @@ const Login: React.FC<LoginType> = ({ handleShowSignUp, handleShowResetPassword 
     try {
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_LENDING_SERVICE_URL}/auth/login`,
-        { phone_number, password },
+        { phone_number, password,source:'web' },
         {
           headers: {
             "x-api-key": `${process.env.NEXT_PUBLIC_LENDING_SERVICE_API_KEY}`,
@@ -191,7 +191,7 @@ const Login: React.FC<LoginType> = ({ handleShowSignUp, handleShowResetPassword 
                 type="submit"
                 disabled={!phone_number || !password || loading}
                 
-                className="disabled:opacity-50 disabled:cursor-not-allowed  w-full lg:w-11/12 bg-[#F6011BB2]  text-white font-outfit  rounded-full h-[55px] py-1 px-4 text-[15px] mt-4"
+                className="disabled:opacity-50 disabled:cursor-not-allowed  w-full lg:w-11/12 bg-[#F24C5D]  text-white font-outfit  rounded-full h-[55px] py-1 px-4 text-[15px] mt-4"
               >
                 Login
               </button>
@@ -199,7 +199,7 @@ const Login: React.FC<LoginType> = ({ handleShowSignUp, handleShowResetPassword 
             
             <button
               onClick={() => handleShowResetPassword()}
-            className="text-center w-11/12 mb-6 text-[#F6011BB2] hover:cursor-pointer  "
+            className="text-center w-11/12 mb-6 text-[#F24C5D] hover:cursor-pointer  "
             >Reset password
             </button>
             <p 

@@ -9,9 +9,9 @@ const Mission = () => {
           Our mission
         </p>
         <p className="text-[24px] text-center lg:text-start md:text-start md:text-[20px] mb-7">
-        At Quickcred, we offer fast, reliable, and accessible loan solutions for both 
+        At Quickfund, we offer fast, reliable, and accessible loan solutions for both 
         individuals and businesses. Whether you need a personal loan to manage emergencies 
-        or a business loan to scale your enterprise, Quickcred is here to bridge the financial gap.
+        or a business loan to scale your enterprise, Quickfund is here to bridge the financial gap.
 
         
         </p>

@@ -96,7 +96,7 @@ const ResetPassword : React.FC<resetPasswordType> = ({handleShowOtp, handleLogin
                 type="submit"
                 disabled={!phone_number  || loading}
                 
-                className="disabled:opacity-50 disabled:cursor-not-allowed  w-full lg:w-11/12 bg-[#F6011BB2]  text-white font-outfit  rounded-full h-[55px] py-1 px-4 text-[15px] mt-4"
+                className="disabled:opacity-50 disabled:cursor-not-allowed  w-full lg:w-11/12 bg-[#F24C5D]  text-white font-outfit  rounded-full h-[55px] py-1 px-4 text-[15px] mt-4"
               >
                 Request password Reset
               </button>

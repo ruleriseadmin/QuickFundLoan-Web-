@@ -12,7 +12,7 @@ const encryptToken = async (token: string) => {
     const encryptedAccessToken = await new SignJWT({ token })
         .setProtectedHeader({ alg: 'HS256' }) // Set the algorithm
         .setIssuedAt() // Set the issued at time
-        .setExpirationTime('4d') 
+        .setExpirationTime('1d') 
         .sign(secretKey); // Sign with the secret key
 
     // Store the encrypted token in local storage

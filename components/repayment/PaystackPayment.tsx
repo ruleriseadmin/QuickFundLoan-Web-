@@ -113,8 +113,6 @@ const PaystackPayment: React.FC<PaymentProps> = ({
     const trustedOrigin = process.env.NEXT_PUBLIC_PAYSTACK_ORIGIN || 'https://checkout.paystack.com';
     const handleMessage = (event: MessageEvent) => {
       if (event.origin !== trustedOrigin) return;
-      console.log('event', event);
-
       const eventData = event.data || {};
       if (eventData.event === 'success') {
         setPaymentDone(true);
@@ -210,7 +208,7 @@ const PaystackPayment: React.FC<PaymentProps> = ({
             <button
               onClick={handleManualVerify}
               disabled={!showManualVerify}
-              className={`bg-[#09A5DB] text-white px-4 py-2 rounded-md font-medium ${
+              className={`bg-[#F83449] text-white px-4 py-2 rounded-md font-medium ${
                 !showManualVerify && 'opacity-50 cursor-not-allowed'
               }`}
             >

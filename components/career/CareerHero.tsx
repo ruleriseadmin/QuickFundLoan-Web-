@@ -17,10 +17,10 @@ const CareerHero = () => {
         {/* Text Section */}
         <div className="w-full md:mr-4 mt-4">
           <p className="font-bold mb-6 text-transparent bg-gradient6 bg-clip-text lg:text-[46px] text-[35px] leading-none">
-            Careers @ QuickCred
+            Careers @ Quickfund
           </p>
           <p className="font-normal mb-6 tracking-tighter text-[#282828] lg:text-[24px] text-[20px]">
-            At QuickCred, our work culture is built on trust, well-being, results, and a healthy work-life balance.
+            At Quickfund, our work culture is built on trust, well-being, results, and a healthy work-life balance.
           </p>
           <p className="text-[#5A5A5A] text-[18px] font-semibold mb-6">All Openings</p>
           {jobData?.length > 0 ? (jobData?.map((job, index) => (

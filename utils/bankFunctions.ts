@@ -42,7 +42,6 @@ const formatCurrency = (amount: number | null) => {
     return `${formattedDate} ${formattedTime}`;
   };
   const calculateDaysToDue = (dueDateString: string): number => {
-    console.log('from cal',dueDateString);
     const now = new Date();
     const dueDate = new Date(dueDateString);
   
@@ -51,19 +50,31 @@ const formatCurrency = (amount: number | null) => {
   
     // Convert milliseconds to days
     const days = Math.ceil(diffInMilliseconds / (1000 * 60 * 60 * 24));
-  console.log(days);
     return days;
   };
 
   const formatDate = (dateString: string): string => {
-    const date = new Date(dateString);
-    const formatter = new Intl.DateTimeFormat('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-    });
-    return formatter.format(date);
+    if (!dateString) return '';
+  const date = new Date(dateString);
+  const formatter = new Intl.DateTimeFormat('en-US', {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
+  return formatter.format(date);
   };
+  
+const formatTime = (dateString: string): string => {
+  if (!dateString) return '';
+  const [hourStr, minute] = dateString.split(':');
+  const hour = Number(hourStr);
+
+  const period = hour >= 12 ? 'PM' : 'AM';
+  const hour12 = hour % 12 === 0 ? 12 : hour % 12;
+
+  return `${hour12}:${minute} ${period}`;
+};
 
   const formatDateLoan = (dateString: string): string => {
     const [datePart] = dateString.split(' '); // Extract the date portion
@@ -81,11 +92,12 @@ const formatCurrency = (amount: number | null) => {
 
   //get percentage
   const getPercentage = (amount: number, percentage: number): number => {
+    
     return Math.ceil((percentage * 100) / amount);
 };
 
   
   
 
-export { formatCurrency, options, getPercentage, getFormattedDateTime, calculateDaysToDue,formatDate,formatDateLoan };
+export { formatCurrency, options, getPercentage,formatTime, getFormattedDateTime, calculateDaysToDue,formatDate,formatDateLoan };
 

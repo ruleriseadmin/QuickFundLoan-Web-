@@ -9,7 +9,7 @@ type AccountNotificationProps = {
 
 const AccountNotification: React.FC<AccountNotificationProps> = ({ toggleAccountNotification, isOpen }) => {
   const [fetchedUserData, setFetchedUserData] = useState<any>({});
-  const [timeLeft, setTimeLeft] = useState<number>(86400); // 24 hours in seconds
+  const [timeLeft, setTimeLeft] = useState<number>(3600); // 1 hour in seconds
   const [showResend, setShowResend] = useState(false);
 
   // Fetch user data
@@ -37,7 +37,7 @@ const AccountNotification: React.FC<AccountNotificationProps> = ({ toggleAccount
     if (storedStartTime) {
       const startTime = parseInt(storedStartTime, 10);
       const elapsedTime = Math.floor((Date.now() - startTime) / 1000);
-      const remainingTime = Math.max(86400 - elapsedTime, 0);
+      const remainingTime = Math.max(3600 - elapsedTime, 0);
 
       setTimeLeft(remainingTime);
 
@@ -86,21 +86,19 @@ const AccountNotification: React.FC<AccountNotificationProps> = ({ toggleAccount
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className={`bg-gradient11 w-[414px] h-[600px] mx-2 lg:mx-0 md:mx-0 font-outfit rounded-[22px] p-6 shadow-md transition-transform duration-300 transform ${
+        className={`bg-gradient11 w-[414px] h-[483px] mx-2 lg:mx-0 md:mx-0 font-outfit rounded-[22px] p-6 shadow-md transition-transform duration-300 transform ${
           isOpen ? 'scale-100' : 'scale-75'
         }`}
       >
         <div className="flex flex-col justify-center items-center mt-10">
           <Image src="/images/mandateThankyou.png" alt="card" width={70} height={70} />
-          <p className="text-[#030602] text-[24px] font-medium mt-5">Thank you</p>
+
           <p className="text-[#1C1C1E] text-[18px] font-medium text-center w-9/12 mt-6">
-            Hello {fetchedUserData?.first_name} {fetchedUserData?.last_name}
+            Thank you {fetchedUserData?.first_name} {fetchedUserData?.last_name}
           </p>
-          <p className="text-[#282828] text-[16px] font-normal text-center w-11/12 mt-6">
-            Your E-mandate registration is successful. Assessment will be completed within 24 hours.
-          </p>
-          <p className="text-[#282828] text-[16px] font-normal text-center w-11/12 mt-10">
-            We will notify you once it is done.
+          
+          <p className="text-[#282828] text-[16px] font-normal text-center w-11/12 mt-18">
+          We are currently confirming your payment
           </p>
           <Image src="/images/timmer.png" alt="card" width={24} height={24} className="mt-6" />
           <p className="text-center text-[16px] font-semibold text-[#282828] mt-4 lg:w-10/12">
@@ -110,7 +108,7 @@ const AccountNotification: React.FC<AccountNotificationProps> = ({ toggleAccount
         <button
           type="button"
           onClick={() => window.location.reload()}
-          className="bg-[#1C1C1E] text-[#FFFFFF] h-[47px] w-full rounded-[8px] px-4 py-2 mt-16 font-semibold"
+          className="bg-[#1C1C1E] text-[#FFFFFF] h-[47px] w-full rounded-[45px] px-4 py-2 mt-16 font-semibold"
         >
           Go back to homepage
         </button>

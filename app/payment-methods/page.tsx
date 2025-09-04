@@ -42,23 +42,15 @@ const PaymentMethodPage = () => {
   const searchParams = useSearchParams();
   const [openAccountNotification, setOpenAccountNotification] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [notificationMessage, setNotificationMessage] = useState('');
+  const [messageCard, setMessageCard] = useState('');
+  const card_reference : string | null = localStorage.getItem('card_reference')
   const [openWelcomeNotice, setOpenWelcomeNotice] = useState(false);
   const [bankCodeRan, setBankCodeRan] = useState(false);
+  const showWelcomeNoticeAgain = localStorage.getItem('showWelcomeNoticeAgain');
+  const [verificationRan, setVerificationRan] = useState(false)
   const [debitMessage, setDebitMessage] = useState('');
   const directDebitReference : string | null = localStorage.getItem('direct_debit')
-  const showWelcomeNoticeAgain = localStorage.getItem('showWelcomeNoticeAgain');
-  const monoSuccess: string | boolean = localStorage.getItem('monoSuccess') || false;
-  const [verificationRan, setVerificationRan] = useState(false)
-  const status = searchParams.get('status');
-  const reason = searchParams.get('reason');
-  
-   //know mono has been successfully linked
-    useEffect(() => {
-      if (status === 'linked' && reason === 'account_linked') {
-        localStorage.setItem('monoSuccess', 'true');
-      }
-    }, [status, reason]);
+ 
   
 
 
@@ -124,7 +116,30 @@ const PaymentMethodPage = () => {
       }
     };
       
-
+//verify account direct debit
+  useEffect(() => {
+    const verifyPayment = async () => {
+      if (directDebitReference && bankAccounts.length > 0 && bankAccounts.filter((account) => account?.authorization_code  === 'pending').length > 0) {
+        try {
+    
+          const response = await apiClient.get(
+            `/paystack/verify/${directDebitReference}`,
+          );
+         
+          setDebitMessage(response?.data?.message);
+  
+        } catch (error: any) {
+          console.error('Error during payment verification:', error);
+        } finally{
+          setVerificationRan(true)
+        }
+      }else{
+        setVerificationRan(true)
+      }
+    };
+  
+    verifyPayment();
+  }, [directDebitReference, bankAccounts]);
 
 
 //fetch users cards
@@ -157,11 +172,7 @@ const PaymentMethodPage = () => {
       setNotificationOpen(true);
       router.replace(window.location.pathname);
     }
-    else if (error) {
-      setNotificationData({ status: 'error', title: '', message: error, subMessage: '' });
-      setNotificationOpen(true);
-    }
-  }, [searchParams, router,error]);
+  }, [searchParams, router]);
 
    //toggle welcome notice
    const toggleWelcomeNotice = () => {
@@ -187,33 +198,38 @@ const PaymentMethodPage = () => {
     fetchUsersBankAccounts();
   }, []);
 
-
-  //verify account direct debit
-  useEffect(() => {
-    const verifyPayment = async () => {
-      if (directDebitReference && bankAccounts.length > 0 && bankAccounts.filter((account) => account?.authorization_code  === 'pending').length > 0) {
-        try {
-    
-          const response = await apiClient.get(
-            `/paystack/verify/${directDebitReference}`,
-          );
-         
-          setDebitMessage(response?.data?.message);
   
-        } catch (error: any) {
-          console.error('Error during payment verification:', error);
-        } finally{
-          setVerificationRan(true)
+
+//verify card tokenization
+useEffect(() => {
+  const verifyCardTokenization = async () => {
+    if (onboarding && !onboarding.card_tokenized && card_reference) {
+     
+      try {
+        const response = await apiClient.get(
+          `/paystack/verify/${card_reference}`
+        );
+        if(response?.data?.message === "Successful") {
+          setMessageCard(response?.data?.message);
         }
-      }else{
-        setVerificationRan(true)
+       
+        
+      } catch (error: any) {
+        console.log('error',error?.response?.data);
+        setError(
+          error?.response?.data?.message || 'An error occurred, please try again'
+        );
+        setNotificationOpen(true);
       }
-    };
-  
-    verifyPayment();
-  }, [directDebitReference, bankAccounts]);
+    }
+  };
+  if(Object.keys(onboarding).length > 0)
+  verifyCardTokenization();
+}, [onboarding, card_reference]);
 
 
+
+ 
 
 
   //open kyc modal
@@ -257,6 +273,7 @@ const PaymentMethodPage = () => {
        && onboarding.card_tokenized     
       && onboarding.profile_exists
       && onboarding.bvn_nin_exists
+      && onboarding.bvn_nin_is_verified
       && setUserVerified(true);
      }
     }, [onboarding]);
@@ -269,12 +286,12 @@ const PaymentMethodPage = () => {
 
   //this ensures all the async functions have run before the apply now button is enabled so the right conditions apply
     useEffect(() => {
-      if (onboarding && bankCodeRan && verificationRan ) {
+      if (onboarding && bankCodeRan && verificationRan ){
         setInitialization(true);
       }else{
         console.log('initialization failed')
       }
-    }, [onboarding, bankCodeRan,verificationRan]);
+    }, [onboarding, bankCodeRan, verificationRan]);
   
 
 
@@ -287,16 +304,15 @@ const PaymentMethodPage = () => {
     
     if (onboarding && !onboarding?.profile_exists  && showWelcomeNoticeAgain === null){
       await toggleWelcomeNotice();
-    }  
-    else if (onboarding?.bank_account_exists === 'pending' && monoSuccess) {
+    } else if (onboarding && !onboarding?.card_tokenized && messageCard) {
       setError(
-         'Dear customer, your bank account verification is in progress. We will notify you shortly once it is done .'
-      );
-      setNotificationOpen(true);
-  }
-        
+        'Your card has been successfully tokenized. Please wait while we confirm your details.'
+     );
+     setNotificationOpen(true)
+    }      
     else if (!userVerified) {
       await handleOpenModal();
+
     } else if (userVerified && onboarding?.live_check === null || onboarding?.live_check === 'failed') {
       await toggleFaceScan();
     } else if(debitMessage && debitMessage !== 'Authorization does not exist or does not belong to integration'){
@@ -398,7 +414,7 @@ const PaymentMethodPage = () => {
                   <div key={index} className="h-full min-h-[170px] rounded-[12px] flex flex-col justify-center items-center  w-full mt-8 bank">
                     <p className=' text-[18px] text-[#FFFFFF] text-center '>{account.account_name}</p>
                     <p  className=' text-[20px] text-[#F1F1F1]  text-center '>{account.account_number}</p>
-                     <p className=' text-[16px] text-[#F1F1F1] text-center '>{account.bank_name}</p>
+                     <p className=' text-[16px] text-[rgb(241,241,241)] text-center '>{account.bank_name}</p>
                      {account.authorization_code === 'complete' && (
                       <div className='w-[164px] h-[32px] rounded-[22px] bg-[#00000057] flex justify-center items-center mt-6 gap-2'>
                       <Image
@@ -439,7 +455,7 @@ const PaymentMethodPage = () => {
                       </div>
 
                      )}
-                     
+                    
                   </div>
                 ))}
                 

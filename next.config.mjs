@@ -10,6 +10,11 @@ const nextConfig = {
           },
           {
             protocol: 'https',
+            hostname:  'mono-public-bucket.s3.eu-west-2.amazonaws.com',
+            pathname: '**',
+          },
+          {
+            protocol: 'https',
             hostname: 'www.ravishly.com',
             pathname: '**',
           },

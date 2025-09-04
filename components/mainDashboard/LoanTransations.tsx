@@ -38,7 +38,7 @@ const LoanTransactions: React.FC<LoanTransactionsProps> = ({ isOpen, toggleLoanT
     return false;
   });
 
-  console.log(loanTransactions);
+  
 
   // Pagination logic
   const paginateTransactions = (transactions: Loan[]) => {

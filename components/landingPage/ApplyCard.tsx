@@ -9,21 +9,21 @@ const ApplyCard = () => {
           <div className='bg-navcolor w-[298px] min-h-[280px] h-auto shadow-[0_0_25px_0_#00000014] rounded-[18px] backdrop-blur-[8px]'>
             <div className='flex justify-start align-middle mt-6 ml-8'>
               <Image
-                src='/images/tablet.png'
+                src='/images/desktop.png'
                 alt='Apply Logo'
                 width={60}
                 height={60}
               />
             </div>
             <p className='ml-8 font-normal mt-8 mb-2 text-[20px]'>Visit  Quickfund Website</p>
-            <p className='ml-8 text-[17px] text-[#5A5A5A]'>Click on  Apply Now  at the top of the  website to start your loan application. Or download our Mobile App. <span className='text-[#F6011B] hover:cursor-pointer'>Download Here</span></p>
+            <p className='ml-8 text-[17px] text-[#5A5A5A]'>Click on  Apply Now  at the top of the  website to start your loan application. Or download our Mobile App. <span className='text-[#ED3237] hover:cursor-pointer'>Download Here</span></p>
 
 
         </div>
         <div className='bg-navcolor w-[298px] h-[280px] shadow-[0_0_25px_0_#00000014] rounded-[18px] backdrop-blur-[8px]'>
         <div className='flex justify-start align-middle mt-6 ml-8'>
               <Image
-                 src='/images/smartphone.png'
+                 src='/images/permission1.png'
                 alt='Apply Logo'
                 width={60}
                 height={60}
@@ -37,7 +37,7 @@ const ApplyCard = () => {
 <div className='bg-navcolor w-[298px] h-[280px] shadow-[0_0_25px_0_#00000014] rounded-[18px] backdrop-blur-[8px]'>
 <div className='flex justify-start align-middle mt-6 ml-8'>
               <Image
-                 src='/images/consultant.png'
+                 src='/images/check3.png'
                 alt='Apply Logo'
                 width={60}
                 height={60}
@@ -51,7 +51,7 @@ const ApplyCard = () => {
 <div className='bg-navcolor w-[298px] h-[280px] shadow-[0_0_25px_0_#00000014] rounded-[18px] backdrop-blur-[8px]'>
 <div className='flex justify-start align-middle mt-6 ml-8'>
               <Image
-                src='/images/howtoapply.png'
+                src='/images/checked1.png'
                 alt='Apply Logo'
                 width={60}
                 height={60}

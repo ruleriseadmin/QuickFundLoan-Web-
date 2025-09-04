@@ -13,9 +13,10 @@ type PaymentMethodProps = {
   amount: number | null;
   loanId: number | null;
   loanHistory: Loan[];
+  toggleRemoveOverflow?: () => void;
 };
 
-const PaymentMethod: React.FC<PaymentMethodProps> = ({ toggleRepayment,  loanHistory,loanId,amount }) => {
+const PaymentMethod: React.FC<PaymentMethodProps> = ({ toggleRepayment,toggleRemoveOverflow,  loanHistory,loanId,amount }) => {
   
  
   const [selectedOption, setSelectedOption] = useState('');
@@ -51,7 +52,7 @@ const PaymentMethod: React.FC<PaymentMethodProps> = ({ toggleRepayment,  loanHis
               value="paystack"
               checked={selectedOption === 'paystack'}
               onChange={() => handleOptionChange('paystack')}
-              className="w-6 h-6 accent-[#1F96A9] mt-6"
+              className="w-6 h-6 accent-[#F83449] mt-6"
             />
             <div className="my-4 pt-2 pl-4">
               <p className="text-[#282828] text-[15px] font-semibold mb-2 ">Pay with Link</p>
@@ -69,7 +70,7 @@ const PaymentMethod: React.FC<PaymentMethodProps> = ({ toggleRepayment,  loanHis
               value="bank_account"
               checked={selectedOption === 'bank_account'}
               onChange={() => handleOptionChange('bank_account')}
-              className="w-6 h-6 accent-[#1F96A9] mt-6"
+              className="w-6 h-6 accent-[#F83449] mt-6"
             />
             <div className="my-4 pt-2 pl-4">
               <p className="text-[#282828] text-[15px] font-semibold mb-2">Pay with Bank Account</p>
@@ -87,7 +88,7 @@ const PaymentMethod: React.FC<PaymentMethodProps> = ({ toggleRepayment,  loanHis
               value="wallet"
               checked={selectedOption === 'wallet'}
               onChange={() => handleOptionChange('wallet')}
-              className="w-6 h-6 accent-[#1F96A9] mt-6"
+              className="w-6 h-6 accent-[#F83449] mt-6"
             />
             <div className="my-4 pt-2 pl-4">
               <p className="text-[#282828] text-[15px] font-semibold mb-2">Pay with Wallet</p>
@@ -105,7 +106,7 @@ const PaymentMethod: React.FC<PaymentMethodProps> = ({ toggleRepayment,  loanHis
               value="card"
               checked={selectedOption === 'card'}
               onChange={() => handleOptionChange('card')}
-              className="w-6 h-6 accent-[#1F96A9] mt-6"
+              className="w-6 h-6 accent-[#F83449] mt-6"
             />
             <div className="my-4 pt-2 pl-4">
               <p className="text-[#282828] text-[15px] font-semibold mb-2">Pay via Card</p>
@@ -114,7 +115,7 @@ const PaymentMethod: React.FC<PaymentMethodProps> = ({ toggleRepayment,  loanHis
 
           {/* Continue Button */}
           <button
-            className="bg-[#46A4B5] text-white disabled:cursor-not-allowed disabled:opacity-50 h-[47px] w-full rounded-[45px] px-4 py-2 mt-8 font-semibold"
+            className="bg-[#F83449] text-white disabled:cursor-not-allowed disabled:opacity-50 h-[47px] w-full rounded-[45px] px-4 py-2 mt-8 font-semibold"
             onClick={handleClick}
             disabled={selectedOption === ''}
           >
@@ -140,7 +141,7 @@ const PaymentMethod: React.FC<PaymentMethodProps> = ({ toggleRepayment,  loanHis
           handleShowOptions={handleShowOptions}
           amount={amount}
           loanId={loanId}
-         
+         toggleRemoveOverflow={toggleRemoveOverflow} 
         />
       )}
 

@@ -43,13 +43,13 @@ const SlideContactForm: React.FC<SideModalProps> = ({ isOpen, toggleSlideContact
                   <div className='grid grid-cols-2 w-11/12  items-center'>
                     <div className='flex items-center'>
                       <Image src='/images/mail.png' alt='email' width={41} height={41} className='rounded-full mr-2' />
-                      <p className='text-[15px]'>Email <br /> support@quickcred.com.ng</p>
+                      <p className='text-[15px]'>Email <br /> support@quickfund.com.ng</p>
                     </div>
                     <div className='flex items-center justify-end'>
-                      <button className='text-start' onClick={() => handleCopy('support@quickcred.com.ng')}>
+                      <button className='text-start' onClick={() => handleCopy('support@quickfund.com.ng')}>
                         <IoCopy className='text-[#263238]' />
                       </button>
-                      {copiedText === 'support@quickcred.com.ng' && <p className='text-xs text-[#263238] ml-2'>Copied</p>}
+                      {copiedText === 'support@quickfund.com.ng' && <p className='text-xs text-[#263238] ml-2'>Copied</p>}
                     </div>
                   </div>
                   
@@ -59,15 +59,21 @@ const SlideContactForm: React.FC<SideModalProps> = ({ isOpen, toggleSlideContact
                         <Image src="/images/watsapp.png" alt="whatsapp" width={30.29} height={30.29} className="rounded-full" />
                       </div>
                       <p className='text-[15px] ml-2'>
-                        WhatsApp <br /> +2349166000043
+                         WhatsApp  <br/> +2349166000040
+                          <br/> +2349166000042 
                       </p>
                     </div>
                   
-                    <div className='flex items-center col-span-1 justify-end'>
-                      <button className='text-start' onClick={() => handleCopy('+2349166000043')}>
-                        <IoCopy className='text-[#263238]' />
-                      </button>
-                      {copiedText === '+2349166000043' && <p className='text-xs text-[#263238] ml-2'>Copied</p>}
+                    <div className='flex flex-col items-end pt-3 col-span-1 justify-end'>
+                     
+                    <button className='text-start pt-3' onClick={() => handleCopy('+2349166000040')}>
+                          <IoCopy className='text-[#263238]' />
+                        </button>
+                        {copiedText === '+2349166000040' && <p className='text-xs text-[#263238] ml-2'>Copied</p>}
+                        <button className='text-start pt-2' onClick={() => handleCopy('+2349166000042')}>
+                              <IoCopy className='text-[#263238]' />
+                            </button>
+                            {copiedText === '+2349166000042' && <p className='text-xs text-[#263238] ml-2'>Copied</p>}
                     </div>
                   </div>
                   
@@ -78,14 +84,19 @@ const SlideContactForm: React.FC<SideModalProps> = ({ isOpen, toggleSlideContact
                       </div>
                       <p className='text-[15px] ml-2'>
                         Call <br /> +2349166000043
+                         <br/> +2349166000042 
                       </p>
                     </div>
                   
-                    <div className='flex items-center col-span-1 justify-end'>
+                    <div className='flex flex-col items-end pt-3 col-span-1 justify-end'>
                       <button className='text-start' onClick={() => handleCopy('+2349166000043')}>
                         <IoCopy className='text-[#263238]' />
                       </button>
                       {copiedText === '+2349166000043' && <p className='text-xs text-[#263238] ml-2'>Copied</p>}
+                      <button className='text-start pt-2' onClick={() => handleCopy('+2349166000042')}>
+                            <IoCopy className='text-[#263238]' />
+                          </button>
+                          {copiedText === '+2349166000042' && <p className='text-xs text-[#263238] ml-2'>Copied</p>}
                     </div>
                   </div>
                   
@@ -113,13 +124,13 @@ const SlideContactForm: React.FC<SideModalProps> = ({ isOpen, toggleSlideContact
               <div className='flex justify-center gap-8 items-center mt-8 text-[12px] w-full'>
               <Link href="" target="_blank" className='flex justify-center gap-1 items-center'>
                 <Image src='/images/twitter.png' width={19} alt='facebook' height={19} />
-                <p>quickcredng</p>
+                <p>quickfundng</p>
               </Link>
-              <Link href="https://www.instagram.com/quickcredng?igsh=eTY4Y25kMzM3ZnF1" target="_blank" className='flex justify-center gap-1  items-center'>
+              <Link href="https://www.instagram.com/quickfundng?igsh=eTY4Y25kMzM3ZnF1" target="_blank" className='flex justify-center gap-1  items-center'>
                 <Image src='/images/instagram.png' width={19} alt='instagram' height={19} />
-                <p>quickcredng</p>
+                <p>quickfundng</p>
               </Link>
-              <Link href="" target="_blank" className='flex justify-center gap-1   items-center'>
+              <Link href="https://www.linkedin.com/company/quickfundng/" target="_blank" className='flex justify-center gap-1   items-center'>
                 <Image src='/images/linkedin.png' width={20} alt='linkedin' height={20} />
                 <p>Quickfund</p>
               </Link>

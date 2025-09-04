@@ -5,38 +5,23 @@ import LoadingPage from "@/app/loading";
 import Image from 'next/image'
 
 
+
 type LoanRepaymentProps = {
   closeModal: () => void;
+ toggleRemoveOverflow: () => void;
 };
 
 
-const LoanRepayment: React.FC<LoanRepaymentProps> = ({closeModal}) => {
+const LoanRepayment: React.FC<LoanRepaymentProps> = ({closeModal,toggleRemoveOverflow}) => {
 
   const [loading, setLoading] = useState(false);
   const router = useRouter()
     const [error, setError] = useState('');
     const [bankAccounts, setBankAccounts] = useState<any[]>([]);
-  
-    useEffect(() => {
-      const fetchUsersBankAccounts = async () => {
-        try {
-         
-          const response = await apiClient.get(
-            `/account`
-          );
-  
-          setBankAccounts(response?.data?.data || []);
-        } catch (error: any) {
-          setError(error?.response?.data?.message || 'An error occurred, please try again');
-        } 
-      };
-  
-      fetchUsersBankAccounts();
-    }, []);
-  
-  
-  
-  //fetch link for direct debit
+    const [openMonoPayment, setOpenMonoPayment] = useState(false);
+    const [isExiting, setIsExiting] = useState(false);
+
+   //fetch link for direct debit
   const fetchPaymentLink = async (bankId:number) => {
     
     try {
@@ -47,7 +32,7 @@ const LoanRepayment: React.FC<LoanRepaymentProps> = ({closeModal}) => {
         {bank_account_id: bankId},
         
       );
-      console.log(paymentResponse?.data);
+      
       if(paymentResponse?.data?.data?.reference){
       localStorage.setItem("direct_debit", paymentResponse?.data?.data?.reference);
       const link = paymentResponse?.data?.data?.payment_link;
@@ -68,10 +53,28 @@ const LoanRepayment: React.FC<LoanRepaymentProps> = ({closeModal}) => {
   };
     
   
+    useEffect(() => {
+      const fetchUsersBankAccounts = async () => {
+        try {
+         
+          const response = await apiClient.get(
+            `/account`
+          );
+  
+          setBankAccounts(response?.data?.data || []);
+        } catch (error: any) {
+          setError(error?.response?.data?.message || 'An error occurred, please try again');
+        } 
+      };
+  
+      fetchUsersBankAccounts();
+    }, []);
+  
+  
   
 
   return (
-    <div  className={`overflow-x-hidden w-full  font-outfit font-normal  `}>
+    <div  className={`overflow-y-hidden w-full  font-outfit font-normal  `}>
       <div className="flex flex-col justify-center items-center mt-2">
       <Image
       src='/images/mandateImage.png'
@@ -90,10 +93,10 @@ const LoanRepayment: React.FC<LoanRepaymentProps> = ({closeModal}) => {
      height={20}
      className="pt-3"
      />
-     <p className="pl-2 pr-2 pt-3">This electronic mandate will authorize us to debit your bank account for loan repayments. See <span className="text-[#ED3237]">Direct Debit policy.</span></p>
+     <p className="pl-2 pr-2 pt-3">This electronic mandate will authorize us to debit your bank account for loan repayments. See <span className="text-[#007BA1]">Direct Debit policy.</span></p>
 
         </div>
-        <div className="lg:text-[17px] md:text-[17px] text-[15px] mt-3 text-[#282828] font-comic w-full  mx-auto h-[91px] flex items-start bg-[#F3F3F3] rounded-[12px] pl-3 ">
+        <div className="lg:text-[17px] md:text-[17px] text-[15px] mt-3 text-[#282828] font-comic w-full  mx-auto min-h-[91px] h-auto flex items-start bg-[#F3F3F3] rounded-[12px] pl-3 ">
         <Image
       src='/images/mandate2.png'
      alt='mandate'
@@ -101,12 +104,12 @@ const LoanRepayment: React.FC<LoanRepaymentProps> = ({closeModal}) => {
      height={20}
      className="pt-3"
      />
-     <p className="pl-2 pr-2 pt-3">You will be required to transfer ₦100 from this account. This money will be refunded back to your account within 24hrs.</p>
-
+    <p className="pl-2 pr-2 pt-3">You will be required to transfer ₦100 from this account. This money will be refunded back to your account within 24hrs.</p>
+     
         </div>
       </div>
 
-      <p className="mt-12 text-[#ED3237] font-black text-center w-full text-[15px] font-saira">Secured by PAYSTACK</p>
+       <p className="mt-12 text-[#F83449] font-black text-center w-full text-[15px] font-saira">Secured by PAYSTACK</p>
      {loading && <LoadingPage />}
       <button
           type='button'
@@ -117,17 +120,18 @@ const LoanRepayment: React.FC<LoanRepaymentProps> = ({closeModal}) => {
             if(link){
               window.location.href = link;
             }else{
-              console.log('no link')
+             
               setLoading(false)
             }
           }
           }}
-          className="bg-[#1C1C1E] text-white h-[47px] w-full rounded-[8px]  px-4 py-2 mt-4 font-semibold"
+         className="bg-[#1C1C1E] text-white h-[47px] w-full rounded-[8px]  px-4 py-2 mt-4 font-semibold"
         >
           Continue
         </button>
       
-      
+       
+        
     </div>
   );
 };

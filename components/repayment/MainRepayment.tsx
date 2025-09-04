@@ -27,6 +27,13 @@ const MainRepayment: React.FC<MainRepaymentProps> = ({ isOpen, toggleRepayment }
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [loanId, setLoanId] = useState<number | null>(null);
   const [amount, setAmount] = useState<number | null>(null);
+  const [removeOverFlow, setRemoveOverFlow] = useState(false);
+
+  //toggle remove overflow
+  const toggleRemoveOverflow = () => {
+    setRemoveOverFlow(!removeOverFlow);
+  }
+
 
   //get active loans
 useEffect(() => {
@@ -79,7 +86,7 @@ useEffect(() => {
     >
       <div
        onClick={(e) => e.stopPropagation()}
-        className={`w-[483px] bg-white lg:ml-32 md:ml-32 mx-2 min-h-[637px] h-auto font-outfit rounded-[22px] p-6 shadow-md max-h-[80vh] overflow-y-auto  transition-transform duration-300 transform ${
+        className={`w-[483px] bg-white lg:ml-32 md:ml-32 mx-2 min-h-[637px] h-auto font-outfit rounded-[22px] p-6 shadow-md max-h-[80vh] ${!removeOverFlow ? 'overflow-y-auto' : ''}  transition-transform duration-300 transform ${
           isOpen ? 'scale-100' : 'scale-75'
         }`}
       >
@@ -122,13 +129,13 @@ useEffect(() => {
 
             {/* View loan schedule button on the right if showSummary is true */}
             {showSummary && (
-              <button className=" text-[13px]  lg:text-[15px] md:text-[15px] rounded-sm text-[#1F96A9] flex items-center" onClick={handleShowSchedule}>
+              <button className=" text-[13px]  lg:text-[15px] md:text-[15px] rounded-sm text-[#F83449] flex items-center" onClick={handleShowSchedule}>
                 <Image
                   src="/images/subtitle.png"
                   alt="loan"
                   width={15}
                   height={15}
-                  className="mr-1 text-[#1F96A9] bg-[#1F96A9] rounded-md text-2xl"
+                  className="mr-1 text-[#F83449] bg-[#F83449] rounded-md text-2xl"
                 />
                 View loan schedule
               </button>
@@ -137,6 +144,7 @@ useEffect(() => {
           {showSummary && <LoanSummary 
           handleShowPaymentMethod={( loanId: number | null, amount: number | null) => handleShowPaymentMethod( loanId, amount)} 
           loanHistory={activeLoan}
+         
           />}
           {showSchedule && <LoanSchedule 
           handleShowSummary={handleShowSummary}
@@ -148,6 +156,7 @@ useEffect(() => {
           loanId={loanId}
           amount={amount}
           loanHistory={activeLoan}
+          toggleRemoveOverflow={toggleRemoveOverflow}
           
           />}
         </div>

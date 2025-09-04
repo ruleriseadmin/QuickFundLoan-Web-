@@ -59,7 +59,7 @@ const OptionalAccountNotification: React.FC<OptionalAccountNotificationProps> = 
                 toggleOptionalAccountNotification();
                 }}
                 type="button"
-                className=" ml-4 bg-[#46A4B51F] text-[#ED3237] disabled:opacity-50 disabled:cursor-not-allowed h-[47px] mb-4 w-[162px] rounded-[12px] px-4 py-2 mt-4 font-medium"
+                className=" ml-4 bg-[#46A4B51F] text-[#46A4B5] disabled:opacity-50 disabled:cursor-not-allowed h-[47px] mb-4 w-[162px] rounded-[12px] px-4 py-2 mt-4 font-medium"
               >
                 Skip to proceed
               </button>

@@ -26,7 +26,7 @@ messaging.onBackgroundMessage((payload) => {
     const notificationTitle = payload.notification.title;
     const notificationOptions = {
       body: payload.notification.body,
-      icon: "/images/quick-logo.png", // Use a valid icon
+      icon: "/images/icon.png", // Use a valid icon
       data: link, // Add the URL to the notification data if it exists
     };
 

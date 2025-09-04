@@ -49,6 +49,8 @@ const [dueDate, dueTime] = createdAt.split(' ');
                   ? 'text-[#E33838]'
                   : loanHistory?.status === 'CLOSED'
                   ? 'text-[#5E8D35]'
+                   : loanHistory?.status === 'FAILED'
+                   ? 'text-[#9D8814]'
                   : 'text-[#2290DF]'
               } text-[16px] flex justify-between items-center align-middle font-semibold mb-3`}
             >
@@ -90,7 +92,7 @@ const [dueDate, dueTime] = createdAt.split(' ');
               </p>
               
             </div>
-            {loanHistory?.status !== 'CLOSED' && (
+            {(loanHistory?.status !== 'CLOSED' && loanHistory?.status !== 'FAILED') && (
               <button
               onClick={toggleLoanDetails}
               className="text-[15px] rounded-sm text-[#1F96A9] flex items-center mt-6 mx-auto font-semibold"

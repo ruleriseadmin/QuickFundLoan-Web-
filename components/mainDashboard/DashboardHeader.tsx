@@ -1,11 +1,13 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useState,useEffect,useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import SlideSideModal from './SlideSideBar';
 import LoadingPage from '@/app/loading';
 import { clearToken } from '../../utils/protect';
 import Notification from '../Notification';
 import apiClient from '@/utils/apiClient';
+import Image from 'next/image';
+import MessageModal from './MessageModal';
 
 interface DashboardHeaderProps {
   path: string;
@@ -14,10 +16,13 @@ interface DashboardHeaderProps {
 const DashboardHeader: React.FC<DashboardHeaderProps> = ({ path = '' }) => {
   const [openSideModal, setOpenSideModal] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
+  const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [error, setError] = useState('');
+  const [openMessageModal, setOpenMessageModal] = useState(false);
   const router = useRouter();
+  const [refetch, setRefetch] = useState(false);
 
   const toggleSideBar = () => {
     if (openSideModal) {
@@ -30,6 +35,34 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({ path = '' }) => {
       setOpenSideModal(true); // Open modal immediately
     }
   };
+
+
+  // Function to toggle the message modal
+  const toggleMessageModal = () => {
+    setOpenMessageModal(!openMessageModal);
+  };
+
+ 
+
+useEffect(() => {
+  const fetchNotifications = async () => {
+    try {
+      const response = await apiClient.get(`/notification?page=1&per_page=10&sort_by=created_at`, );
+      setMessages(response?.data?.data?.notifications || []); 
+      setRefetch(false); // Reset refetch state after fetching
+    } catch (error: any) {
+      console.error(error);
+      setError(
+        error?.response?.data?.error ||
+        error?.response?.data?.message ||
+        'An error occurred while fetching notifications'
+      );
+      setNotificationOpen(true);
+    }
+  };
+
+  fetchNotifications();
+}, [refetch]);
 
   const toggleNotification = () => {
     setNotificationOpen(!notificationOpen);
@@ -58,6 +91,12 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({ path = '' }) => {
     }
   };
 
+ const noMessages = useMemo(() => {
+  return messages?.filter((message: any) => message.read_at === null).length === 0;
+}, [messages]);
+
+
+
   return (
     <div className="font-outfit flex mt-8 mx-auto w-11/12 justify-between">
       {!path ? (
@@ -69,7 +108,16 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({ path = '' }) => {
         <p className="text-[24px] font-bold text-[#030602] pt-8">{path}</p>
       )}
       
-      <div className="md:hidden lg:hidden text-[#282828]">
+      <div 
+      onClick={toggleMessageModal}
+      className="md:hidden lg:hidden cursor-pointer flex justify-between items-center gap-2 text-[#282828]">
+        <Image
+        src={`/images/${ noMessages ? 'nomessage' : 'bellicon'}.png`}
+        alt='notification'
+        width={40}
+        height={40}
+        
+      />
         <button onClick={toggleSideBar}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -86,22 +134,43 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({ path = '' }) => {
       </div>
 
       {loading && <LoadingPage />}
-
-      <button
+      <div 
+      onClick={toggleMessageModal}
+      className='items-center cursor-pointer gap-4 justify-between hidden lg:flex md:flex'>
+      <Image
+        src={`/images/${noMessages ? 'nomessage' : 'bellicon'}.png`}
+        alt='notification'
+        width={45}
+        height={45}
+        
+      />
+        <button
         onClick={handleLogout}
-        className="text-[#F24C5D] text-[15px] font-bold hover:text-[#F97870] hidden lg:block md:block"
+        className="text-[#F24C5D] text-[15px] font-bold hover:text-[#F97870] "
       >
         Logout
       </button>
 
+
+      </div>
+
+      
       {openSideModal && (
         <SlideSideModal isOpen={!isExiting} toggleSideBar={toggleSideBar} />
+      )}
+
+      {openMessageModal && (
+        <MessageModal
+          isOpen={openMessageModal}
+          toggleMessageModal={toggleMessageModal}
+          messages={messages}
+          setRefetch={setRefetch}
+        />
       )}
 
       {notificationOpen && (
         <Notification
           status="error"
-          
           message={error}
           toggleNotification={toggleNotification}
           isOpen={notificationOpen}

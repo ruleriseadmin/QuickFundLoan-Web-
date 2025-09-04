@@ -13,8 +13,9 @@ apiClient.interceptors.request.use(
   async (config) => {
     try {
       const token = await decryptToken();
+      
       if (token) {
-        console.log("Token:", token);
+       
         config.headers.Authorization = `Bearer ${token}`;
       }
     } catch (error) {
@@ -32,7 +33,7 @@ apiClient.interceptors.response.use(
     return response;
   },
   async (error) => {
-    if (error.response?.status === 401) {
+    if (error.response?.status === 401 && (error.response?.data?.message === "unauthorized" || error.response?.data?.message === "Unauthenticated.")) {
       try {
         const refreshToken = localStorage.getItem("refresh_token");
         if (!refreshToken) {

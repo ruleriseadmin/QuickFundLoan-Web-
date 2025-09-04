@@ -51,14 +51,14 @@ type UserInterestData = {
   closeModal: () => void;
     handleShowLoan: () => void;
     usersOffer: UserOffer | null;
-    userInterests: UserInterestData | null;
     toggleShowAllOffers: () => void;
     showAllOffers: boolean;
+    onboarding: any;
   };
   
   
 
-const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer,userInterests, closeModal,showAllOffers,toggleShowAllOffers }) => {
+const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer, closeModal,showAllOffers,toggleShowAllOffers ,onboarding }) => {
     const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
     const [amountId, setAmountId] = useState<number | null>(null);
     const [selectedTenor, setSelectedTenor] = useState<string | null>(null);
@@ -77,6 +77,8 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer,u
     const [banks, setBanks] = useState<any[]>([]);
     const { payload } = useFcmToken();
     const [loanLoading,setLoanLoading] = useState(false)
+    const [userInterests,setUserInterests] = useState<UserInterestData | null>(null);
+    const [selectedInterest,setSlectedInterest] = useState<string | null>()
 
 
   //toggle notification
@@ -92,10 +94,13 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer,u
       showAllOffers ? toggleShowAllOffers() : null;
       setIsDropdownOpen(false);
     };
+
     
-    const handleSelectTenor = (tenor: string, id: number) => {
+    
+    const handleSelectTenor = (tenor: string, id: number, interest:string) => {
       setSelectedTenor(prevTenor => prevTenor === tenor ? null : tenor);
       setTenorId(id === tenorId ? null : id);
+      setSlectedInterest(interest);
       setIsTenorDropdownOpen(false);
     };
 
@@ -175,7 +180,6 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer,u
   
       fetchUsersBankAccounts();
     }, []);
-
     
   
 
@@ -187,14 +191,18 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer,u
       
         setLoanLoading(true);
         
-        if (authorizedBank.length <= 0) {
-          handleShowLoan();
+        if (!onboarding['e-mandate']) {
+          await handleShowLoan();
         } else {
           try {
            
             const loanResponse = await apiClient.post(
               `/loan/apply`,
-              { interest_id: tenorId, loan_offer_id: amountId }
+              { 
+                interest_id: tenorId, 
+                loan_offer_id: amountId,
+                source:'web', 
+              }
             );
             setLoanResponse(loanResponse?.data?.data?.reference);
             localStorage.setItem('loan_reference', loanResponse?.data?.data?.reference)
@@ -263,6 +271,24 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer,u
       }
     }, [ loanResponse,router]);
 
+    //get user interest rate
+  useEffect(() => {
+    const fetchUserInterestRate = async () => {
+      try {
+        const response = await apiClient.get(`/loan/interest_rates?loan_offer_id=${amountId}`);
+        
+       setUserInterests(response?.data?.data);
+        
+      } catch (error: any) {
+        console.log(error.response);
+       setError(error?.response?.data?.message ||  'An error occurred, please try again');
+        setNotificationOpen(true);
+      } 
+    };
+    if(amountId)
+    fetchUserInterestRate();
+    }, [amountId]);
+
     
   return (
     <div>
@@ -299,21 +325,14 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer,u
                           value={offer.id}
                           checked={selectedAmount === offer.amount}
                           onChange={() => handleSelectAmount(offer.amount, offer.id)}
-                          className="w-6 h-6 text-red-600 accent-[#ED3237] bg-gray-100 rounded-full font-extrabold border-2 border-[#C4C4C4] focus:ring-[#C4C4C4]" 
+                          className="w-6 h-6 text-red-600 bg-gray-100 rounded-full font-extrabold border-2 border-[#C4C4C4] focus:ring-[#C4C4C4]" 
                         />
                         <label htmlFor={`amount-${offer.id}`} className="ml-4 text-[#282828] font-extrabold text-[18px]">
                           {formatCurrency(offer.amount)}
                         </label>
                       </div>
                     ))}
-                    {!showAllOffers && (
-                      <p
-                        onClick={toggleShowAllOffers}
-                        className="text-[#F6011BCC] w-full text-end hover:cursor-pointer"
-                      >
-                        See all offers
-                      </p>
-                    )}
+                    
                     
                   </div>
                 </div>
@@ -345,8 +364,8 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer,u
                           id={`tenor-${interest.interest_rate}`}
                           value={interest.interest_rate}
                           checked={selectedTenor === interest.period}
-                          onChange={() => handleSelectTenor(interest.period, interest.id)}
-                          className="w-6 h-6 text-red-600 accent-[#ED3237] bg-gray-100 rounded-full font-extrabold border-2 border-[#C4C4C4] focus:ring-[#C4C4C4]" 
+                          onChange={() => handleSelectTenor(interest.period, interest.id, interest.interest_rate)}
+                          className="w-6 h-6 text-red-600 bg-gray-100 rounded-full font-extrabold border-2 border-[#C4C4C4] focus:ring-[#C4C4C4]" 
                         />
                         <label htmlFor={`tenor-${interest.interest_rate}`}  className="ml-4 text-[#282828] font-extrabold text-[18px]">
                         
@@ -376,7 +395,7 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer,u
               />
               <p className='text-[15px] font-medium text-[#282828]'>Did you know?</p>
             </div>
-            <p className='text-[13px]  font-normal text-[#282828] my-2'>You can get up to N500,000 instant loan on QuickCred in less than 5 minutes. Your consistency and loyalty as our customer will unlock juicy loan offers for you.</p>
+            <p className='text-[13px]  font-normal text-[#282828] my-2'>You can get up to N500,000 instant loan on Quickfund in less than 5 minutes. Your consistency and loyalty as our customer will unlock juicy loan offers for you.</p>
             
     </>
 
@@ -420,7 +439,7 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer,u
                   By accepting this offer, you agree to our 
                   <button 
                    type="button"
-                   onClick={() => window.open(`/loan-agreement?amountId=${amountId}&tenorId=${tenorId}`, '_blank')}
+                   onClick={() => window.open(`/loan-agreement?amountId=${amountId}&tenorId=${tenorId}&interest=`, '_blank')}
                    className="underline hover:text-[#F6011BCC] underline-offset-2 mx-1 font-semibold text-[#5A5A5A] text-[15px]">
                    Loan Terms
                   </button>

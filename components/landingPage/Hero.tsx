@@ -73,11 +73,11 @@ const Hero = () => {
             </h1>
 
             <p className=" lg:w-6/12 md:mx-auto md:w-8/12 lg:mx-auto custom-gradient lg:text-[65px] text-[48px] md:text-[55px] lg:leading-70 leading-50 md:leading-60 text-center py-auto font-outfit font-bold">
-              Don’t sweat it, just  take a loan
+              We make borrowing easy and fast
             </p>
 
             <p className="lg:mt-6 md:mt-6 mt-4 lg:text-[28px] text-[24px] lg:leading-10 md:leading-10 leading-8 md:text-[24px] text-center font-outfit font-normal text-[#282828]">
-              Apply for Instant, Stress-free Loans <br /> with your phone number
+              Get Instant, Hassle-free Loans with <br /> Just Your Phone Number
             </p>
             
 

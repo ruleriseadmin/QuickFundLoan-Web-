@@ -34,32 +34,21 @@ const LoanHistoryPage: React.FC = () => {
   const [showMainOffer, setShowMainOffer] = useState<boolean>(false);
   const [onboarding, setOnboarding] = useState<any>({});
   const [openFaceScan, setOpenFaceScan] = useState(false);
-  const [openLoanTransactions, setOpenLoanTransactions] = useState(false);
   const [loanHistory, setloanHistory] = useState<any>([]);
   const [visibleLoans, setVisibleLoans] = useState(2);
   const [bankAccounts, setBankAccounts] = useState<any>([]);
+  const directDebitReference : string | null = localStorage.getItem('direct_debit')
+  const [verificationRan, setVerificationRan] = useState(false)
+  const [debitMessage, setDebitMessage] = useState('');
   const [openAccountNotification, setOpenAccountNotification] = useState(false);
-    const [notificationMessage, setNotificationMessage] = useState('');
     const [openWelcomeNotice, setOpenWelcomeNotice] = useState(false);
     const [bankCodeRan, setBankCodeRan] = useState(false);
-    const directDebitReference : string | null = localStorage.getItem('direct_debit')
-    const loanReference : string | null = localStorage.getItem('loan_reference')
-    const [debitMessage, setDebitMessage] = useState('');
-    const searchParams = useSearchParams();
-    const router = useRouter();
-     const [verificationRan, setVerificationRan] = useState(false)
     const showWelcomeNoticeAgain = localStorage.getItem('showWelcomeNoticeAgain');
-    const monoSuccess: string | boolean = localStorage.getItem('monoSuccess') || false;
-    const status = searchParams.get('status');
-    const reason = searchParams.get('reason');
+   const [messageCard, setMessageCard] = useState('');
+    const card_reference : string | null = localStorage.getItem('card_reference')
+
     const [userOffers,setUserOffers] = useState<any>([]);
     
-     //know mono has been successfully linked
-      useEffect(() => {
-        if (status === 'linked' && reason === 'account_linked') {
-          localStorage.setItem('monoSuccess', 'true');
-        }
-      }, [status, reason]);
 
   const toggleNotification = () => {
     setNotificationOpen(!notificationOpen);
@@ -172,6 +161,7 @@ const toggleWelcomeNotice = () => {
       && onboarding.card_tokenized     
      && onboarding.profile_exists
      && onboarding.bvn_nin_exists
+     && onboarding.bvn_nin_is_verified
      && setUserVerified(true);
     }
    }, [onboarding]);
@@ -184,7 +174,7 @@ const toggleWelcomeNotice = () => {
       }else{
         console.log('initialization failed')
       }
-    }, [onboarding, bankCodeRan,verificationRan]);
+    }, [onboarding, bankCodeRan, verificationRan]);
 
   
 
@@ -197,14 +187,42 @@ useEffect(() => {
       
     } catch (error: any) {
       console.log(error.response);
+       setError(error?.response?.data?.message || 'Dear customer, We discovered that you have an overdue loan with another bank or loan app. When you pay off this loan, you may be eligible for a loan offer.');
     
     } 
   };
   fetchUserOffers();
   }, []);
-  
 
- //verify account direct debit
+ 
+  //verify card tokenization
+  useEffect(() => {
+    const verifyCardTokenization = async () => {
+      if (onboarding && !onboarding.card_tokenized && card_reference) {
+       
+        try {
+          const response = await apiClient.get(
+            `/paystack/verify/${card_reference}`
+          );
+          if(response?.data?.message === "Successful") {
+            setMessageCard(response?.data?.message);
+          }
+         
+          
+        } catch (error: any) {
+          console.log('error',error?.response?.data);
+          setError(
+            error?.response?.data?.message || 'An error occurred, please try again'
+          );
+          setNotificationOpen(true);
+        }
+      }
+    };
+    if(Object.keys(onboarding).length > 0)
+    verifyCardTokenization();
+  }, [onboarding, card_reference]);
+
+  //verify account direct debit
  useEffect(() => {
   const verifyPayment = async () => {
     if (directDebitReference && bankAccounts.length > 0 && bankAccounts.filter((account:any) => account?.authorization_code  === 'pending').length > 0) {
@@ -227,7 +245,7 @@ useEffect(() => {
   };
 
   verifyPayment();
-}, [directDebitReference, bankAccounts]);
+  }, [directDebitReference, bankAccounts]);
 
   
 
@@ -239,12 +257,12 @@ const handleApplyNow = async () => {
     
     if (onboarding && !onboarding?.profile_exists  && showWelcomeNoticeAgain === null){
       await toggleWelcomeNotice();
-    } else if (onboarding?.bank_account_exists === 'pending' && monoSuccess) {
+    }else if (onboarding && !onboarding?.card_tokenized && messageCard) {
       setError(
-         'Dear customer, your bank account verification is in progress. We will notify you shortly once it is done .'
-      );
-      setNotificationOpen(true)
-  }        
+        'Your card has been successfully tokenized. Please wait while we confirm your details.'
+     );
+     setNotificationOpen(true)
+    }       
     else if (!userVerified) {
       await handleOpenModal();
     } else if (userVerified && onboarding?.live_check === null || onboarding?.live_check === 'failed') {
@@ -263,7 +281,6 @@ const handleApplyNow = async () => {
       
       setNotificationOpen(true);
     }else if (userVerified && onboarding?.live_check === 'completed' && userOffers?.length <= 0) {
-      setError('Unfortunately, you are not eligible for a loan at this time as you do not meet the required criteria.');
       setNotificationOpen(true)
     } else if (userVerified && onboarding?.live_check === 'completed') {
       toggleMainOffer();
@@ -306,7 +323,7 @@ const handleApplyNow = async () => {
                   <button
                      onClick={handleApplyNow}
                      disabled={!initialization}
-                    className="bg-[#F6011BB2] flex align-middle justify-center mx-auto items-center cursor-pointer font-bold text-white text-[15px] w-[139px] h-[37px] rounded-[12px] px-4 py-2 mt-6"
+                    className="bg-[#F83449] flex align-middle justify-center mx-auto items-center cursor-pointer font-bold text-white text-[15px] w-[139px] h-[37px] rounded-[12px] px-4 py-2 mt-6"
                   >
                     Apply now <RiArrowRightSFill className="text-white ml-1" />
                   </button>
@@ -334,7 +351,7 @@ const handleApplyNow = async () => {
   <div className="flex justify-center mt-4">
     <button
       onClick={handleSeeMore}
-      className="bg-[#F6011BB2] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#358D99] transition"
+      className="bg-[#F83449] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#fd4c5e] transition"
     >
       See More
     </button>
@@ -345,7 +362,7 @@ const handleApplyNow = async () => {
   <div className="flex justify-center mt-4">
     <button
       onClick={handleSeeLess}
-      className="bg-[#F6011BB2] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#358D99] transition"
+      className="bg-[#F83449] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#fd4c5e] transition"
     >
       See Less
     </button>

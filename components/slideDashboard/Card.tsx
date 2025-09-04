@@ -53,7 +53,18 @@ useEffect(() => {
 <p className="text-[#5A5A5A] text-[15px] text-center w-9/12">We will debit this card on your due dates for easy loan repayment.</p>
       </div>
       <div className="mt-6">
-    <div className="lg:text-[16px] md:text-[15px] text-[#282828]  font-comic w-[380px]  h-[91px] flex items-start bg-[#F3F3F3] rounded-[12px] pl-3 ">
+      <div className="text-[16px] mt-3 text-[#282828]  font-comic w-[380px]  h-[91px] flex items-start bg-[#F3F3F3] rounded-[12px] pl-3 ">
+    <Image
+    src='/images/creditCard.png'
+     alt='cd'
+     width={20}
+     height={20}
+     className="pt-3"
+     />
+     <p className="px-2  pt-3">You can link any of your Bank ATM card available. We accept physical or virtual card.</p>
+
+        </div>
+    <div className="lg:text-[16px] mt-3 md:text-[15px] text-[#282828]  font-comic w-[380px]  h-[91px] flex items-start bg-[#F3F3F3] rounded-[12px] pl-3 ">
     <Image
     src='/images/card1.png'
      alt='cd'
@@ -76,17 +87,7 @@ useEffect(() => {
 
         </div>
 
-        <div className="text-[16px] mt-3 text-[#282828]  font-comic w-[380px]  h-[91px] flex items-start bg-[#F3F3F3] rounded-[12px] pl-3 ">
-    <Image
-    src='/images/headset.png'
-     alt='cd'
-     width={20}
-     height={20}
-     className="pt-3"
-     />
-     <p className="px-2  pt-3">If you are having trouble linking your card, please call <strong>09166000043</strong>  or send an email to <strong>support@quickcred.com.ng.</strong></p>
-
-        </div>
+      
       </div>
 
       <p className="mt-12 text-[#ED3237] font-black text-center w-full text-[15px] font-saira">Secured by PAYSTACK</p>

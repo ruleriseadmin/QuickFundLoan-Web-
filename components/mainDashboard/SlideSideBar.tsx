@@ -130,7 +130,15 @@ const SlideSideModal: React.FC<SideModalProps> = ({ isOpen, toggleSideBar }) => 
             <p className='ml-2 text-[18px] font-bold text-[#CDCDCD]'>Account settings</p> 
           </Link>
 
-        
+          <Link href='/faq' className={`flex justify-start lg:gap-2 md:gap-0 w-full items-center mt-10 align-middle lg:ml-4 md:ml-2 p-2 ${isActive('/help')}`}>
+            <Image 
+              src='/images/message-question.png'
+              width={24}
+              height={24}
+              alt='help icon'
+            />
+            <p className='ml-2 text-[18px] font-bold text-[#CDCDCD]'>Help</p> 
+          </Link>
 
           <button
             onClick={handleLogout}

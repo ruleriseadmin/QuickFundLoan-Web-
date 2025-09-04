@@ -55,7 +55,7 @@ const PaymentConfirmation: React.FC<ConfirmationProps> = ({ toggleConfirmation, 
                 handleSubmit();
                 toggleConfirmation();
               }}
-             className="bg-[#ED3237] w-full text-white disabled:opacity-50 disabled:cursor-not-allowed h-[50px] mb-4 rounded-[45px] px-4 py-2 mt-4 font-medium"
+             className="bg-[#F6011BCC] w-full text-white disabled:opacity-50 disabled:cursor-not-allowed h-[50px] mb-4 rounded-[45px] px-4 py-2 mt-4 font-medium"
             >
               Disburse {formatCurrency(amount)}
             </button>

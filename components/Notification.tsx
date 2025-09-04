@@ -36,7 +36,7 @@ useEffect(() => {
       <div className={`${message ? '' : 'mt-10'} w-full mb-8  ${status === 'error' ? 'mb-12' : ''} ${status === 'success' && !subMessage ? ' mt-10' : ''} rounded-[22px]`}>
 
             <Image
-              src={title === 'Congratulations!' ? '/images/congratsLogin.gif' : status === 'success' ? '/images/success.png' :  '/images/failed.png' }
+              src={status === 'success' ? '/images/success.png' :  '/images/failed.png' }
               alt="Notification Icon"
               width={100}
               height={100}

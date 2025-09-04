@@ -4,6 +4,8 @@ import Script from "next/script";
 import { Outfit, Comic_Neue, Patrick_Hand_SC, Roboto, Saira, Kumbh_Sans } from "next/font/google";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
+import WatsAppChatBot from "@/components/WatsAppChatBot";
+import GoogleAnalytics from "./GoogleAnalytics";
 
 config.autoAddCss = false;
 
@@ -24,10 +26,13 @@ export default function LayoutClient({ children }: { children: React.ReactNode }
           src="https://hv-camera-web-sg.s3-ap-southeast-1.amazonaws.com/hyperverge-web-sdk@8.13.0/src/sdk.min.js"
           strategy="afterInteractive"
         />
+        {/* Google Analytics inside <head> */}
+        <GoogleAnalytics />
       </head>
       <body
         className={`bg-background ${outfit.variable} ${comic.variable} ${patrick.variable} ${kumbh.variable} ${roboto.variable} ${saira.variable}`}
       >
+        <WatsAppChatBot />
         {children}
       </body>
     </html>

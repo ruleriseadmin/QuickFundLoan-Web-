@@ -53,7 +53,7 @@ useEffect(() => {
   }
   }, [loanHistory]);
   
-console.log(loanHistory)
+
   return (
     <div className='w-full'>
     <div className='h-auto bg-[#F1F1F1] rounded-[8px] mt-6 pb-8'>
@@ -91,7 +91,7 @@ console.log(loanHistory)
         {loanHistory[0]?.status === 'OVERDUE' && (
           <span
           onClick={toggleDetails}
-          className='font-medium hover:cursor-pointer text-[14px] text-[#1F96A9] '>View loan details</span>
+          className='font-medium hover:cursor-pointer text-[14px] text-[#F83449] '>View loan details</span>
         )}
         </div>
        
@@ -119,7 +119,7 @@ console.log(loanHistory)
         </div>
         <button
       onClick={handleShowSummary} 
-      className="bg-[#46A4B5] text-white h-[47px] mb-4 w-full rounded-[8px] px-4 py-2  font-semibold">
+      className="bg-[#F83449] text-white h-[47px] mb-4 w-full rounded-[8px] px-4 py-2  font-semibold">
        Done
       </button>
       {openDetails && 

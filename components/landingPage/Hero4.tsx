@@ -28,7 +28,7 @@ const Hero4 = () => {
 
           <div className='flex justify-start align-middle gap-6 '>
     <button
-         className='bg-[#F6011BCC]   text-white font-outfit font-bold rounded-full lg:w-[146px] w-[141px] h-[54px] py-1 px-4 text-[18px]'
+         className='bg-[#F24C5D]   text-white font-outfit font-bold rounded-full lg:w-[146px] w-[141px] h-[54px] py-1 px-4 text-[18px]'
           >
             Apply Now
 

@@ -20,12 +20,6 @@ type UserData = {
  
 }[];
 
-type UserInterestData = {
-  id: number;
-  interest_rate: string;
-  period: string;
-}[];
-
 
 
 const MainOffer: React.FC<MainOfferProps> = ({ isOpen, toggleMainOffer }) => {
@@ -34,11 +28,12 @@ const MainOffer: React.FC<MainOfferProps> = ({ isOpen, toggleMainOffer }) => {
   const [showLoan, setShowLoan] = useState(false);
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [userOffers, setUserOffers] = useState<UserData | null>(null);
-  const [interestRate, setInterestRate] = useState<UserInterestData | null>(null);
   const [error, setError] = useState('');
   const [removeOverFlow, setRemoveOverFlow] = useState(false);
   const [showAllOffers, setShowAllOffers] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [onboarding, setOnboarding] = useState<any>({});
+
  
 
 
@@ -52,6 +47,22 @@ const MainOffer: React.FC<MainOfferProps> = ({ isOpen, toggleMainOffer }) => {
     setShowAllOffers(!showAllOffers);
   };
 
+  //get onboarding process 
+ useEffect(() => {
+  const fetchBoardingProcess = async () => {
+    try {
+      const response = await apiClient.get(`/onboarding`);
+      setOnboarding(response?.data?.data);
+      
+    } catch (error: any) {
+      
+      console.log('error',error);
+     setError(error?.response?.data?.message ||  'An error occurred, please try again');
+      setNotificationOpen(true);
+    } 
+  };
+  fetchBoardingProcess();
+  }, []);
   
 
   //get user offers
@@ -74,22 +85,7 @@ const MainOffer: React.FC<MainOfferProps> = ({ isOpen, toggleMainOffer }) => {
     fetchUserOffers();
     }, [showAllOffers]);
 
-  //get user interest rate
-  useEffect(() => {
-    const fetchUserInterestRate = async () => {
-      try {
-        const response = await apiClient.get(`/loan/interest_rates`);
-        
-       setInterestRate(response?.data?.data);
-        
-      } catch (error: any) {
-        console.log(error.response);
-       setError(error?.response?.data?.message ||  'An error occurred, please try again');
-        setNotificationOpen(true);
-      } 
-    };
-    fetchUserInterestRate();
-    }, []);
+  
 
 
  
@@ -103,6 +99,11 @@ const MainOffer: React.FC<MainOfferProps> = ({ isOpen, toggleMainOffer }) => {
     setShowOffer(false);
     setShowLoan(true);
   };
+
+  //toggle remove overflow
+  const toggleRemoveOverflow = () => {
+    setRemoveOverFlow(!removeOverFlow);
+  }
 
  
   
@@ -153,16 +154,17 @@ const MainOffer: React.FC<MainOfferProps> = ({ isOpen, toggleMainOffer }) => {
             <DisplayOffer 
             handleShowLoan={handleShowLoan}
             usersOffer={userOffers}
-            userInterests = {interestRate}
             closeModal={toggleMainOffer}
             toggleShowAllOffers={toggleShowAllOffers}
             showAllOffers={showAllOffers}
+            onboarding={onboarding}
             />
           )}
 
           {showLoan && (
             <LoanRepayment
             closeModal={toggleMainOffer}
+           toggleRemoveOverflow={toggleRemoveOverflow}
             />
             
           )}

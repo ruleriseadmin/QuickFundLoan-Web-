@@ -300,3 +300,15 @@ li {
   transition: 0.5s ease-in-out;
 }
 
+.custom-dropdown {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  will-change: transform, opacity;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+  perspective-origin: 0 0;
+  transform-style: preserve-3d;
+  will-change: transform, opacity, height;
+}
+

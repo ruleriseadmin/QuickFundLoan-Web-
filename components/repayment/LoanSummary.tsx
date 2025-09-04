@@ -63,19 +63,17 @@ const LoanSummary: React.FC<LoanSummaryProps> = ({ handleShowPaymentMethod, loan
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const amountToPay = customAmount || dueAmount || totalAmount;
-    
     handleShowPaymentMethod(loanId, amountToPay);
     
    
   };
 
-
-  const loanArray = loanHistory[0]?.loan_schedules
+ const loanDetails = loanHistory[0];
+  const loanArray = loanDetails?.loan_schedules
   ?.filter((loan: any) => loan.status === 'pending' || (loan.status === 'partially_paid'  && loan.remaining_balance !== 0) )
   ?.sort((a: any, b: any) => new Date(a.due_date).getTime() - new Date(b.due_date).getTime());
-  const firstLoanSchedule = loanArray?.[0];
-  const loanDetails = loanHistory[0];
-  const loanId = firstLoanSchedule?.loan_id;
+  const firstLoanSchedule = loanArray?.[0] ;
+  const loanId = firstLoanSchedule?.loan_id ;
 
   return (
     <div>
@@ -86,7 +84,7 @@ const LoanSummary: React.FC<LoanSummaryProps> = ({ handleShowPaymentMethod, loan
         {/* Option 1 */}
         {firstLoanSchedule && (
           <label
-            className={`border border-[#1F96A9] rounded-[8px] w-full h-[77px] lg:gap-7 md:gap-7 gap-1 bg-[#F3F3F5] pl-4 cursor-pointer flex ${
+            className={`border border-[#F83449] rounded-[8px] w-full h-[77px] lg:gap-7 md:gap-7 gap-1 bg-[#F3F3F5] pl-4 cursor-pointer flex ${
               dueAmount === firstLoanSchedule?.payment_amount || firstLoanSchedule?.remaining_balance ? 'border-2' : 'border'
             }`}
             onClick={() => handleDueAmountChange(firstLoanSchedule.status === 'partially_paid' ? firstLoanSchedule?.remaining_balance : firstLoanSchedule?.payment_amount)}
@@ -97,12 +95,12 @@ const LoanSummary: React.FC<LoanSummaryProps> = ({ handleShowPaymentMethod, loan
               value={dueAmount || ''}
               checked={dueAmount !== null }
               onChange={() => handleDueAmountChange(firstLoanSchedule.status === 'partially_paid' ? firstLoanSchedule?.remaining_balance : firstLoanSchedule?.payment_amount)}
-              className="w-6 h-6 accent-[#1F96A9] mt-6"
+              className="w-6 h-6 accent-[#F83449] mt-6"
             />
             <p className="text-[14px] lg:text-[15px] md:text-[15px] text-[#5A5A5A] mb-6 p-2 leading-7">
               Next amount due <br />
               <span className="text-[#1C1C1E] lg:text-[18px] md:text-[18px] text-[16px] font-bold">
-                {firstLoanSchedule.status === 'partially_paid' ? formatCurrency(firstLoanSchedule.remaining_balance) : formatCurrency(firstLoanSchedule.payment_amount)}
+                {firstLoanSchedule.status === 'partially_paid' ? formatCurrency(firstLoanSchedule?.remaining_balance) : formatCurrency(firstLoanSchedule?.payment_amount)}
               </span>
             </p>
             <p className="text-[#5A5A5A] text-[12px] lg:text-[13px] md:text-[13px] mt-4 ml-10">
@@ -114,7 +112,7 @@ const LoanSummary: React.FC<LoanSummaryProps> = ({ handleShowPaymentMethod, loan
         {/* Option 2 */}
         {loanDetails?.total_payable && (
           <label
-            className={`border- border-[#1F96A9] rounded-[8px] w-full mt-6 h-[77px] lg:gap-7 md:gap-7 gap-1 bg-[#F3F3F5] pl-4 cursor-pointer flex ${
+            className={`border- border-[#F83449] rounded-[8px] w-full mt-6 h-[77px] lg:gap-7 md:gap-7 gap-1 bg-[#F3F3F5] pl-4 cursor-pointer flex ${
              totalAmount === loanDetails?.total_payable -
              loanDetails?.loan_schedules
                ?.filter((l: any) => l.status === 'completed' || l.status === 'partially_paid')
@@ -137,7 +135,7 @@ const LoanSummary: React.FC<LoanSummaryProps> = ({ handleShowPaymentMethod, loan
               onChange={() =>
                 handleTotalAmountChange(loanDetails?.amount_remaining)
               }
-              className="w-6 h-6 accent-[#1F96A9] mt-6"
+              className="w-6 h-6 accent-[#F83449] mt-6"
             />
             <p className="text-[14px] lg:text-[15px] md:text-[15px] text-[#5A5A5A] mb-6 p-2 leading-7">
               Total Amount Due <br />
@@ -161,7 +159,7 @@ const LoanSummary: React.FC<LoanSummaryProps> = ({ handleShowPaymentMethod, loan
             id="customAmount"
             value={customAmount || ''}
             onChange={handleCustomAmountChange}
-            className="w-full pl-8 font-normal h-[58px] px-4 py-2 border text-[18px] border-[#1F96A9] rounded-[8px] bg-[#F3F3F5] focus:outline-none text-[#1C1C1E]"
+            className="w-full pl-8 font-normal h-[58px] px-4 py-2 border text-[18px] border-[#F83449] rounded-[8px] bg-[#F3F3F5] focus:outline-none text-[#1C1C1E]"
           />
           <p className="absolute font-normal inset-y-0 pt-9 left-4 text-[18px] text-[#282828] flex justify-center items-center pointer-events-none">
             ₦ 

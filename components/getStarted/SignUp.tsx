@@ -18,6 +18,8 @@ const SignUp: React.FC<signUpType> = ({ handleShowLogin, handleShowOtp }) => {
     const [openNoWarning, setOpenNoWarning] = useState(false);
     const [proceedToRegister, setProceedToRegister] = useState(false);
 
+
+    
     // Toggle notification
     const toggleNotification = () => {
         setNotificationOpen(!isNotificationOpen);
@@ -41,6 +43,7 @@ const SignUp: React.FC<signUpType> = ({ handleShowLogin, handleShowOtp }) => {
             setLoading(true);
             const res = await axios.post(`${process.env.NEXT_PUBLIC_LENDING_SERVICE_URL}/auth/register`, {
                 phone_number,
+                source:'web'
                
             }, {
                 headers: {
@@ -103,7 +106,7 @@ const SignUp: React.FC<signUpType> = ({ handleShowLogin, handleShowOtp }) => {
                 <button
                     type="submit"
                     disabled={!phone_number || loading}
-                    className="disabled:opacity-50 disabled:cursor-not-allowed w-full lg:w-11/12 bg-[#F6011BB2] text-white font-outfit rounded-full h-[55px] py-1 px-4 text-[15px] mt-2"
+                    className="disabled:opacity-50 disabled:cursor-not-allowed w-full lg:w-11/12 bg-[#F24C5D] text-white font-outfit rounded-full h-[55px] py-1 px-4 text-[15px] mt-2"
                 >
                     Next
                 </button>

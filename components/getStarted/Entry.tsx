@@ -121,13 +121,13 @@ const Entry: React.FC<EntryProps> = ({ isOpen, closeModal }) => {
 
           {/* Right Side */}
           <div className="w-full h-full lg:mt-12 md:mt-12 lg:ml-8 md:ml-6 md:w-11/12">
-            <p className="font-bold text-[28px] lg:text-[28px] lg:text-start md:text-start text-center text-[#F6011B] md:text-[24px]">GET THE APP TODAY!</p>
+            <p className="font-bold text-[28px] lg:text-[28px] lg:text-start md:text-start text-center text-[#F24C5D] md:text-[24px]">GET THE APP TODAY!</p>
             <p className="text-navfont mt-2 text-[18px] md:text-[15px] lg:text-[18px]  mb-6 hidden lg:block md:block">Financial solutions for you and your business</p>
             <p className="text-navfont mt-2 text-[18px] text-center mb-6 block lg:hidden md:hidden">Apply for instant, stress-free loans.</p>
             <button
               type="button"
-             onClick={() => window.open('https://play.google.com/store/apps/details?id=com.quickfund.quickcred', '_blank')}
-              className="w-full lg:w-10/12 bg-[#2B2323] hover:bg-[#F6011BB2] flex justify-between align-middle items-center text-white font-outfit rounded-full h-[58px] py-1 px-4 text-[15px] mt-4"
+             onClick={() => window.open('https://play.google.com/store/apps/details?id=com.quickfund.quickfund', '_blank')}
+              className="w-full lg:w-10/12 bg-[#2B2323] hover:bg-[#F24C5D] flex justify-between align-middle items-center text-white font-outfit rounded-full h-[58px] py-1 px-4 text-[15px] mt-4"
             >
               <p className="ml-4">Download for android</p>
               <Image
@@ -140,8 +140,8 @@ const Entry: React.FC<EntryProps> = ({ isOpen, closeModal }) => {
             </button>
             <button
               type="button"
-              onClick={() => window.open('https://appstoreconnect.apple.com/apps/6740584720/distribution/reviewsubmissions/details/b1ec11ce-2398-41c3-8edc-ca86666b83f0', '_blank')}
-              className="w-full lg:w-10/12 bg-[#2B2323] flex justify-between hover:bg-[#F6011BB2] align-middle items-center text-white font-outfit rounded-full h-[58px] py-1 px-4 text-[15px] mt-4"
+              onClick={() => window.open('https://apps.apple.com/ng/app/quickfund/id6740584720', '_blank')}
+              className="w-full lg:w-10/12 bg-[#2B2323] flex justify-between hover:bg-[#F24C5D] align-middle items-center text-white font-outfit rounded-full h-[58px] py-1 px-4 text-[15px] mt-4"
             >
               <p className="ml-4">Download for apple</p>
               <Image

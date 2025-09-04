@@ -40,7 +40,7 @@ export const jobData2 = [
       "Ensure the performance, quality, and responsiveness of applications.",
       "Stay updated with the latest technology trends and best practices."
     ],
-    role: "We’re seeking a DevOps Engineer to support and enhance the platform that powers Quickcred. This is a multifaceted role for someone who enjoys hands-on work across the development lifecycle—coding, data migrations, deploys, process automation, and more. You should have a strong software development foundation and be confident navigating the AWS console.",
+    role: "We’re seeking a DevOps Engineer to support and enhance the platform that powers Quickfund. This is a multifaceted role for someone who enjoys hands-on work across the development lifecycle—coding, data migrations, deploys, process automation, and more. You should have a strong software development foundation and be confident navigating the AWS console.",
     looking_for: [
       "4+ years of experience in software development/DevOps.",
       "2+ years of experience with Node.js, JavaScript, and MongoDB/NoSQL.",

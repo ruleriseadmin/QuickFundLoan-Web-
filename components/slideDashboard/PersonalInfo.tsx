@@ -9,10 +9,10 @@ import {options} from '@/utils/bankFunctions'
 
 
 type PersonalInfoProps = {
-  handleCard: () => void;
+  handleLinkAccount: () => void;
 };
 
-const PersonalInfo: React.FC<PersonalInfoProps> = ({ handleCard }) => {
+const PersonalInfo: React.FC<PersonalInfoProps> = ({ handleLinkAccount }) => {
   const [firstName, setFirstName] = useState<string>('');
   const [lastName, setLastName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
@@ -65,7 +65,7 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({ handleCard }) => {
           dependents: dependents,
           educational_level: education,
         });
-      handleCard(); 
+     handleLinkAccount(); 
       setLoading(false);
     } catch (error: any) {
       console.log(error.response);
@@ -80,7 +80,7 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({ handleCard }) => {
     <div className='w-full mx-auto font-outfit font-normal'>
      
        
-        <p className=' text-[#C03636] text-[18px] p-2  font-semibold mt-2'>
+        <p className=' text-[#275434] text-[18px] p-2  font-semibold mt-2'>
         We make loan eligibility decision based on the information you provide to us.
          Please ensure you are providing the right details.
         </p>

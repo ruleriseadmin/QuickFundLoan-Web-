@@ -14,7 +14,7 @@ const Page = () => {
       <div className="flex justify-between w-full lg:w-11/12 items-center mt-8 px-4 lg:px-8">
         <Link href='/'>
           <Image
-            src='/images/quick-logo.png'
+            src='/images/icon.png'
             width={128}
             height={35}
             alt='logo'
@@ -45,9 +45,9 @@ const Page = () => {
             <li className='ml-4 font-medium mb-0'>Jurisdiction</li>
             Means Nigeria where the Lender is resident and established;
             <li className='ml-4 font-medium mb-0'>Lender</li>
-            refers to Quickcred
+            refers to Quickfund
             <li className='ml-4 font-medium mb-0'>Loan</li>
-            refers to the Instant Loan by Quickcred to a customer subject of these Terms & Conditions;
+            refers to the Instant Loan by Quickfund to a customer subject of these Terms & Conditions;
             <li className='ml-4 font-medium mb-0'>Loan Agreement</li>
             means the agreement to lend the Borrower the Loan which is constituted by these Terms and Conditions and the Loan Application Portal completed by the Borrower and the term Agreement "shall be construed equally;
             <li className='ml-4 font-medium mb-0'>Loan Amount</li>
@@ -277,8 +277,24 @@ const Page = () => {
             <li className='ml-4 font-medium mb-0'>The Lender shall keep your information for as long as you have a relationship with us. After it ends we‘ll keep it for a minimum period of Seven (7) years. However, we may retain your information for a longer period where we may need it for our legitimate purposes e.g. to help us respond to queries or complaints, 
               or for other reasons e.g. fighting fraud and financial crime, and responding to requests from regulators.
             </li>
+            <li className='ml-4 font-medium mb-0'>In the event that you fail to repay 
+              the loan as agreed, and the loan becomes delinquent,  
+              Quickfund shall have the right to report the delinquent loan to the CBN through 
+              the Credit Risk Management System (CRMS) or by any other means, and request the CBN 
+              to exercise its regulatory power to direct all banks and other financial institutions under 
+              its regulatory purview to set-off such indebtedness from any money standing to your credit 
+              in any bank account and from any financial assets they may be holding for your benefit. 
+              You also covenant and warrant that Quickfund shall have power to activate a global standing 
+              instruction (GSI) to set-off your indebtedness from all such monies and funds standing to your 
+              credit/benefit in any and all such accounts or from any other financial assets belonging to you and in 
+              the custody of any such bank. Accordingly, you agree that you hereby waive any right of confidentiality 
+              whether arising under common law or statute or in any other manner whatsoever and irrevocably agree that 
+              you shall not argue to the contrary before any court of law, tribunal administrative authority or any other body acting in any judicial or quasi-judicial capacity.
+
+            </li>
             <li className='ml-4 font-medium mb-0'>The Borrower has several rights in regards to the information that the Lenders holds about the Customer including:
             </li>
+            
             </ul>
             <div className='ml-5 font-medium mb-0'>
             <div className=' '>
@@ -290,9 +306,9 @@ const Page = () => {
             <p>3.	The right to object or restrict to the processing of all or part of the Borrower‘s personal data. We may however continue to process where we have a legitimate reason to do so, or required by law;</p>
             <p>4.	The right to correction of false or misleading data; and</p>
             <p>5.	The right to request that we delete false or misleading data about you. The customer can enforce the rights stated above by notice to the Lender in writing to <a 
-            href="mailto:info@Quickcred.com.ng"
-            className='text-[#46A4B5]'
-            >info@Quickcred.com.ng</a>
+            href="mailto:info@Quickfund.com.ng"
+            className='text-[#ED3237]'
+            >info@Quickfund.com.ng</a>
             (email of DPO) The Lender shall within Fourteen (14) days from receipt of the notice inform the Customer in writing of the Lender‘s decision and the reasons thereof.</p>
             </div>
             </div>
@@ -351,7 +367,7 @@ const Page = () => {
             <p className='font-bold mt-3'>23. CUSTOMER COMPLAINTS PROCESS</p>
           <ul className='leading-8 list-disc'>
             <li className='ml-4 font-medium mb-0'>
-            In the event that the Borrower has a complaint regarding the service offered or dispute regarding this loan application, the Borrower must approach the Lender to register their complaint by providing full description of the complaint and contact details. This should be done through the Customer experience platform where borrower should provide full description of the complaint and contact details through Quickcred Customer Care.
+            In the event that the Borrower has a complaint regarding the service offered or dispute regarding this loan application, the Borrower must approach the Lender to register their complaint by providing full description of the complaint and contact details. This should be done through the Customer experience platform where borrower should provide full description of the complaint and contact details through Quickfund Customer Care.
             </li>
             </ ul>
 

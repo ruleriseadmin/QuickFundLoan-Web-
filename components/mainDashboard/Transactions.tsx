@@ -30,32 +30,23 @@ const Transactions = () => {
   const [loanHistory, setloanHistory] = useState<any>([]);
   const [AllLoanTransactions, setAllLoanTransactions] = useState<any>([]);
   const [bankCodeRan, setBankCodeRan] = useState(false);
-  const directDebitReference : string | null = localStorage.getItem('direct_debit')
+  const [messageCard, setMessageCard] = useState('');
   const loanReference : string | null = localStorage.getItem('loan_reference')
   const card_reference : string | null = localStorage.getItem('card_reference')
   const [openAccountNotification, setOpenAccountNotification] = useState(false);
-  const monoSuccess: string | boolean = localStorage.getItem('monoSuccess') || false;
   const [notificationMessage, setNotificationMessage] = useState('');
   const [openWelcomeNotice, setOpenWelcomeNotice] = useState(false);
-  const [debitMessage, setDebitMessage] = useState('');
   const [verificationRan, setVerificationRan] = useState(false)
+  const directDebitReference : string | null = localStorage.getItem('direct_debit')
+  const [debitMessage, setDebitMessage] = useState('');
   const showWelcomeNoticeAgain = localStorage.getItem('showWelcomeNoticeAgain');
   
   const [loanCodeRan, setLoanCodeRan] = useState(false)
   const router = useRouter();
   const searchParams = useSearchParams();
-  const reason = searchParams.get('reason');
-  const status = searchParams.get('status');
   const [userOffers,setUserOffers] = useState<any>([]);
   
 
-
-  //know mono has been successfully linked
-  useEffect(() => {
-    if (status === 'linked' && reason === 'account_linked') {
-      localStorage.setItem('monoSuccess', 'true');
-    }
-  }, [status, reason]);
 
 
   //toggle notification
@@ -126,7 +117,30 @@ useEffect(() => {
   fetchBoardingProcess();
   }, []);
 
+//verify account direct debit
+ useEffect(() => {
+  const verifyPayment = async () => {
+    if (directDebitReference && bankAccounts.length > 0 && bankAccounts.filter((account:any) => account?.authorization_code  === 'pending').length > 0) {
+      try {
+  
+        const response = await apiClient.get(
+          `/paystack/verify/${directDebitReference}`,
+        );
+       
+        setDebitMessage(response?.data?.message);
 
+      } catch (error: any) {
+        console.error('Error during payment verification:', error);
+      } finally{
+        setVerificationRan(true)
+      }
+    }else{
+      setVerificationRan(true)
+    }
+  };
+
+  verifyPayment();
+}, [directDebitReference, bankAccounts]);
 
   
 //check if user has completed onboarding process
@@ -136,6 +150,7 @@ useEffect(() => {
      && onboarding.card_tokenized     
     && onboarding.profile_exists
     && onboarding.bvn_nin_exists
+    && onboarding.bvn_nin_is_verified
     && setUserVerified(true);
    }
   }, [onboarding]);
@@ -151,6 +166,7 @@ useEffect(() => {
       
     } catch (error: any) {
       console.log(error.response);
+      setError(error?.response?.data?.message || 'Dear customer, We discovered that you have an overdue loan with another bank or loan app. When you pay off this loan, you may be eligible for a loan offer.');
      
     } 
   };
@@ -180,33 +196,9 @@ useEffect(() => {
 
  
 
- 
 
-  //verify account direct debit
-  useEffect(() => {
-    const verifyPayment = async () => {
-      if (directDebitReference && bankAccounts.length > 0 && bankAccounts.filter((account) => account?.authorization_code  === 'pending').length > 0) {
-        try {
-    
-          const response = await apiClient.get(
-            `/paystack/verify/${directDebitReference}`,
-          );
-         
-          setDebitMessage(response?.data?.message);
-  
-        } catch (error: any) {
-          console.error('Error during payment verification:', error);
-        } finally{
-          setVerificationRan(true)
-        }
-      }else{
-        setVerificationRan(true)
-      }
-    };
-  
-    verifyPayment();
-  }, [directDebitReference, bankAccounts]);
 
+  //verify card tokenization
   useEffect(() => {
     const verifyCardTokenization = async () => {
       if (onboarding && !onboarding.card_tokenized && card_reference) {
@@ -215,10 +207,13 @@ useEffect(() => {
           const response = await apiClient.get(
             `/paystack/verify/${card_reference}`
           );
-          
-          localStorage.removeItem('card_reference');
+          if(response?.data?.message === "Successful") {
+            setMessageCard(response?.data?.message);
+          }
+         
           
         } catch (error: any) {
+          console.log('error',error?.response?.data);
           setError(
             error?.response?.data?.message || 'An error occurred, please try again'
           );
@@ -250,14 +245,14 @@ useEffect(() => {
 
   //this ensures all the async functions have run before the apply now button is enabled so the right conditions apply
   useEffect(() => {
-    if (onboarding && bankCodeRan && verificationRan && loanCodeRan) {
+    if (onboarding && bankCodeRan  && loanCodeRan && verificationRan) {
       setInitialization(true);
       console.log('initialization now true')
       
     }else{
       console.log('initialization failed')
     }
-  }, [onboarding, bankCodeRan,verificationRan,loanCodeRan]);
+  }, [onboarding, bankCodeRan,loanCodeRan, verificationRan]);
 
  
 
@@ -269,20 +264,20 @@ useEffect(() => {
     if (!initialization) return; // Prevent further execution if already loading
   
     try {
-       if (onboarding && !onboarding?.profile_exists  && showWelcomeNoticeAgain === null){
+      if (onboarding && !onboarding?.profile_exists  && showWelcomeNoticeAgain === null){
         await toggleWelcomeNotice();
-      } else if (!onboarding?.bank_account_exists  && monoSuccess) {
+      }else if (onboarding && !onboarding?.card_tokenized && messageCard) {
         setError(
-           'Dear customer, your bank account verification is in progress. We will notify you shortly once it is done .'
-        );
-        setNotificationOpen(true)
-    }   
+          'Your card has been successfully tokenized. Please wait while we confirm your details.'
+       );
+       setNotificationOpen(true)
+      }       
       else if (!userVerified) {
         await handleOpenModal();
-      } else if (userVerified && onboarding?.live_check === null || onboarding?.live_check === 'failed') {
+      } else if (userVerified  && onboarding?.live_check === null || onboarding?.live_check === 'failed') {
         
         await toggleFaceScan();
-      } else if(bankAccounts[0]?.authorization_code !== 'complete' && debitMessage && debitMessage !== 'Authorization does not exist or does not belong to integration'){
+      }  else if(bankAccounts[0]?.authorization_code !== 'complete' && debitMessage && debitMessage !== 'Authorization does not exist or does not belong to integration'){
         setNotificationMessage('Dear customer, your bank account E-Mandate activation is in progress. We will notify you once it is done.');
         await setOpenAccountNotification(true);
 
@@ -300,7 +295,6 @@ useEffect(() => {
         
         setNotificationOpen(true);
       }else if (userVerified && onboarding?.live_check === 'completed' && userOffers?.length <= 0) {
-        setError('Unfortunately, you are not eligible for a loan at this time as you do not meet the required criteria.');
         setNotificationOpen(true)
       } else if (userVerified && onboarding?.live_check === 'completed') {
         toggleMainOffer();
@@ -356,6 +350,7 @@ const transactionsToDisplay =  AllLoanTransactions?.slice(0, 5);
 
 
 
+
   return (
     <div className="font-outfit mt-4 mx-auto gap-4 w-11/12 h-auto overflow-hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
       <div className="lg:h-[349px] md:h-[349px] h-[257px] w-full bg-[#60738C] rounded-[12px]">
@@ -368,29 +363,29 @@ const transactionsToDisplay =  AllLoanTransactions?.slice(0, 5);
           <button
             onClick={handleApplyNow}
             disabled={!initialization || !onboarding || loading}
-            className="bg-[#F6011BB2] disabled:cursor-not-allowed justify-center flex lg:ml-2 items-center hover:cursor-pointer z-20 lg:font-bold text-[#FFFFFF] text-[15px] lg:w-[139px] md:w-[119px] h-[37px] rounded-[12px] px-4 py-2 lg:mt-6 md:mt-6 mt-6"
+            className="bg-[#F6011BCC] disabled:cursor-not-allowed justify-center flex lg:ml-2 items-center hover:cursor-pointer z-20 lg:font-bold text-[#FFFFFF] text-[15px] lg:w-[139px] md:w-[119px] h-[37px] rounded-[12px] px-4 py-2 lg:mt-6 md:mt-6 mt-6"
           >
             <span className=''>
               {onboarding.card_tokenized && !userVerified  ? 'Continue' : 'Apply now'}
               </span>
              <RiArrowRightSFill className="text-white cursor-pointer" />
           </button>
-          <div className="absolute  lg:right-2 md:-right-3 lg:-top-0 md:-top-[14px] -top-[112px] -right-0 ">
+          <div className="absolute  lg:right-2 md:-right-[13px] lg:-top-0 md:-top-[15px] -top-[112px] -right-2 ">
             <Image src="/images/cloneWoman.png" width={220.86} height={353.36} alt="Loan" />
           </div>
         </div>
       </div>
   
-      <div className="lg:h-[349px] h-[257px]  md:h-[349px] w-full bg-[#A24A4C] rounded-[12px] ">
+      <div className="lg:h-[349px] h-[267px]  md:h-[349px] w-full bg-[#A24A4C] rounded-[12px]">
         <div className="lg:w-9/12 md:w-10/12 lg:ml-4 md:ml-2 mt-6 w-6/12 ml-4">
           <p className="lg:text-[20px] md:text-[16px] md:font-bold lg:leading-9 text-[#FFFFFF]">Salary Loan</p>
-          <p className="lg:text-[16px] md:text-[15px] text-[15px] md:leading-5  mt-1 font-light text-[#FFFFFF]">Get up to <br className='block lg:hidden md:hidden'/> NGN2,000,000 <br className='block lg:hidden md:hidden'/>loan and repay <br className='block lg:hidden md:hidden'/> within 12 months.</p>
+          <p className="lg:text-[16px] md:text-[15px] text-[15px] md:leading-5  mt-1 font-light text-[#FFFFFF]">Get up to <br className='block lg:hidden md:hidden'/> NGN2,000,000 <br className='block lg:hidden md:hidden'/>loan and repay <br className='block lg:hidden md:block'/> within 12 months.</p>
         </div>
         <div className="lg:flex justify-start align-middle relative items-start w-full h-full lg:ml-2 md:ml-2 ml-4">
           <p className="text-[16px] text-navfont font-bold mt-6 lg:ml-2">Coming soon!</p>
-          <div className="absolute lg:left-[70px] md:left-[39px] w-full lg:top-0 md:-top-4  bottom-[167px] left-[150px]">
+          <div className="absolute lg:-right-[79px] md:-right-6  w-full lg:-top-5 md:-top-[57px]  -top-[168px] -right-[152px]">
             <Image 
-            src="/images/cloneMan.png" width={220} height={247} alt="Loan" className="md:mt-0" />
+            src="/images/cloneMan.png" width={226} height={210} alt="Loan" className="md:mt-0" />
           </div>
         </div>
       </div>
@@ -400,7 +395,7 @@ const transactionsToDisplay =  AllLoanTransactions?.slice(0, 5);
           <p className="text-[16px] text-navfont font-bold">Recent transactions</p>
           <button 
           onClick={toggleLoanTransactions}
-           className={`text-[14px] ${!history ? "text-[#5A5A5A]" : "text-[#F6011BCC]"} font-normal mr-4 z-30`}>
+           className={`text-[14px] ${!history ? "text-[#5A5A5A]" : "text-[#ED3237]"} font-normal mr-4 z-30`}>
             View all
           </button>
         </div>
@@ -454,7 +449,7 @@ const transactionsToDisplay =  AllLoanTransactions?.slice(0, 5);
         <Notification
           status="error"
           
-          message={error || 'You are not qualified for a loan at the moment. Please pay your outstanding loans and try again.'}
+          message={error ||  'You are not qualified for a loan at the moment. Please pay your outstanding loans and try again.'}
           toggleNotification={toggleNotification}
           isOpen={notificationOpen}
         />

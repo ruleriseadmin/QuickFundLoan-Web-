@@ -15,6 +15,7 @@ const Page = () => {
   const [loading, setLoading] = useState(false);
   const amountId = searchParams.get('amountId') || '';
   const tenorId = searchParams.get('tenorId') || '';
+  const interest = searchParams.get('interest') || '';
   const [loanSchedule, setLoanSchedule] = useState([]);
   const [fetchedUserData, setFetchedUserData] = useState<any>({});
   
@@ -65,7 +66,7 @@ const Page = () => {
   const handleDownload = async () => {
     try {
       const blob = await pdf(
-        <LoanAgreementDocument loanSchedule={loanSchedule} user={fetchedUserData} />
+        <LoanAgreementDocument loanSchedule={loanSchedule} user={fetchedUserData} interest={interest} />
       ).toBlob();
 
       const link = document.createElement('a');
@@ -77,6 +78,7 @@ const Page = () => {
       console.error('Error downloading the document:', error);
     }
   };
+  
 
   return (
     <main className="w-full h-full overflow-auto scrollbar-hide my-10">
@@ -85,7 +87,7 @@ const Page = () => {
       {isClient && loanSchedule && fetchedUserData && (
         <div className="flex justify-center w-full h-full">
           <PDFViewer showToolbar={false} style={{ width: '60%', height: '60vh' }}>
-            <LoanAgreementDocument loanSchedule={loanSchedule} user={fetchedUserData} />
+            <LoanAgreementDocument loanSchedule={loanSchedule} user={fetchedUserData} interest={interest}/>
           </PDFViewer>
         </div>
       )}

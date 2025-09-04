@@ -127,7 +127,7 @@ const CardPayment: React.FC<BankProps> = ({ toggleRepayment, handleShowOptions,l
 
       <div>
         {cardLoading ? (<LoadingPage />) : tokenizedCard?.length > 0 ? (
-          tokenizedCard.map((card, index) => (
+          tokenizedCard?.map((card, index) => (
             <div
               key={index}
               className="border rounded-[12px] w-full mt-6 h-[76px] lg:gap-4 md:gap-7 gap-1 bg-[#F7F7F7] pl-4 cursor-pointer flex"
@@ -139,7 +139,7 @@ const CardPayment: React.FC<BankProps> = ({ toggleRepayment, handleShowOptions,l
                 value={card.id}
                 checked={selectedOption === card.id}
                 onChange={() => handleOptionChange(card.id)}
-                className="w-6 h-6 accent-[#1F96A9] text-[#1F96A9] mt-6"
+                className="w-6 h-6 accent-[#F83449] text-[#F83449] mt-6"
               />
               <div className=" px-1">
                 <div className="lg:text-[20px] md:text[20px] text-[16px] text-[#282828] mt-4 text-center tracking-widest flex  items-center">
@@ -159,7 +159,7 @@ const CardPayment: React.FC<BankProps> = ({ toggleRepayment, handleShowOptions,l
         ) : (
           <div className='flex justify-between items-center'>
             <p>No cards available</p>
-            <Link href='/payment-methods' className='text-[#1F96A9] text-[13px] border-b border-solid border-b-[#1F96A9]'>Add card</Link>
+            <Link href='/payment-methods' className='text-[#F83449] text-[13px] border-b border-solid border-b-[#F83449]'>Add card</Link>
           </div>
           
         )}
@@ -175,7 +175,7 @@ const CardPayment: React.FC<BankProps> = ({ toggleRepayment, handleShowOptions,l
       {loading && <Loader title='Repayment in progress' text='Your loan status will automatically update upon successful payment' />}
 
       <button
-        className="bg-[#46A4B5] text-white disabled:cursor-not-allowed disabled:opacity-50 h-[47px] w-full rounded-[45px] px-4 py-2 mt-6 font-semibold"
+        className="bg-[#F83449] text-white disabled:cursor-not-allowed disabled:opacity-50 h-[47px] w-full rounded-[45px] px-4 py-2 mt-6 font-semibold"
         disabled={!selectedOption || loading}
         onClick={handleLoanRepayment}
       >

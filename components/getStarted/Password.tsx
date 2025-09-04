@@ -126,7 +126,7 @@ const Password: React.FC<PasswordProps> = ({phone_number, handleShowLogin}) => {
               <button
                 type="submit"
                 disabled={!password && !password_confirmation || password !== password_confirmation || loading}
-                className="w-full lg:w-11/12 bg-[#F6011BB2]  text-white font-outfit rounded-full h-[55px] py-1 px-4 text-[15px] mt-4 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full lg:w-11/12 bg-[#F24C5D]  text-white font-outfit rounded-full h-[55px] py-1 px-4 text-[15px] mt-4 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                Finish up
               </button>

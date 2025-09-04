@@ -130,6 +130,11 @@ const VirtualAccount = () => {
               ))}
             </tbody>
           </table>
+          <div>
+            <p className="text-[15px] text-[#ED3237] mt-16 font-medium text-center lg:w-9/12 mx-auto">
+             <span className='font-semibold'>Warning:</span> Do not transfer money to this bank account unless you have an active loan and you want to repay your loan
+            </p>
+          </div>
         </div>
       ) : (
         <p className="my-16 text-center text-gray-500">No virtual account available</p>

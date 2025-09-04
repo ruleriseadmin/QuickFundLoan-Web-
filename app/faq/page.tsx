@@ -23,6 +23,7 @@ const Page = () => {
                 setLoading(false);
             } catch (error: any) {
                 console.log(error.response);
+                setLoading(false);
             }
         };
         getFaq();

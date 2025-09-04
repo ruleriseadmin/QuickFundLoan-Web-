@@ -14,7 +14,7 @@ const Page = () => {
       <div className="flex justify-between w-full lg:w-11/12 items-center mt-8 px-4 lg:px-8">
         <Link href='/'>
           <Image
-            src='/images/quickcredlogo.png'
+            src='/images/icon.png'
             width={128}
             height={35}
             alt='logo'
@@ -32,7 +32,7 @@ const Page = () => {
 
       <div className='w-full mt-6 px-4 lg:px-8 font-outfit'>
         <p className='font-bold text-[18px]'>PRIVACY POLICY</p>
-        <p className='font-bold text-[18px]'>Quickcrd Nigeria LTD</p>
+        <p className='font-bold text-[18px]'>Quickfund Nigeria LTD</p>
         <p className='font-medium text-[18px]'>Effective Date: 10/01/2025</p>
 
         <hr className='border-b-2 text-[#E1E3E4] my-7 rounded-full' />
@@ -40,7 +40,7 @@ const Page = () => {
             <li className='my-4 font-semibold'>
               <p className=' text-[18px]'>Introduction</p>
               <p className='text-[15px] font-medium'>
-                This Privacy Policy applies to all information collected and processed by Quickcred Nigeria LTD (“Quickcred”), a Nigerian credit card processing company. By using Quickcred, you consent to the collection, use, disclosure, storage, and protection of this information.
+                This Privacy Policy applies to all information collected and processed by Quickfund Nigeria LTD (“Quickfund”), a Nigerian credit card processing company. By using Quickfund, you consent to the collection, use, disclosure, storage, and protection of this information.
               </p>
               <p className='text-[15px] mt-2 font-medium'>
               By using our Services, you agree to the terms of this Privacy Policy. If you do not agree, please refrain from using our Services.
@@ -152,7 +152,7 @@ const Page = () => {
                         
                     </ul>
                     <p className='text-[15px] font-medium '>
-                    To exercise your rights, contact us at  <a href="mailto:support@quickcred.com.ng" className='underline'>support@quickcred.com.ng</a>
+                    To exercise your rights, contact us at  <a href="mailto:support@quickfund.com.ng" className='underline'>support@quickfund.com.ng</a>
                     </p>
             </li>
             <hr className='border-b-2 text-[#E1E3E4] my-7 rounded-full' />
@@ -192,8 +192,8 @@ const Page = () => {
               If you have any questions about this Privacy Policy or how we handle your data, please contact us:
                </p>
                <ul className='list-disc pl-8 font-medium'>
-                        <li><strong>Quickcrd Nigeria LTD </strong> </li>
-                        <li>Email:<strong>info@quickcred.com.ng  </strong> </li>
+                        <li><strong>Quickfund Nigeria LTD </strong> </li>
+                        <li>Email:<strong>info@quickfund.com.ng  </strong> </li>
                         <li>Address: <strong>2 Allen Avenue Ikeja Lagos </strong></li>
                         
                         

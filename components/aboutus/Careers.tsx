@@ -23,10 +23,10 @@ const Careers = () => {
 
         {/* Update the styles of the second grid */}
         <div className=" lg:ml-6 md:ml-8 w-full mt-4">
-          <p className='font-bold mb-3 tracking-tighter text-[#282828] lg:text-[38px] text-[31px] leading-none '>Careers at Quickcred</p>
+          <p className='font-bold mb-3 tracking-tighter text-[#282828] lg:text-[38px] text-[31px] leading-none '>Careers at Quickfund</p>
           <p className='font-normal mb-6 tracking-tighter text-[#282828] lg:text-[24px] text-[20px] '>
-          At Quickcred, we're committed to creating opportunities for individuals and businesses to thrive. To bring this vision to life, we need passionate, talented, and ambitious people like you.
-          We foster an environment where innovation, collaboration, and growth are at the core of everything we do. Every role at Quickcred is essential to our mission of providing exceptional financial solutions to individuals and businesses.
+          At Quickfund, we're committed to creating opportunities for individuals and businesses to thrive. To bring this vision to life, we need passionate, talented, and ambitious people like you.
+          We foster an environment where innovation, collaboration, and growth are at the core of everything we do. Every role at Quickfund is essential to our mission of providing exceptional financial solutions to individuals and businesses.
           </p>
 
           <div className='flex justify-start align-middle gap-6 '>

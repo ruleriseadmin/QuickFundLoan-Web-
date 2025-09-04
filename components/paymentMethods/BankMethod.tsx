@@ -4,7 +4,6 @@ import React, { useState, useEffect, useRef } from "react";
 import apiClient from '@/utils/apiClient';
 import Image from 'next/image';
 import OptionalMandate from './OptionalMandate';
-import { bankList } from "@/utils/bankList";
 import LoadingPage from '@/app/loading';
 import Link from 'next/link';
 
@@ -19,6 +18,7 @@ const BankMethod: React.FC<BankMethodProps> = ({ isOpen, toggleBankMethod }) => 
   const [accountNumber, setAccountNumber] = useState<string | ''>('');  
   const [accountName, setAccountName] = useState<string>('');
   const [bankNameLoading, setBankNameLoading] = useState(false);
+  const [bankList, setBankList] = useState<any[]>([]);
   const [showLinkAccount, setShowLinkAccount] = useState(true);
   const [showOptionalMandate, setShowOptionalMandate] = useState(false);
   const [bankId, setBankId] = useState<number | string>('');
@@ -28,20 +28,30 @@ const BankMethod: React.FC<BankMethodProps> = ({ isOpen, toggleBankMethod }) => 
   const [bankCode, setBankCode] = useState<string>('');
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-
-
-  //handle show link account
-  const handleShowLinkAccount = () => {
-    setShowLinkAccount(true);
-    setShowOptionalMandate(false);
-  }
-
+  
   //handle show optional mandate  
   const handleShowOptionalMandate = () => {
     setShowLinkAccount(false);
     setShowOptionalMandate(true);
   }
-
+  
+     
+   useEffect(() => {
+        const fetchUsersBankAccounts = async () => {
+          try {
+            const response = await apiClient.get(
+              `/get-banks`
+            );
+    
+            setBankList(response?.data?.data || []);
+          } catch (error: any) {
+            console.error('Error fetching user bank accounts:', error);
+          } 
+        };
+    
+        fetchUsersBankAccounts();
+      }, []);
+    
 
 
   // Filtered bank list based on search term
@@ -96,9 +106,10 @@ const BankMethod: React.FC<BankMethodProps> = ({ isOpen, toggleBankMethod }) => 
 
       
       if (response?.data?.data?.id) {
-        setBankId(response?.data?.data?.id);
-        setLoading(false);
-        handleShowOptionalMandate();
+
+       setBankId(response?.data?.data?.id);
+       setLoading(false);
+       handleShowOptionalMandate();
       }
 
     } catch (error: any) {
@@ -125,7 +136,7 @@ const BankMethod: React.FC<BankMethodProps> = ({ isOpen, toggleBankMethod }) => 
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className={`bg-white h-auto w-11/12 lg:w-4/12 md:w-6/12 p-6 overflow-y-auto relative transform transition-transform duration-300 ease-in-out ${
+        className={`bg-white  w-11/12 lg:w-4/12 md:w-6/12 p-6  overflow-y-auto h-auto relative transform transition-transform duration-300 ease-in-out ${
            isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -259,7 +270,6 @@ const BankMethod: React.FC<BankMethodProps> = ({ isOpen, toggleBankMethod }) => 
           {showOptionalMandate && (
             <OptionalMandate id={bankId}/>
           )}
-          
         </div>
       </div>
     </div>

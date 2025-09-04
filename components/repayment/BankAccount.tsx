@@ -14,11 +14,12 @@ type BankProps = {
   handleShowOptions: () => void;
   amount: number | null;
   loanId: number | null;
+  toggleRemoveOverflow?: () => void;
  
 };
 
-const BankAccount: React.FC<BankProps> = ({toggleRepayment, handleShowOptions,loanId,amount}) => {
-  const [bankAccounts, setBankAccounts] = useState<any[]>([]); // Explicitly specify the type
+const BankAccount: React.FC<BankProps> = ({toggleRepayment, handleShowOptions,loanId,amount,toggleRemoveOverflow}) => {
+  const [bankAccounts, setBankAccounts] = useState<any[]>([]);
   const [error, setError] = useState<string>('');
   const [notificationOpen, setNotificationOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -26,11 +27,11 @@ const BankAccount: React.FC<BankProps> = ({toggleRepayment, handleShowOptions,lo
   const [bankLoading, setBankLoading] = useState<boolean>(false);
   const [loanLoading, setLoanLoading] = useState<boolean>(false);
   const [debitMessage, setDebitMessage] = useState('');
+  const directDebitReference : string | null = localStorage.getItem('direct_debit')
+
 const router = useRouter()
-const directDebitReference : string | null = localStorage.getItem('direct_debit')
-
-
-
+ const [openMonoPayment, setOpenMonoPayment] = useState(false);
+    
 
   // Toggle notification
   const toggleNotification = () => {
@@ -81,8 +82,7 @@ const directDebitReference : string | null = localStorage.getItem('direct_debit'
     fetchUsersBankAccounts();
   }, []);
 
- 
-  //verify account direct debit
+//verify account direct debit
   useEffect(() => {
     const verifyPayment = async () => {
       if (directDebitReference && bankAccounts.length > 0 && bankAccounts.filter((account) => account?.authorization_code  === 'pending').length > 0) {
@@ -179,10 +179,10 @@ const directDebitReference : string | null = localStorage.getItem('direct_debit'
       </p>
 
       <div>
-        {bankAccounts.map((account, index) => (
+        {bankAccounts?.map((account, index) => (
     <div
     key={index}
-    className={`border rounded-[12px] w-full mt-6 h-[100px] bg-[#F7F7F7] pl-4 cursor-pointer grid grid-cols-12 items-center`}
+    className={`border rounded-[12px] w-full mt-6 h-auto min-h-[100px] bg-[#F7F7F7] pl-4 cursor-pointer grid grid-cols-12 items-center`}
     onClick={() => {
       if (account.authorization_code === 'complete') {
       handleOptionChange(account.id)
@@ -199,8 +199,8 @@ const directDebitReference : string | null = localStorage.getItem('direct_debit'
       value={account.id}
       checked={selectedOption === account.id}
       onChange={() => handleOptionChange(account.id)}
-      className="w-6 h-6 accent-[#1F96A9] col-span-1 self-center justify-self-center"
-      disabled={ account.authorization_code === null || account.authorization_code === 'pending'}
+      className="w-6 h-6 accent-[#F83449] col-span-1 self-center justify-self-center"
+       disabled={ account.authorization_code === null || account.authorization_code === 'pending'}
     />
   
     {/* Bank Account Details */}
@@ -216,18 +216,18 @@ const directDebitReference : string | null = localStorage.getItem('direct_debit'
     <div className="col-span-3 text-center">
       <div className="flex flex-col items-center">
         {account.authorization_code === 'complete' ? (
-          <RiVerifiedBadgeFill className="text-2xl text-[#1F96A9]" />
+          <RiVerifiedBadgeFill className="text-2xl text-[#4D8A28]" />
         ) : account.authorization_code === 'pending' ? (
           <MdPending className="text-2xl text-[#FFD166]" />
         ) : (
           <FcCancel className="text-2xl" />
         )}
-        {account.authorization_code === null && (
+        {account.authorization_code === null  && (
           <button
             className="text-[#ED3237] text-sm font-semibold mt-2 hover:underline"
-            onClick={async () => {
+           onClick={async () => {
               const link = await verifyAccount(account.id)
-              console.log(link)
+              
               if (link) {
                   window.location.href = link;
               }
@@ -236,6 +236,7 @@ const directDebitReference : string | null = localStorage.getItem('direct_debit'
             Verify
           </button>
         )}
+        
         {account.authorization_code === 'pending' && debitMessage === 'Authorization does not exist or does not belong to integration' && (
           <button
           className="text-[#ED3237] text-sm font-semibold mt-2 hover:underline"
@@ -278,13 +279,14 @@ const directDebitReference : string | null = localStorage.getItem('direct_debit'
         />}
 
         <button
-          className="bg-[#46A4B5] text-white disabled:cursor-not-allowed disabled:opacity-50 h-[47px] w-full rounded-[45px] px-4 py-2 mt-10 font-semibold"
+          className="bg-[#F83449] text-white disabled:cursor-not-allowed disabled:opacity-50 h-[47px] w-full rounded-[45px] px-4 py-2 mt-10 font-semibold"
           disabled={!selectedOption || loading} // Disable if no option or loading
           onClick={handleLoanRepayment}
         >
           Continue
         </button>
       </div>
+       
 
       {notificationOpen && (
         <Notification

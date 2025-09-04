@@ -37,9 +37,9 @@ const FaqHero: React.FC<FaqHeroProps> = ({ faqs }) => {
               <p className="text-[18px] font-bold">{faq.question}</p>
               <button onClick={() => toggleFaq(index)}>
                 {openIndex === index ? (
-                  <FaMinusSquare className="text-[#F6011BCC] text-[24px]" />
+                  <FaMinusSquare className="text-[#F83449] text-[24px]" />
                 ) : (
-                  <FaPlusSquare className="text-[#F6011BCC] text-[24px]" />
+                  <FaPlusSquare className="text-[#F83449] text-[24px]" />
                 )}
               </button>
             </div>
@@ -57,10 +57,10 @@ const FaqHero: React.FC<FaqHeroProps> = ({ faqs }) => {
               Still need help?  Contact us.
         </p>
         <div className="flex justify-center items-center mt-8 gap-5 mb-28">
-          <button className="w-[162px] h-[45px] rounded-[22px] text-[16px] text-[#ffff] bg-[#F6011BCC] flex items-center font-light justify-center gap-1">
+          <button className="w-[162px] h-[45px] rounded-[22px] text-[16px] text-[#ffff] bg-[#F83449] flex items-center font-light justify-center gap-1">
            
             <MdEmail className=" text-[#ffff] text-xl"/>
-            <a href="mailto:info@quickcred.com.ng">Send an email</a>
+            <a href="mailto:support@quickfund.com.ng">Send an email</a>
             </button>
           <button
           className="w-[119px] h-[45px] rounded-[8px] border-solid text-[16px] text-[#282828] border-[#282828] border  flex items-center  justify-center gap-1"

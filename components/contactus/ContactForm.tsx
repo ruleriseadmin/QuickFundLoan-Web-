@@ -81,22 +81,22 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
           </div>
           <div className=" ">
             <div className='w-full h-full flex justify-end'>
-              <div className='w-[141px] h-[417px] bg-[#F6011B40] rounded-e-[10px] z-20 absolute top-0'></div>
+              <div className='w-[141px] h-[447px] bg-[#ED323717] rounded-e-[10px] z-20 absolute top-0'></div>
             </div>
-            <div className='absolute w-[420px]  h-[380px] bg-[#4A494914] right-0 z-40 top-16'>
-              <div className='bg-[#ffff] w-[378px] h-[341px] rounded-[3px] z-50 mx-auto mt-3'>
-                <p className='text-[22.05px] font-bold pt-6 pb-4 ml-6 text-[#030602]'>Reach us on</p>
+            <div className='absolute w-[420px]  h-[394px] bg-[#4A494914] right-0 z-40 top-16'>
+              <div className='bg-[#ffff] w-[378px] h-[371px] rounded-[3px] z-50 mx-auto mt-3'>
+                <p className='text-[22.05px] font-bold pt-3 pb-4 ml-6 text-[#030602]'>Reach us on</p>
                 <div className='flex flex-col gap-6 ml-6 '>
                 <div className='grid grid-cols-2 w-11/12  items-center'>
   <div className='flex items-center'>
     <Image src='/images/mail.png' alt='email' width={41} height={41} className='rounded-full mr-2' />
-    <p className='text-[15px]'>Email <br /> support@quickcred.com.ng</p>
+    <p className='text-[15px]'>Email <br /> support@quickfund.com.ng</p>
   </div>
   <div className='flex items-center justify-end'>
-    <button className='text-start' onClick={() => handleCopy('support@quickcred.com.ng')}>
+    <button className='text-start' onClick={() => handleCopy('support@quickfund.com.ng')}>
       <IoCopy className='text-[#263238]' />
     </button>
-    {copiedText === 'support@quickcred.com.ng' && <p className='text-xs text-[#263238] ml-2'>Copied</p>}
+    {copiedText === 'support@quickfund.com.ng' && <p className='text-xs text-[#263238] ml-2'>Copied</p>}
   </div>
 </div>
 
@@ -106,16 +106,22 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       <Image src="/images/watsapp.png" alt="whatsapp" width={30.29} height={30.29} className="rounded-full" />
     </div>
     <p className='text-[15px] ml-2'>
-      WhatsApp <br /> +2349166000043
+      WhatsApp  <br/> +2349166000040
+      <br/> +2349166000042 
     </p>
   </div>
 
-  <div className='flex items-center col-span-1 justify-end'>
-    <button className='text-start' onClick={() => handleCopy('+2349166000043')}>
+  <div className='flex flex-col items-end pt-3 col-span-1 justify-end'>
+    <button className='text-start pt-3' onClick={() => handleCopy('+2349166000040')}>
       <IoCopy className='text-[#263238]' />
     </button>
-    {copiedText === '+2349166000043' && <p className='text-xs text-[#263238] ml-2'>Copied</p>}
+    {copiedText === '+2349166000040' && <p className='text-xs text-[#263238] ml-2'>Copied</p>}
+    <button className='text-start pt-2' onClick={() => handleCopy('+2349166000042')}>
+      <IoCopy className='text-[#263238]' />
+    </button>
+    {copiedText === '+2349166000042' && <p className='text-xs text-[#263238] ml-2'>Copied</p>}
   </div>
+  
 </div>
 
 <div className='grid grid-cols-3 w-11/12 items-center'>
@@ -125,14 +131,19 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     </div>
     <p className='text-[15px] ml-2'>
       Call <br /> +2349166000043
+      <br/> +2349166000042
     </p>
   </div>
 
-  <div className='flex items-center col-span-1 justify-end'>
+  <div className='flex flex-col items-end pt-3 col-span-1 justify-end'>
     <button className='text-start' onClick={() => handleCopy('+2349166000043')}>
       <IoCopy className='text-[#263238]' />
     </button>
     {copiedText === '+2349166000043' && <p className='text-xs text-[#263238] ml-2'>Copied</p>}
+    <button className='text-start pt-2' onClick={() => handleCopy('+2349166000042')}>
+      <IoCopy className='text-[#263238]' />
+    </button>
+    {copiedText === '+2349166000042' && <p className='text-xs text-[#263238] ml-2'>Copied</p>}
   </div>
 </div>
 
@@ -154,17 +165,17 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   </div>
 </div>
 
-            <div className='flex justify-center items-center mt-10 text-[12px] gap-6 font-normal text-[#282828]'>
+            <div className='flex justify-center items-center mt-6 text-[12px] gap-6 font-normal text-[#282828]'>
               
               <Link href="" target="_blank" className='flex justify-center lg:gap-2 md:gap-1 items-center'>
                 <Image src='/images/twitter.png' width={19} alt='facebook' height={19} />
-                <p>quickcredng</p>
+                <p>quickfundng</p>
               </Link>
-              <Link href="https://www.instagram.com/quickcredng?igsh=eTY4Y25kMzM3ZnF1" target="_blank" className='flex justify-center lg:gap-2 md:gap-1 items-center'>
+              <Link href="https://www.instagram.com/quickfundng?igsh=eTY4Y25kMzM3ZnF1" target="_blank" className='flex justify-center lg:gap-2 md:gap-1 items-center'>
                 <Image src='/images/instagram.png' width={19} alt='instagram' height={19} />
-                <p>quickcredng</p>
+                <p>quickfundng</p>
               </Link>
-              <Link href="" target="_blank" className='flex justify-center lg:gap-2 md:gap-1 items-center'>
+              <Link href="https://www.linkedin.com/company/quickfundng/" target="_blank" className='flex justify-center lg:gap-2 md:gap-1 items-center'>
                 <Image src='/images/linkedin.png' width={20} alt='linkedin' height={20} />
                 <p>QuickFund</p>
               </Link>
