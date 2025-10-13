@@ -148,7 +148,10 @@ useEffect(() => {
         
       />
         <button
-        onClick={handleLogout}
+        onClick={(e) => {
+    e.stopPropagation();
+    handleLogout();
+  }}
         className="text-[#F24C5D] text-[15px] font-bold hover:text-[#F97870]  z-50"
       >
         Logout
