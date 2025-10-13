@@ -322,7 +322,7 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer, 
               {isDropdownOpen && (
                <div 
                className="absolute z-50 bg-white border border-[#282828] rounded-[8px] mt-2 shadow-lg max-h-[372px] h-auto overflow-y-auto w-full custom-dropdown"
-               style={{ transform: "translate3d(0,0,0)" }} // Force re-render optimization
+               style={{ transform: "translate3d(0,0,0)" }} 
              >
            
                
