@@ -17,6 +17,7 @@ type MainOfferProps = {
 type UserData = {
   id: number;
   amount: string;
+  upfront_payment:boolean;
  
 }[];
 

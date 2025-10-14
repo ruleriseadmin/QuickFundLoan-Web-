@@ -135,18 +135,24 @@ useEffect(() => {
 
       {loading && <LoadingPage />}
       <div 
-      onClick={toggleMessageModal}
+      
+
       className='items-center cursor-pointer gap-4 justify-between hidden lg:flex md:flex'>
       <Image
         src={`/images/${noMessages ? 'nomessage' : 'bellicon'}.png`}
         alt='notification'
         width={45}
         height={45}
+        onClick={
+        toggleMessageModal}
         
       />
         <button
-        onClick={handleLogout}
-        className="text-[#F24C5D] text-[15px] font-bold hover:text-[#F97870] "
+        onClick={(e) => {
+    e.stopPropagation();
+    handleLogout();
+  }}
+        className="text-[#F24C5D] text-[15px] font-bold hover:text-[#F97870]  z-50"
       >
         Logout
       </button>

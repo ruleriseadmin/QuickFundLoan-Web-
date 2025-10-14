@@ -11,23 +11,26 @@ import LoadingPage from '@/app/loading';
 import { useRouter } from 'next/navigation';
 import useFcmToken from '../FcmFunctions';
 import Loader from '../Loader';
-import PaymentConfirmation from './PaymentConfirmation';
+import InterestWarning from './InterestWarning';
 
 type UserInterestData = {
   id: number;
   interest_rate: string;
   period: string;
+  upfront_payment_amount:number;
 }[];
 
   type UserOffer = {
     id : number;
     amount: string;
+    upfront_payment:boolean;
   }[]
 
   type LoanSchedule = {
     principal_payment: number;
     payment_amount: number;
     due_date: string;
+    interest_payment: number;
   }[];
   
   const formatDate = (dateString: string): string => {
@@ -60,6 +63,8 @@ type UserInterestData = {
 
 const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer, closeModal,showAllOffers,toggleShowAllOffers ,onboarding }) => {
     const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
+    const [selectedOfferHasUpfrontPayment, setSelectedOfferHasUpfrontPayment] = useState<boolean | null>(null);
+    const [upfrontAmount,setUpfrontAmount] = useState<number | null>(null);
     const [amountId, setAmountId] = useState<number | null>(null);
     const [selectedTenor, setSelectedTenor] = useState<string | null>(null);
     const [tenorId, setTenorId] = useState<number | null>(null);
@@ -68,17 +73,23 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer, 
     const [loading, setLoading] = useState(false);
     const [notificationOpen, setNotificationOpen] = useState(false);
     const [loanSchedule, setLoanSchedule] = useState<LoanSchedule>([]);
-    const [authorizedBank, setAuthorizedBank] = useState<string | ''>('');
     const [loadingTimeout, setLoadingTimeout] = useState(false)
     const [error, setError] = useState('');
     const router = useRouter();
     const [loanResponse, setLoanResponse] = useState<any[]>([]);
-    const [fetchedUserData, setFetchedUserData] = useState<any>({});
     const [banks, setBanks] = useState<any[]>([]);
     const { payload } = useFcmToken();
     const [loanLoading,setLoanLoading] = useState(false)
+    const [openInterestWarning, setOpenInterestWarning] = useState(false);
+    const [proceedToSchedule, setProceedToSchedule] = useState<boolean>(false);
+    const [warningType, setWarningType] = useState<string>('');
+    const toggleInterestWarning = () => {
+      setOpenInterestWarning(!openInterestWarning);
+    };
     const [userInterests,setUserInterests] = useState<UserInterestData | null>(null);
-    const [selectedInterest,setSlectedInterest] = useState<string | null>()
+
+    
+
 
 
   //toggle notification
@@ -86,21 +97,35 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer, 
     setNotificationOpen(!notificationOpen);
   }
 
- 
   
-    const handleSelectAmount = (amount: number, id: number) => {
+    const handleSelectAmount = (amount: number, id: number,upfront_payment: boolean) => {
       setSelectedAmount(amount === selectedAmount ? null : amount);
+      setSelectedOfferHasUpfrontPayment(upfront_payment === selectedOfferHasUpfrontPayment ? null : upfront_payment);
       setAmountId(id === amountId ? null : id);
+      setProceedToSchedule(false);
+      setSelectedTenor(null);
+      setTenorId(null);
+      setUpfrontAmount(null);
+      setLoanSchedule([]);
+      
       showAllOffers ? toggleShowAllOffers() : null;
       setIsDropdownOpen(false);
     };
 
     
     
-    const handleSelectTenor = (tenor: string, id: number, interest:string) => {
+    const handleSelectTenor = (tenor: string, id: number, upfront_payment:number) => {
       setSelectedTenor(prevTenor => prevTenor === tenor ? null : tenor);
       setTenorId(id === tenorId ? null : id);
-      setSlectedInterest(interest);
+      setUpfrontAmount( upfront_payment);
+      if(upfront_payment > 0) {
+        setProceedToSchedule(false);
+        setWarningType('upfront');
+        setOpenInterestWarning(true);
+      }else{
+        setProceedToSchedule(true);
+        setWarningType('');
+      }
       setIsTenorDropdownOpen(false);
     };
 
@@ -118,28 +143,10 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer, 
     }),[payload, router];
 
 
-     // Fetch user data
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        setLoading(true);
-        const response = await apiClient.get(`/profile`);
-        setFetchedUserData(response?.data?.data);
-        setLoading(false);
-      } catch (error: any) {
-        console.error(error);
-        setLoading(false);
-        
-      } 
-    };
-    fetchUserData();
-  }, []);
-
-
 
 //get loan schedule
     useEffect(() => {
-      if (amountId && tenorId) {
+      if (proceedToSchedule && amountId && tenorId) { 
         const fetchLoanSchedule = async () => {
           try {
             setLoading(true);
@@ -159,7 +166,7 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer, 
     
         fetchLoanSchedule();
       }
-    }, [amountId, tenorId]);
+    }, [amountId, tenorId, proceedToSchedule]);
 
     
 
@@ -171,7 +178,6 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer, 
             `/account`
           );
           setBanks(response?.data?.data);
-          setAuthorizedBank(response?.data?.data.filter((bank: any) => bank.authorization_code === 'complete'));
         } catch (error: any) {
           setError(error?.response?.data?.message || 'An error occurred, please try again');
           setNotificationOpen(true);
@@ -270,7 +276,7 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer, 
         setLoadingTimeout(false)
       }
     }, [ loanResponse,router]);
-
+   
     //get user interest rate
   useEffect(() => {
     const fetchUserInterestRate = async () => {
@@ -289,12 +295,16 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer, 
     fetchUserInterestRate();
     }, [amountId]);
 
-    
+  
   return (
     <div>
         <form className="mt-8" onSubmit={handleSubmit}  >
             {/* Amount Selection */}
-            <div className="mb-6 relative"> {/* Add relative positioning here */}
+            <div 
+            onClick={() => {
+              setIsTenorDropdownOpen(false)
+            }}
+            className="mb-6 relative"> {/* Add relative positioning here */}
               <label htmlFor="amount" className="text-[#5A5A5A] mt-8 ml-1 text-[16px]">
                 Choose amount
               </label>
@@ -312,7 +322,7 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer, 
               {isDropdownOpen && (
                <div 
                className="absolute z-50 bg-white border border-[#282828] rounded-[8px] mt-2 shadow-lg max-h-[372px] h-auto overflow-y-auto w-full custom-dropdown"
-               style={{ transform: "translate3d(0,0,0)" }} // Force re-render optimization
+               style={{ transform: "translate3d(0,0,0)" }} 
              >
            
                
@@ -324,7 +334,7 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer, 
                           id={`amount-${offer.id}`}
                           value={offer.id}
                           checked={selectedAmount === offer.amount}
-                          onChange={() => handleSelectAmount(offer.amount, offer.id)}
+                          onChange={() => handleSelectAmount(offer.amount, offer.id, offer.upfront_payment)}
                           className="w-6 h-6 text-red-600 bg-gray-100 rounded-full font-extrabold border-2 border-[#C4C4C4] focus:ring-[#C4C4C4]" 
                         />
                         <label htmlFor={`amount-${offer.id}`} className="ml-4 text-[#282828] font-extrabold text-[18px]">
@@ -357,24 +367,60 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer, 
               {isTenorDropdownOpen && selectedAmount && (
                 <div className="absolute z-10 bg-white border border-solid border-[#282828] rounded-[8px]  shadow-lg h-auto overflow-y-auto w-full"> {/* Change to absolute positioning */}
                   <div className="flex flex-col mt-2 px-4 py-2">
-                    {userInterests?.map((interest) => (
-                      <div key={interest.id} className="flex items-center mb-4">
-                        <input
-                          type="radio"
-                          id={`tenor-${interest.interest_rate}`}
-                          value={interest.interest_rate}
-                          checked={selectedTenor === interest.period}
-                          onChange={() => handleSelectTenor(interest.period, interest.id, interest.interest_rate)}
-                          className="w-6 h-6 text-red-600 bg-gray-100 rounded-full font-extrabold border-2 border-[#C4C4C4] focus:ring-[#C4C4C4]" 
-                        />
-                        <label htmlFor={`tenor-${interest.interest_rate}`}  className="ml-4 text-[#282828] font-extrabold text-[18px]">
-                        
-                        {interest.period}
-                       
+    {userInterests?.map((interest) => {
 
-                        </label>
-                      </div>
-                    ))}
+  return (
+    <div key={interest.id} className="flex items-center mb-4">
+      <input
+        type="radio"
+        id={`tenor-${interest.interest_rate}`}
+        value={interest.interest_rate}
+        checked={selectedTenor === interest.period}
+        onChange={() =>
+          handleSelectTenor(interest.period, interest.id, interest.upfront_payment_amount)
+        }
+        className="w-6 h-6 text-red-600 disabled:opacity-50 bg-gray-100 rounded-full border-2 border-[#C4C4C4] focus:ring-[#C4C4C4]"
+      />
+      <label
+        htmlFor={`tenor-${interest.interest_rate}`}
+        className={`ml-4 font-extrabold text-[18px] text-[#282828]`}
+      >
+        {interest.period}
+      </label>
+    </div>
+  );
+})}
+ {
+  !selectedOfferHasUpfrontPayment  && (
+    <div  
+    className="flex items-center mb-4 cursor-pointer"
+    onClick={toggleInterestWarning}
+    >
+      <input
+        type="radio"
+        id={`tenor-dummy`}
+        value={'dummy'}
+        disabled={true}
+        
+        className="w-6 h-6 text-red-600 disabled:opacity-50 bg-gray-100 rounded-full border-2 border-[#C4C4C4] focus:ring-[#C4C4C4]"
+      />
+      <label
+        htmlFor={`tenor-dummy`}
+        className={`ml-4 font-extrabold text-[18px] text-[#C4C4C4]`}
+      >
+       1 month
+          <Image
+            src="/images/key.png"
+            alt="lock Icon"
+            width={15}
+            height={15}
+            className="inline ml-2"
+          />
+      </label>
+    </div>
+
+  )
+ }
                   </div>
                 </div>
               )}
@@ -384,8 +430,10 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer, 
            
           
 {
-  loanSchedule.length === 0  ? (
-    <>
+  loanSchedule.length === 0   ? (
+   
+        
+      <div>
       <div className='flex items-center justify-start gap-2 mt-6 '>
               <Image
               src= '/images/gift.png'
@@ -395,16 +443,44 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer, 
               />
               <p className='text-[15px] font-medium text-[#282828]'>Did you know?</p>
             </div>
-            <p className='text-[13px]  font-normal text-[#282828] my-2'>You can get up to N500,000 instant loan on Quickfund in less than 5 minutes. Your consistency and loyalty as our customer will unlock juicy loan offers for you.</p>
-            
-    </>
+            <p className='text-[13px]  font-normal text-[#282828] my-2'>You can get up to N500,000 instant loan on QuickCred in less than 5 minutes. Your consistency and loyalty as our customer will unlock juicy loan offers for you.</p>
+    </div>
 
-  ) : (
+  ) : 
+ (
     <div>
+      <>
+      {selectedOfferHasUpfrontPayment && tenorId && typeof upfrontAmount === 'number' && (
+  <div className='h-auto min-h-[105px] grid grid-cols-12 w-full mb-6 bg-[#FDEAEB] px-4 py-2 rounded-[8px]'>
+    <div className='col-span-1 flex flex-col justify-start'>
+      <Image src='/images/exclamation.png' alt='warning Icon' width={20} height={20} className='mt-4' />
+    </div>
+    <div className='col-span-11 flex flex-col justify-center'>
+      {(() => {
+        const safeAmount = Number(selectedAmount || 0);
+        const safeUpfront = Number(upfrontAmount || 0);
+        const netDisbursement = Math.round(safeAmount - safeUpfront);
+        const totalRepayment = Math.round(safeAmount);
+
+        return (
+          <p className='text-[16px] font-comic font-semibold text-[#282828] my-2'>
+            Loan interest of <b>{formatCurrency(safeUpfront)}</b> will be deducted upfront.
+            You’ll receive <b>{formatCurrency(netDisbursement)}</b>, and repay a total amount of
+            <b> {formatCurrency(totalRepayment)}</b>.
+          </p>
+        );
+      })()}
+    </div>
+  </div>
+)}
+
+      
       <div className=' h-auto min-h-[66px] bg-[#F1F1F1] rounded-[8px]'>
         {loanSchedule?.map((sch, index) => (
           <div key={index} className='grid gap-1 grid-cols-2 text-[15px] px-3 py-4 '>
-            <div className='flex items-center justify-start gap-2 my-auto'>
+            {!selectedOfferHasUpfrontPayment ? (
+              <>
+              <div className='flex items-center justify-start gap-2 my-auto'>
             <IoTime className=' text-blue-700 text-xl' />
             <p className='text-[#282828]  lg:text-[18px] md:text-[18px] text-[15px]  '>Payment {index + 1}</p>
             </div>
@@ -413,6 +489,31 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer, 
             <p className='text-[#5A5A5A] text-[14px]'>Due on {formatDate(sch.due_date.split(' ')[0])}</p>
 
             </div>
+              </>
+
+            ) : (
+              <>
+              <div className='flex items-center justify-start gap-2 my-auto'>
+            <IoTime className=' text-blue-700 text-xl' />
+            <p className='text-[#282828]  lg:text-[15px] md:text-[15px] text-[15px]  '>We will disburse</p>
+            </div>
+            <div className='flex flex-col justify-end items-end '>
+            <p className='text-[#282828] lg:text-[16px] md:text-[16px] text-[15px] leading-4'>{formatCurrency( parseFloat(sch.principal_payment.toFixed(3)) - sch?.interest_payment)}  </p>
+
+            </div>
+
+             <div className='flex items-center justify-start gap-2 mt-4'>
+            <IoTime className=' text-blue-700 text-xl' />
+            <p className='text-[#282828]  lg:text-[15px] md:text-[15px] text-[15px]  '>Upfront Interest Fee</p>
+            </div>
+            <div className='flex flex-col justify-end items-end '>
+            <p className='text-[#282828] lg:text-[15px] md:text-[15px] text-[15px] leading-4 pt-8'>{formatCurrency( sch?.interest_payment)}  </p>
+            <p className='text-[#F24C5D] text-[14px]'>Due Today</p>
+
+            </div>
+              </>
+            )}
+            
             
           </div>
         ))}
@@ -423,17 +524,30 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer, 
       <div className='grid gap-1 grid-cols-2 text-[15px] px-3 py-4 '>
       <div className='flex items-center justify-start gap-2 my-auto'>
       <IoTime className=' text-blue-700 text-xl' />
-            <p className='text-[#282828]  text-[15px] lg:text-[18px] md:text-[18px]'>Total Payment </p>
+            <p className='text-[#282828]  text-[15px] lg:text-[18px] md:text-[18px]'>{selectedOfferHasUpfrontPayment ? 'Total Repayment' : 'Total Payment'}</p>
             </div>
             <div className='flex flex-col justify-end items-end '>
-            <p className='text-[#282828] lg:text-[18px] md:text-[18px] text-[15px] '>
+              {!selectedOfferHasUpfrontPayment ? (
+                <p className='text-[#282828] lg:text-[18px] md:text-[18px] text-[15px] '>
          {formatCurrency(parseFloat(
   loanSchedule?.reduce((acc, curr) => acc + curr.payment_amount, 0).toFixed(3)
 ))}
       </p>
+                
+              ) : (
+                <div className='flex flex-col justify-end items-end '>
+              <p className='text-[#282828] lg:text-[18px] md:text-[18px] text-[15px] mt-4'>
+         {formatCurrency(parseFloat(
+  loanSchedule?.reduce((acc, curr) => acc + curr.payment_amount, 0).toFixed(3)
+))}
+    </p>
+      <p className='text-[#5A5A5A] text-[14px]'>Due on {formatDate(loanSchedule[loanSchedule.length - 1].due_date.split(' ')[0])}</p>
+                </div>
+      )}
       </div>
           </div>
       </div>
+      </>
 
       <p className="text-[13px] mt-6 text-[#282828] text-center w-11/12 mx-auto mb-8">
                   By accepting this offer, you agree to our 
@@ -453,7 +567,7 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer, 
       <button
      type='submit'
       className="bg-[#1C1C1E] text-white h-[47px] mb-4 w-full rounded-[8px] px-4 py-2  font-semibold">
-       Disburse&nbsp;{formatCurrency(selectedAmount)}
+          Disburse&nbsp;{selectedOfferHasUpfrontPayment && upfrontAmount && selectedAmount ? formatCurrency(Math.round(selectedAmount - upfrontAmount)) : formatCurrency(selectedAmount)}
       </button>
       
     </div>
@@ -461,6 +575,15 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer, 
 }
 
 </form>
+{openInterestWarning && <InterestWarning
+        toggleInterestWarning={toggleInterestWarning}
+        isOpen={openInterestWarning}
+        message= {warningType === 'upfront' ? 
+        "The Loan Interest on disbursed amount will be taken upfront." :
+        "You are currently not eligible for 30 days loan. Continue to pay back your loan on time to unlock this option."}
+        setProceedToSchedule={setProceedToSchedule}
+        warningType={warningType}
+      />}
 
           {error && 
             <Notification 

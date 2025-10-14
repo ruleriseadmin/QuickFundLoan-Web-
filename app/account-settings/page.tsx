@@ -8,9 +8,11 @@ import { MdSecurity } from "react-icons/md";
 import Profile from '@/components/accountSettings/Profile';
 import VirtualAccount from '@/components/accountSettings/VirtualAccount';
 import Security from '@/components/accountSettings/Security';
+import ChangeAccount from '@/components/accountSettings/ChangeAccount';
 import { withAuth } from '@/components/auth/EnsureLogin';
 import Notification from '@/components/Notification';
 import apiClient from '@/utils/apiClient';
+import { FaSackDollar } from "react-icons/fa6";
 
 
 
@@ -99,24 +101,24 @@ const AccountSettings = () => {
           <div className="hidden lg:block md:block col-span-3 w-full h-screen my-2">
             <SideBar />
           </div>
-          <div className="lg:col-span-9 md:col-span-9 col-span-12 w-full h-full my-2">
+          <div className="lg:col-span-9  md:col-span-9 col-span-12 w-full h-full my-2">
             <DashboardHeader path="Account settings" />
-            <div className="lg:ml-10  md:ml-4 ml-4 grid lg:grid-cols-5 mt-10 lg:w-8/12 md:w-full w-full md:grid-cols-5 grid-cols-3">
+            <div className=" ml-4 grid lg:grid-cols-6 mt-10 lg:w-10/12 md:w-full w-full md:grid-cols-5 grid-cols-3">
   {/* Profile Button */}
   <button
-    className={`flex items-center font-outfit rounded-full w-[118px] h-[39px] py-1 px-4 transition-colors duration-300 ${
+    className={`  md:ml-2 ml-2 lg:ml-4 flex items-center justify-start lg:justify-center  font-outfit rounded-full w-[118px] h-[39px] py-1 transition-colors duration-300 ${
       selectedMethod === 'profile' ? 'bg-[#282828] text-[#FFFFFF]' : 'bg-transparent text-[#5A5A5A]'
     }`}
     onClick={() => handleMethodChange('profile')}
   >
-    <FaUser className="inline-block text-base lg:text-xl md:text-xl mr-1" />
+    <FaUser className="inline-block text-base lg:text-xl md:text-xl mr-1 " />
     <p className="text-[15px] md:text-[18px] lg:text-[20px]">Profile</p>
   </button>
 
 
   {/* Virtual Account Button */}
   <button
-    className={`flex items-center font-outfit rounded-full lg:col-span-2  md:col-span-2 lg:ml-10 md:ml-10   lg:w-9/12 md:w-10/12 w-full  h-[39px] py-1 lg:px-4 md:px-4 px-2 transition-colors duration-300 ${
+    className={`flex items-center justify-center font-outfit rounded-full lg:col-span-2  md:col-span-2 lg:ml-10 md:ml-10   lg:w-9/12 md:w-10/12 w-full  h-[39px] py-1  transition-colors duration-300 ${
       selectedMethod === 'account' ? 'bg-[#282828] text-[#FFFFFF]' : 'bg-transparent text-[#5A5A5A]'
     }`}
     onClick={() => handleMethodChange('account')}
@@ -132,13 +134,24 @@ const AccountSettings = () => {
 
   {/* Security Button */}
   <button
-    className={`flex items-center font-outfit rounded-full lg:w-[138px] md:w-[110px] w-7/12 md:mr-4 h-[39px] py-1 md:px-2 px-4 transition-colors duration-300 ${
+    className={`flex items-center justify-center font-outfit  rounded-full lg:w-[138px] md:w-[110px] w-8/12 md:mr-4 h-[39px] py-1  transition-colors duration-300 ${
       selectedMethod === 'security' ? 'bg-[#282828] text-[#FFFFFF]' : 'bg-transparent text-[#5A5A5A]'
     }`}
     onClick={() => handleMethodChange('security')}
   >
     <MdSecurity className="inline-block text-base lg:text-xl md:text-xl mr-1" />
     <p className="text-[15px] md:text-[18px] lg:text-[20px]">Security</p>
+  </button>
+
+  {/* Change bank */}
+  <button
+    className={`flex items-center justify-start lg:justify-center md:justify-start font-outfit rounded-full lg:col-span-2  md:col-span-3 col-span-4 lg:ml-10   lg:w-11/12 md:w-8/12 w-6/12  h-[39px] py-1  transition-colors duration-300 ${
+      selectedMethod === 'bank' ? 'bg-[#282828] text-[#FFFFFF]' : 'bg-transparent text-[#5A5A5A]'
+    }`}
+    onClick={() => handleMethodChange('bank')}
+  >
+    <FaSackDollar className="inline-block text-[30px]  mr-1 lg:ml-0  pl-2" />
+    <p className="text-[15px] md:text-[18px] lg:text-[20px] lg:ml-2 ml-1 md:ml-0 ">Change bank account</p>
   </button>
 </div>
 
@@ -148,6 +161,7 @@ const AccountSettings = () => {
             }
             {selectedMethod === 'account' && <VirtualAccount />}
             {selectedMethod === 'security' && <Security />}
+            {selectedMethod === 'bank' && <ChangeAccount />}
 
           </div>
         </div>
