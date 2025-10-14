@@ -280,7 +280,7 @@ const VerifyIdentity: React.FC<{
                    
         ))}
 
-        <div className="border mt-20 border-[#D4D4D4] rounded-[12px] gap-3 w-full  min-h-[76px] h-auto  bg-[#E1ECF6] p-3 cursor-pointer flex ">
+        <div className="border mt-20 border-[#D4D4D4] rounded-[12px] gap-3 w-full  min-h-[76px] h-auto  bg-[#F24C5D4D] p-3 cursor-pointer flex ">
         <FaHeadphones className='text-[#5A5A5A] text-3xl'/>
          <p className='text-[16px] '>
           If you are having trouble receiving OTP, please call 
