@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import apiClient from '@/utils/apiClient';
 import Notification from '../Notification';
-import axios from 'axios';
 import LoadingPage from '@/app/loading';
+import { FaHeadphones } from "react-icons/fa";
 
 
 const VerifyIdentity: React.FC<{ 
@@ -25,16 +25,30 @@ const VerifyIdentity: React.FC<{
   const [showResend, setShowResend] = useState(false);
   const [email,setEmail] = useState('');
   const [phoneNumber,setPhoneNumber] = useState('');
+  const [phoneNumber2,setPhoneNumber2] = useState('');
   const router = useRouter();
 
     //submit otp prefered means a user selected
   const submitOptSelection = async () => {
     const emailPayload ={email};
-    const phonePayload ={phone_number:phoneNumber};
+    const phonePayload ={phone_number:phoneNumber };
+    const phone2Payload = {phone_number:phoneNumber2};
+
+    if(selectedOtpOption === 'email' && email === null 
+    || selectedOtpOption === 'phone' && phoneNumber === null 
+    || selectedOtpOption === 'phone2' && phoneNumber2 === null ) 
+    {
+      setError('Please select a valid option');
+      router.push(
+        `/dashboard?status=error&message=${encodeURIComponent(error)}`
+      );
+      return;
+    }
+    console.log(selectedOtpOption, email, phoneNumber, phoneNumber2);
     try {
       setLoading(true);
       const response = await apiClient.post(`/account/send-otp`, 
-      selectedOtpOption === 'email' ? emailPayload : phonePayload
+      selectedOtpOption === 'email' ? emailPayload : selectedOtpOption === 'phone' ? phonePayload : phone2Payload
       );
       setEmail(response?.data?.data?.email);
       setPhoneNumber(response?.data?.data?.phone_number);
@@ -107,6 +121,7 @@ const VerifyIdentity: React.FC<{
       const response = await apiClient.get('/account/get-detaills');
       setEmail(response?.data?.data?.email);
       setPhoneNumber(response?.data?.data?.phone_number);
+      setPhoneNumber2(response?.data?.data?.phone_number_two)
     } catch (error:any) {
       console.error('Error fetching user details:', error);
       router.push(
@@ -193,7 +208,9 @@ const VerifyIdentity: React.FC<{
   const otpOptions = [
     { value: 'email', name: 'Email' },
     { value: 'phone', name: 'Phone No' },
+    {value: 'phone2', name: 'Phone No'}
   ];
+
 
 
 
@@ -240,7 +257,7 @@ const VerifyIdentity: React.FC<{
             {otpOptions?.map((option) => (
         <div
                  key={option.value} 
-                     className="border border-[#D4D4D4] rounded-[12px] w-full mt-6 h-[76px] lg:gap-4 md:gap-7 gap-1 bg-[#F7F7F7] pl-4 cursor-pointer flex"
+                     className="border border-[#D4D4D4] rounded-[12px] w-full mt-4 h-[76px] lg:gap-4 md:gap-7 gap-1 bg-[#F7F7F7] pl-4 cursor-pointer flex justify-start items-center"
                    >
                      <input
                        type="radio"
@@ -248,24 +265,33 @@ const VerifyIdentity: React.FC<{
                        value={option.value}
                        checked={selectedOtpOption === option.value}
                        onChange={() => setSelectedOtpOption(option.value)}
-                       className="w-6 h-6 accent-[#282828]  mt-6"
+                       className="w-6 h-6 accent-[#F24C5D] bg-[#F24C5D] "
                      />
                      <div className=" px-1">
-                       <div className="lg:text-[20px] md:text[20px] text-[16px] text-[#282828] mt-4 text-center tracking-widest flex  items-center">
-                         <span className=" mr-2 pt-2 font-normal text-[#5A5A5A]">{option.name}: </span>
-                         <span className='font-semibold text-[20px]'>{option.name === 'Email' ? maskEmail(email) : maskPhone(phoneNumber)}</span>
+                       <div className="lg:text-[20px] md:text[20px] text-[16px] text-[#282828]  text-center tracking-widest flex  items-center">
+                         <span className=" mr-2 font-normal text-[#5A5A5A]">{option.name}: </span>
+                         <span className='font-semibold text-[20px]'>{option.value === 'email' ? maskEmail(email) : option.value === 'phone' ? maskPhone(phoneNumber) : maskPhone(phoneNumber2) }</span>
                          
                        </div>
-                     </div>
+                     </div >
+
                      
                    </div>
                    
         ))}
+
+        <div className="border mt-20 border-[#D4D4D4] rounded-[12px] gap-3 w-full  min-h-[76px] h-auto  bg-[#E1ECF6] p-3 cursor-pointer flex ">
+        <FaHeadphones className='text-[#5A5A5A] text-3xl'/>
+         <p className='text-[16px] '>
+          If you are having trouble receiving OTP, please call 
+           <span className='font-semibold'> 09166000040</span> or <span className='font-semibold'>09166000042.</span> 
+          </p>
+        </div>
         <button 
          type="button" 
        onClick={submitOptSelection}
-       disabled={!selectedOtpOption || loading}
-         className="bg-[#1C1C1E] disabled:opacity-50 text-white w-full h-[55px] rounded-full py-2 mt-10">
+       disabled={!selectedOtpOption || loading }
+         className="bg-[#1C1C1E] disabled:opacity-50 text-white w-full h-[55px] rounded-full py-2 mt-6">
            {loading? 'Sending...' : 'Send OTP'}
          </button>
           </div>
@@ -276,7 +302,7 @@ const VerifyIdentity: React.FC<{
         <>
          <form onSubmit={handleSubmitOTP}>
          
-         <p className='px-2 py-4 text-[#282828] leading-8'>Enter the 6 digit code sent to your bvn number {selectedOtpOption === 'phone' ? maskPhone(phoneNumber) : maskEmail(email)}.</p>
+         <p className='px-2 py-4 text-[#282828] leading-8'>Enter the 6 digit code sent to your bvn number {(selectedOtpOption === 'phone' || selectedOtpOption === 'phone2' )? maskPhone(phoneNumber) : maskEmail(email)}.</p>
          <input
            type="number"
            value={otp}
@@ -285,6 +311,27 @@ const VerifyIdentity: React.FC<{
            placeholder="Enter otp code"
            required
          />
+         <div className='flex justify-between items-center w-full mt-4 '>
+             {/* Show countdown or resend button */}
+         {showResend ? (
+                    <button
+                        onClick={handleShowSelectionPage}
+                        className="text-center  block font-normal text-[#F24C5D] hover:cursor-pointer hover:text-red-900"
+                    >
+                        Resend code
+                    </button>
+                ) : (
+                    <p className="text-center text-[15px] text-[#F24C5D]  ">
+                        Resend in {formatTime(timeLeft)}
+                    </p>
+          )}
+           <button 
+           onClick={handleShowSelectionPage}
+           className='font-medium text-[15px]'>
+          Change method
+         </button>
+         </div>
+        
        
 
        {loading && <LoadingPage />}
@@ -295,19 +342,7 @@ const VerifyIdentity: React.FC<{
          </button>
        </form>
 
-         {/* Show countdown or resend button */}
-         {showResend ? (
-                    <button
-                        onClick={handleShowSelectionPage}
-                        className="text-center w-full block mx-auto mt-8 font-normal text-[#F24C5D] hover:cursor-pointer hover:text-red-900"
-                    >
-                        Resend code
-                    </button>
-                ) : (
-                    <p className="text-center text-[15px] text-[#F24C5D] mt-4 ">
-                        Resend in {formatTime(timeLeft)}
-                    </p>
-                )}
+      
        </>
       )}
        
