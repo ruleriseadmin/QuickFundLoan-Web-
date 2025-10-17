@@ -21,6 +21,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/slideDashboard/MonoAccount.tsx", "components/selfie/webCam.jsx", "next-sitemap.config.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/slideDashboard/MonoAccount.tsx", "components/selfie/webCam.jsx", "next-sitemap.config.js","declarations.d.ts"],
   "exclude": ["node_modules"]
 }
