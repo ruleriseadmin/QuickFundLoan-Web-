@@ -1,8 +1,10 @@
+'use client'
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import LoadingPage from "@/app/loading";
 import Image from 'next/image'
 import CardConfirmation from "./CardConfirmation";
+import apiClient from "@/utils/apiClient";
 
 
 type CardProps = {
@@ -14,7 +16,7 @@ const [loading, setLoading] = useState(false);
 const [openConfirmation, setOpenConfirmation] = useState(false);
 const [isExiting, setIsExiting] = useState(false);
 const [openCardTokenize, setOpenCardTokenize] = useState(false);
-
+const [onboardingFee, setOnboardingFee] = useState<string>('');
 
 
 //toggle card tokenize modal
@@ -39,6 +41,21 @@ useEffect(() => {
     handleCardLink();
   }
 }, [openCardTokenize])
+
+//get onboarding fee
+ useEffect(() => {
+  const fetchBoardingFee = async () => {
+    try {
+      const response = await apiClient.get(`/settings-public/onboarding-fee`);
+      setOnboardingFee(response?.data?.data?.value);
+      
+    } catch (error: any) {
+      
+      console.log('error',error);
+    } 
+  };
+  fetchBoardingFee();
+  }, []);
 
   return (
     <div className="font-outfit overflow-hidden mb-6 z-10">
@@ -72,7 +89,7 @@ useEffect(() => {
      height={20}
      className="pt-3"
      />
-     <p className="px-2  pt-3">You will be charged a one-time fee of <strong>₦200</strong> for card linking. Please ensure you have sufficient funds on this card.</p>
+     <p className="px-2  pt-3">You will be charged a one-time fee of <strong>₦{onboardingFee || "200"}</strong> for card linking. Please ensure you have sufficient funds on this card.</p>
 
         </div>
         <div className="text-[16px] text-[#282828] mt-3 font-comic w-[380px]  h-[91px] flex items-start bg-[#F3F3F3] rounded-[12px] pl-3 ">
