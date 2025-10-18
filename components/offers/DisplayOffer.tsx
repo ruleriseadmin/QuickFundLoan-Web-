@@ -498,7 +498,7 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer, 
             <p className='text-[#282828]  lg:text-[15px] md:text-[15px] text-[15px]  '>We will disburse</p>
             </div>
             <div className='flex flex-col justify-end items-end '>
-            <p className='text-[#282828] lg:text-[16px] md:text-[16px] text-[15px] leading-4'>{formatCurrency( parseFloat(sch.principal_payment.toFixed(3)) - sch?.interest_payment)}  </p>
+            <p className='text-[#282828] lg:text-[16px] md:text-[16px] text-[15px] leading-4'>{formatCurrency( parseFloat(sch.principal_payment.toFixed(3)))}  </p>
 
             </div>
 
