@@ -10,11 +10,10 @@ type WelcomeNoticeProps = {
   isOpen: boolean;
   handleOpenModal: () => void;
   
-  
 };
 
 
-const WelcomeNotice: React.FC<WelcomeNoticeProps> = ({ toggleWelcomeNotice, isOpen, handleOpenModal}) => {
+const WelcomeNotice: React.FC<WelcomeNoticeProps> = ({ toggleWelcomeNotice, isOpen, handleOpenModal }) => {
     const [fetchedUserData, setFetchedUserData] = useState<any>(null);
     // Fetch user data
   useEffect(() => {
