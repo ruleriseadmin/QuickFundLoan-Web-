@@ -100,7 +100,7 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer, 
   
     const handleSelectAmount = (amount: number, id: number,upfront_payment: boolean) => {
       setSelectedAmount(amount === selectedAmount ? null : amount);
-      setSelectedOfferHasUpfrontPayment(upfront_payment === selectedOfferHasUpfrontPayment ? null : upfront_payment);
+      setSelectedOfferHasUpfrontPayment(upfront_payment === selectedOfferHasUpfrontPayment ? selectedOfferHasUpfrontPayment : upfront_payment);
       setAmountId(id === amountId ? null : id);
       setProceedToSchedule(false);
       setSelectedTenor(null);
@@ -276,6 +276,8 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer, 
         setLoadingTimeout(false)
       }
     }, [ loanResponse,router]);
+
+    console.log('loanSchedule', selectedOfferHasUpfrontPayment);
    
     //get user interest rate
   useEffect(() => {
