@@ -156,11 +156,24 @@ and conditions applicable to this loan facility, and may be considered as your c
         <Text style={{ fontWeight:'semibold',fontSize:'13px',lineHeight:'25px' }}>Total Loan Amount:</Text>
         <Text style={{ fontWeight:'normal',fontSize:'13px',lineHeight:'25px',fontFamily:'Montserrat' }}> ₦ {loanSchedule?.reduce((acc:any, schedule:any) => acc + schedule.principal_payment,0)}</Text>
         </View>
-        <View style={{ flexDirection: 'row', justifyContent:'flex-start', gap:'5px', fontFamily:'Euclid' }}>
-        <Text style={{ fontWeight:'semibold',fontSize:'13px',lineHeight:'25px' }}>Total Interest: </Text>
-        <Text style={{ fontWeight:'normal',fontSize:'13px',lineHeight:'25px',fontFamily:'Montserrat' }}>₦ {loanSchedule[0]?.payment_amount - loanSchedule[0]?.principal_payment }
-        </Text> <Text style={{ fontWeight:'normal',fontSize:'13px',lineHeight:'25px',fontStyle:'italic' }}>(Total interest you will pay across the tenure of the loan) </Text>
-        </View>
+            <View style={{ flexDirection: 'row', justifyContent: 'flex-start', gap: '5px', fontFamily: 'Euclid' }}>
+  <Text style={{ fontWeight: 'semibold', fontSize: '13px', lineHeight: '25px' }}>Total Interest:</Text>
+  <Text style={{ fontWeight: 'normal', fontSize: '13px', lineHeight: '25px', fontFamily: 'Montserrat' }}>
+    ₦ {loanSchedule[0]?.payment_amount - loanSchedule[0]?.principal_payment}
+  </Text>
+  <Text style={{ fontWeight: 'normal', fontSize: '13px', lineHeight: '25px', fontStyle: 'italic' }}>
+    {!loanSchedule[0]?.has_upfront_payment
+      ? '(Total interest you will pay across the tenure of the loan)'
+      : '(To be collected upfront)'}
+  </Text>
+</View>
+
+        {loanSchedule[0]?.has_upfront_payment && (
+          <View style={{ flexDirection: 'row', justifyContent:'flex-start', gap:'5px', fontFamily:'Euclid' }}>
+            <Text style={{ fontWeight:'semibold',fontSize:'13px',lineHeight:'25px' }}>Total Amount Receivable:</Text>
+            <Text style={{ fontWeight:'normal',fontSize:'13px',lineHeight:'25px',fontFamily:'Montserrat' }}>₦ {loanSchedule[0]?.principal_payment}</Text>
+          </View>
+        )}
         <View style={{ flexDirection: 'row', justifyContent:'flex-start', gap:'5px', fontFamily:'Euclid' }}>
         <Text style={{ fontWeight:'semibold',fontSize:'13px',lineHeight:'25px' }}>Total Repayment Amount:</Text>
         <Text style={{ fontWeight:'normal',fontSize:'13px',lineHeight:'25px',fontFamily:'Montserrat' }}>₦ {loanSchedule?.reduce((acc:any, schedule:any) => acc + schedule?.payment_amount,0)}</Text>
