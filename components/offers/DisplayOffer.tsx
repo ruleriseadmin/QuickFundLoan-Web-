@@ -57,11 +57,11 @@ type UserInterestData = {
     toggleShowAllOffers: () => void;
     showAllOffers: boolean;
     onboarding: any;
+    setRemoveOverflow: (value: boolean) => void;
   };
-  
-  
 
-const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer, closeModal,showAllOffers,toggleShowAllOffers ,onboarding }) => {
+
+const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer, closeModal,showAllOffers,toggleShowAllOffers ,onboarding,setRemoveOverflow }) => {
     const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
     const [selectedOfferHasUpfrontPayment, setSelectedOfferHasUpfrontPayment] = useState<boolean | null>(null);
     const [upfrontAmount,setUpfrontAmount] = useState<number | null>(null);
@@ -192,6 +192,7 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer, 
     //lets tokenize the card to get reference for manual verification
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
+      setRemoveOverflow(true);
     
       try {
       
@@ -229,8 +230,9 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer, 
         setError(error?.response?.data?.message || 'An error occurred, please try again');
         setNotificationOpen(true);
         setLoanLoading(false)
-        
-      } 
+      } finally{
+        setRemoveOverflow(false);
+      }
     };
     
 

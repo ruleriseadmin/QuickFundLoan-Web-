@@ -159,6 +159,7 @@ const MainOffer: React.FC<MainOfferProps> = ({ isOpen, toggleMainOffer }) => {
             toggleShowAllOffers={toggleShowAllOffers}
             showAllOffers={showAllOffers}
             onboarding={onboarding}
+            setRemoveOverflow={setRemoveOverFlow}
             />
           )}
 
