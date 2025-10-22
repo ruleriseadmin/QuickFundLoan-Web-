@@ -37,7 +37,7 @@ const FaceScanLoader: React.FC<faceScanLoaderProps> = ({title, text}) => {
       <ul
       className='text-[14px]  font-comic text-[#5A5A5A] mb-8 font-thin text-start mt-2 w-full mx-auto'
       >
-      <li>If you pay back your loan on time, you will be considered for offer rewards.</li>
+      
       <li>If you pay back your loan on time, you will be considered for offer rewards.</li>
       <li>Loan defaulters will be reported to the Credit Bureaus and this will affect your credit history.</li>
       </ul>

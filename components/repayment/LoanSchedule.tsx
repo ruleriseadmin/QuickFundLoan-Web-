@@ -52,6 +52,8 @@ useEffect(() => {
     setLoanArray(loanHistory[0]?.loan_schedules);
   }
   }, [loanHistory]);
+
+ 
   
 
   return (
