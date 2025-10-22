@@ -230,9 +230,8 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer, 
         setError(error?.response?.data?.message || 'An error occurred, please try again');
         setNotificationOpen(true);
         setLoanLoading(false)
-      } finally{
         setRemoveOverflow(false);
-      }
+      } 
     };
     
 
