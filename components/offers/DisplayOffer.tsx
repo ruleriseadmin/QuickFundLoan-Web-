@@ -86,7 +86,8 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer, 
     const toggleInterestWarning = () => {
       setOpenInterestWarning(!openInterestWarning);
     };
-    const [userInterests,setUserInterests] = useState<UserInterestData | null>(null);
+    const [userInterests,setUserInterests] = useState<UserInterestData | null >(null);
+    const [doesLoanHave28DaysTenor, setDoesLoanHave28DaysTenor] = useState<boolean>(false);
 
     
 
@@ -286,8 +287,9 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer, 
       try {
         const response = await apiClient.get(`/loan/interest_rates?loan_offer_id=${amountId}`);
         
-       setUserInterests(response?.data?.data);
-        
+       setUserInterests(response?.data?.data || []);
+        const has28DaysTenor = response?.data?.data.some((interest: { period: string }) => interest.period === '28 days');
+        setDoesLoanHave28DaysTenor(has28DaysTenor);
       } catch (error: any) {
         console.log(error.response);
        setError(error?.response?.data?.message ||  'An error occurred, please try again');
@@ -393,8 +395,7 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer, 
     </div>
   );
 })}
- {
-  !selectedOfferHasUpfrontPayment  && (
+ {userInterests && userInterests.length > 0 && !doesLoanHave28DaysTenor && (
     <div  
     className="flex items-center mb-4 cursor-pointer"
     onClick={toggleInterestWarning}
