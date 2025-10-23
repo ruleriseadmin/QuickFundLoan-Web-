@@ -171,7 +171,7 @@ const LoanSummary: React.FC<LoanSummaryProps> = ({ handleShowPaymentMethod, loan
           <p className="text-[17px] mb-2 mt-6 font-semibold flex justify-between">Loan summary:</p>
           <p className="mb-2 text-[14px] flex justify-between">
             <span>Loan disbursed</span>
-            <span>{ loanDetails ? formatCurrency(loanDetails?.amount) : '-' }</span>
+            <span>{ loanDetails ? formatCurrency(loanDetails?.disbursed_amount) : '-' }</span>
           </p>
           <p className="mb-2 text-[14px] flex justify-between">
   <span>Amount paid</span>

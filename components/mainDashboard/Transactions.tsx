@@ -40,6 +40,7 @@ const Transactions = () => {
   const directDebitReference : string | null = localStorage.getItem('direct_debit')
   const [debitMessage, setDebitMessage] = useState('');
   const showWelcomeNoticeAgain = localStorage.getItem('showWelcomeNoticeAgain');
+  const [userOfferRan,setUserOfferRan] = useState(false)
   
   const [loanCodeRan, setLoanCodeRan] = useState(false)
   const router = useRouter();
@@ -168,7 +169,9 @@ useEffect(() => {
       console.log(error.response);
       setError(error?.response?.data?.message || 'Dear customer, We discovered that you have an overdue loan with another bank or loan app. When you pay off this loan, you may be eligible for a loan offer.');
      
-    } 
+    } finally{
+      setUserOfferRan(true)
+    }
   };
   fetchUserOffers();
   }, []);
@@ -245,14 +248,14 @@ useEffect(() => {
 
   //this ensures all the async functions have run before the apply now button is enabled so the right conditions apply
   useEffect(() => {
-    if (onboarding && bankCodeRan  && loanCodeRan && verificationRan) {
+    if (onboarding && bankCodeRan  && loanCodeRan && verificationRan && userOfferRan) {
       setInitialization(true);
       console.log('initialization now true')
       
     }else{
       console.log('initialization failed')
     }
-  }, [onboarding, bankCodeRan,loanCodeRan, verificationRan]);
+  }, [onboarding, bankCodeRan,loanCodeRan, verificationRan,userOfferRan]);
 
  
 

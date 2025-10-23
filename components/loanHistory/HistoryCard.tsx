@@ -60,7 +60,7 @@ const [dueDate, dueTime] = createdAt.split(' ');
             <div className="text-[#282828] text-[13px] font-semibold">
               <p className="flex justify-between items-center align-middle mb-2">
                 <span>Amount Disbursed:</span>
-                <span>{formatCurrency(loanHistory?.amount)}</span>
+                <span>{formatCurrency(loanHistory?.disbursed_amount)}</span>
               </p>
               <p className="flex justify-between items-center align-middle mb-2">
                 <span>{ loanHistory?.status === 'OVERDUE' ? 'Original Amount Due:' : loanHistory?.status === 'CLOSED' ? 'Total Amount Paid' : 'Total Amount Due:'}</span>
