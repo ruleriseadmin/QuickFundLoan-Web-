@@ -278,7 +278,7 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer, 
       }
     }, [ loanResponse,router]);
 
-    console.log('loanSchedule', selectedOfferHasUpfrontPayment);
+    
    
     //get user interest rate
   useEffect(() => {
