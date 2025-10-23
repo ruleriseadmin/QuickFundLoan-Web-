@@ -120,7 +120,7 @@ const toggleDetails = () => {
             <p className='text-[17px] mb-2 mt-8 font-semibold flex justify-between '>Loan summary:</p>
             <p className='mb-2 text-[14px] flex justify-between'>
                 <span>Loan disbursed</span>
-                <span>{formatCurrency(loanHistory?.amount)}</span>
+                <span>{formatCurrency(loanHistory?.disbursed_amount)}</span>
             </p>
             <p className='mb-2 text-[14px] flex justify-between'>
                 <span>Amount paid</span>
