@@ -301,7 +301,7 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer, 
     fetchUserInterestRate();
     }, [amountId]);
 
-  console.log('has28DaysTenor',doesLoanHave28DaysTenor)
+  
   return (
     <div>
         <form className="mt-8" onSubmit={handleSubmit}  >
