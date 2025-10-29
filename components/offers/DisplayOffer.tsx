@@ -31,6 +31,7 @@ type UserInterestData = {
     payment_amount: number;
     due_date: string;
     interest_payment: number;
+    disbursed_amount: number;
   }[];
   
   const formatDate = (dateString: string): string => {
@@ -86,7 +87,8 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer, 
     const toggleInterestWarning = () => {
       setOpenInterestWarning(!openInterestWarning);
     };
-    const [userInterests,setUserInterests] = useState<UserInterestData | null>(null);
+    const [userInterests,setUserInterests] = useState<UserInterestData | null >(null);
+    const [doesLoanHave28DaysTenor, setDoesLoanHave28DaysTenor] = useState<boolean>(false);
 
     
 
@@ -286,8 +288,9 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer, 
       try {
         const response = await apiClient.get(`/loan/interest_rates?loan_offer_id=${amountId}`);
         
-       setUserInterests(response?.data?.data);
-        
+       setUserInterests(response?.data?.data || []);
+        const has28DaysTenor = response?.data?.data.some((interest: { period: string }) => interest.period === '28 days');
+        setDoesLoanHave28DaysTenor(has28DaysTenor);
       } catch (error: any) {
         console.log(error.response);
        setError(error?.response?.data?.message ||  'An error occurred, please try again');
@@ -393,8 +396,7 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer, 
     </div>
   );
 })}
- {
-  !selectedOfferHasUpfrontPayment  && (
+ {userInterests && userInterests.length > 0 && !doesLoanHave28DaysTenor && (
     <div  
     className="flex items-center mb-4 cursor-pointer"
     onClick={toggleInterestWarning}
@@ -453,7 +455,7 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer, 
  (
     <div>
       <>
-      {selectedOfferHasUpfrontPayment && tenorId && typeof upfrontAmount === 'number' && (
+      {!loanLoading && selectedOfferHasUpfrontPayment && tenorId && typeof upfrontAmount === 'number' && (
   <div className='h-auto min-h-[105px] grid grid-cols-12 w-full mb-6 bg-[#FDEAEB] px-4 py-2 rounded-[8px]'>
     <div className='col-span-1 flex flex-col justify-start'>
       <Image src='/images/exclamation.png' alt='warning Icon' width={20} height={20} className='mt-4' />
@@ -501,7 +503,7 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer, 
             <p className='text-[#282828]  lg:text-[15px] md:text-[15px] text-[15px]  '>We will disburse</p>
             </div>
             <div className='flex flex-col justify-end items-end '>
-            <p className='text-[#282828] lg:text-[16px] md:text-[16px] text-[15px] leading-4'>{formatCurrency( parseFloat(sch.principal_payment.toFixed(3)))}  </p>
+            <p className='text-[#282828] lg:text-[16px] md:text-[16px] text-[15px] leading-4'>{formatCurrency( parseFloat(sch.disbursed_amount.toFixed(3)))}  </p>
 
             </div>
 
