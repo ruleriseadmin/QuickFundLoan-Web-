@@ -464,8 +464,8 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer, 
       {(() => {
         const safeAmount = Number(selectedAmount || 0);
         const safeUpfront = Number(upfrontAmount || 0);
-        const netDisbursement = Math.round(safeAmount - safeUpfront);
-        const totalRepayment = Math.round(safeAmount);
+        const netDisbursement = safeAmount - safeUpfront;
+        const totalRepayment = safeAmount;
 
         return (
           <p className='text-[16px] font-comic font-semibold text-[#282828] my-2'>

@@ -97,7 +97,10 @@ const toggleDetails = () => {
      {/* Amount and Date section */}
      <div className={`${loan.status === 'completed' ? 'text-[#5A5A5A]' : 'text-[#282828] '} text-[16px]  leading-7 flex  flex-col`}>
         <div className='flex flex-col justify-end items-end'>
-        <span className='font-normal'>{loanHistory?.status === 'OVERDUE' ? formatCurrency(loan.remaining_balance + loanHistory?.penalty_remaining) : formatCurrency(loan?.payment_amount)}</span>
+        <span className='font-normal'>{
+         loanHistory?.has_upfront_interest ?
+        loanHistory?.status === 'OVERDUE' ? formatCurrency(loan.remaining_balance + loanHistory?.penalty_remaining) : formatCurrency(loan?.principal_payment)
+        : loanHistory?.status === 'OVERDUE' ? formatCurrency(loan.remaining_balance + loanHistory?.penalty_remaining) : formatCurrency(loan?.payment_amount)}</span>
         
         {loanHistory?.status !== 'OVERDUE' && loan.status === 'partially_paid' && (
           <span className='font-thin text-[13px]  '><span className='font-bold text-[#1F96A9]'>paid</span> {formatCurrency(loan.payment_amount - loan.remaining_balance)}</span>
