@@ -572,7 +572,7 @@ const DisplayOffer: React.FC<DisplayOfferProps> = ({handleShowLoan, usersOffer, 
       <button
      type='submit'
       className="bg-[#1C1C1E] text-white h-[47px] mb-4 w-full rounded-[8px] px-4 py-2  font-semibold">
-          Disburse&nbsp;{selectedOfferHasUpfrontPayment && upfrontAmount && selectedAmount ? formatCurrency(Math.round(selectedAmount - upfrontAmount)) : formatCurrency(selectedAmount)}
+          Disburse&nbsp;{selectedOfferHasUpfrontPayment && upfrontAmount && selectedAmount ? formatCurrency(selectedAmount - upfrontAmount) : formatCurrency(selectedAmount)}
       </button>
       
     </div>
