@@ -44,15 +44,17 @@ const Footer = () => {
            
 
         </div>
-        <div className='flex justify-start w-11/12 mx-auto lg:gap-20 gap-12 font-medium leading-9 mb-4 lg:mt-0 mt-6 '>
+        <div className='flex justify-start w-11/12 mx-auto lg:gap-20 md:gap-6 gap-12 font-medium leading-9 mb-4 lg:mt-0 mt-6 '>
             <Link 
             href='/privacy'
             className='lg:text-[18px] text-[18px] leading-7 font-thin'>Privacy policy</Link>
+             <Link href='/terms'  className='lg:text-[18px] text-[18px] leading-7 font-thin'>Terms</Link>
             <Link 
-            className='lg:text-[18px] text-[18px] leading-7 font-thin'
-            href='/terms'
+
+            className='lg:text-[18px] text-[18px] leading-7 font-thin lg:ml-11 ml-11 md:ml-8'
+            href='/review'
             >
-              Terms</Link>
+              Review</Link>
         </div>
 
         <div className='lg:mt-20 mt-8 lg:ml-4 md:ml-2 ml-4 mb-6'>
