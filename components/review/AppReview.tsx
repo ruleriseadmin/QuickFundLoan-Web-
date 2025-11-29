@@ -4,51 +4,51 @@ import Image from 'next/image'
 const AppReview = () => {
     const dummyReview = [
         {
-            name: "Adebayo Oluyemi",
+            name: "Abisola Ayobami",
             review: "Using Quickfund was a great experience! The loan application was simple, and I got my funds within minutes without any hassle. I loved that no collateral was required.",
             image: "revImage",
             rating: 5
         },
         {
-            name: "Chioma Nwachukwu",
-            review: "Very fast and reliable. I got the loan instantly and the repayment process is smooth.",
-            image: "revImage",
-            rating: 4
-        },
-        {
-            name: "John Adekunle",
-            review: "Quickfund saved me during an emergency. Super easy app to use.",
-            image: "revImage",
+            name: "Laashile",
+            review: "Quickfund is fast and easy to access. I recommend it for everyone and fast in loan disbursement. I give you 5 stars.",
+            image: "Laashile",
             rating: 5
         },
         {
-            name: "Blessing Okoro",
-            review: "Customer service was very responsive. Had a great experience overall.",
-            image: "revImage",
+            name: "Adebayo Yemi",
+            review: "The best of all ❤️❤️❤️❤️ loan apps and very much easier to apply good interest fee and more available in need of cash",
+            image: "Adebayo",
             rating: 5
         },
         {
-            name: "Emmanuel Udo",
-            review: "Loan approval was quick, but interest rate was very reasonable too.",
-            image: "revImage",
+            name: "Grace Ofumen",
+            review: "Very nice loan app easy to apply I recommend to everyone to try .and also please you guys should be given a reasonable loan that someone can use for his urgent need thanks",
+            image: "Grace",
             rating: 5
         },
         {
-            name: "Fatima Musa",
-            review: "Best loan app so far. No issues at all, and the interface is easy to navigate.",
-            image: "revImage",
+            name: "Danjuma",
+            review: "Using Quickfund was a great experience! The loan application was simple, and I got my funds within minutes without any hassle. I loved that no collateral was required.",
+            image: "Danjuma",
             rating: 5
         },
         {
-            name: "Kunle Taiwo",
-            review: "Easy process from start to finish. I will definitely recommend!",
-            image: "revImage",
-            rating: 4
+            name: "James Ugbala",
+            review: "My experience with them was very smooth, I hope to build a good relationship with them, and I hope they will increase the tenor for loan repayment, kudos to the teams",
+            image: "James",
+            rating: 5
         },
         {
-            name: "Sarah Adeoye",
-            review: "Quickfund is reliable. I’ve used it twice and never had any issues.",
-            image: "revImage",
+            name: "Jesutofunmi",
+            review: "Getting a loan was fast and seamless. I would recommend using this app if you need a quick loan.",
+            image: "Jesutofunmi",
+            rating: 5
+        },
+        {
+            name: "Afolabi David",
+            review: "I love this app ♥️When you need a loan app🙌This is the best app for you guys🫶🫂♥️💕🌹",
+            image: "Afolabi",
             rating: 5
         },
     ];
