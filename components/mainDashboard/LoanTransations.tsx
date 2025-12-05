@@ -149,7 +149,7 @@ const LoanTransactions: React.FC<LoanTransactionsProps> = ({ isOpen, toggleLoanT
                       {loan.transaction_type === 'loan' || loan.transaction_type === 'refund' ? '' : '- '}
                       {loan.transaction_type === 'loan' || loan.transaction_type === 'refund'
                         ? formatCurrency(loan.amount)
-                        : formatCurrency(Number(loan.amount.toString().split('-')[1]))}
+                        : formatCurrency(Number(loan.amount.toString().split('-')[1]) || loan.amount)}
                     </p>
               <hr className="w-[380px] mx-auto mt-3 mb-2 text-[#00000033]" />
             </div>

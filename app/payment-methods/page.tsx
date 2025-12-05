@@ -96,7 +96,7 @@ const PaymentMethodPage = () => {
           {bank_account_id: bankId},
           
         );
-        console.log(paymentResponse?.data);
+        
         if(paymentResponse?.data?.data?.reference){
         localStorage.setItem("direct_debit", paymentResponse?.data?.data?.reference);
         const link = paymentResponse?.data?.data?.payment_link;

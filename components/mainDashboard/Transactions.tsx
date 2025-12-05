@@ -14,6 +14,7 @@ import { formatCurrency } from '@/utils/bankFunctions';
 import WelcomeNotice from '../WelcomeNotice';
 import { useSearchParams } from 'next/navigation';
 import apiClient from '@/utils/apiClient';
+import ExpiredCardModal from '../slideDashboard/ExpiredCardModal';
 
 const Transactions = () => {
   const [userVerified, setUserVerified] = useState(false);
@@ -26,6 +27,7 @@ const Transactions = () => {
   const [onboarding, setOnboarding] = useState<any>({});
   const [loading, setLoading] = useState(false);
   const [openFaceScan, setOpenFaceScan] = useState(false);
+  const [openExpiredCardModal, setOpenExpiredCardModal] = useState(false);
   const [openLoanTransactions, setOpenLoanTransactions] = useState(false);
   const [loanHistory, setloanHistory] = useState<any>([]);
   const [AllLoanTransactions, setAllLoanTransactions] = useState<any>([]);
@@ -41,14 +43,16 @@ const Transactions = () => {
   const [debitMessage, setDebitMessage] = useState('');
   const showWelcomeNoticeAgain = localStorage.getItem('showWelcomeNoticeAgain');
   const [userOfferRan,setUserOfferRan] = useState(false)
-  
   const [loanCodeRan, setLoanCodeRan] = useState(false)
   const router = useRouter();
   const searchParams = useSearchParams();
   const [userOffers,setUserOffers] = useState<any>([]);
   
 
-
+  //toggle expired card modal
+  const toggleExpiredCardModal = () => {
+    setOpenExpiredCardModal(!openExpiredCardModal);
+  };
 
   //toggle notification
   const toggleNotification = () => {
@@ -143,6 +147,8 @@ useEffect(() => {
   verifyPayment();
 }, [directDebitReference, bankAccounts]);
 
+
+console.log('openExpiredcard',openExpiredCardModal)
   
 //check if user has completed onboarding process
   useEffect(() => {
@@ -274,7 +280,9 @@ useEffect(() => {
           'Your card has been successfully tokenized. Please wait while we confirm your details.'
        );
        setNotificationOpen(true)
-      }       
+      }  else if(!userVerified &&onboarding?.has_expired_card){
+        toggleExpiredCardModal();
+      }     
       else if (!userVerified) {
         await handleOpenModal();
       } else if (userVerified  && onboarding?.live_check === null || onboarding?.live_check === 'failed') {
@@ -352,8 +360,6 @@ const transactionsToDisplay =  AllLoanTransactions?.slice(0, 5);
 }, [loanReference, loanHistory]);
 
 
-
-
   return (
     <div className="font-outfit mt-4 mx-auto gap-4 w-11/12 h-auto overflow-hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
       <div className="lg:h-[349px] md:h-[349px] h-[257px] w-full bg-[#60738C] rounded-[12px]">
@@ -427,7 +433,7 @@ const transactionsToDisplay =  AllLoanTransactions?.slice(0, 5);
                 <span className="text-[#828282]">{loan?.transaction_date || 'N/A'}</span>
               </p>
             </div>
-            <p className="text-[14px] font-semibold">{loan.transaction_type === 'loan' || loan.transaction_type === 'refund'  ? '' : '-'} {loan.transaction_type === 'loan' || loan.transaction_type === 'refund' ? formatCurrency(loan.amount) : formatCurrency(Number(loan.amount.toString().split('-')[1]))}</p>
+            <p className="text-[14px] font-semibold">{loan.transaction_type === 'loan' || loan.transaction_type === 'refund'  ? '' : '-'} {loan.transaction_type === 'loan' || loan.transaction_type === 'refund' ? formatCurrency(loan.amount) : formatCurrency(Number(loan.amount.toString().split('-')[1]) || loan.amount)}</p>
           </div>
         ))}
           </div>
@@ -437,7 +443,7 @@ const transactionsToDisplay =  AllLoanTransactions?.slice(0, 5);
       </div>
         
   
-      <SideModal isOpen={isModalOpen} closeModal={handleCloseModal} />
+     <SideModal isOpen={isModalOpen} closeModal={handleCloseModal} />
 
       {/* MainOffer Modal */}
       {showMainOffer && (
@@ -483,6 +489,13 @@ const transactionsToDisplay =  AllLoanTransactions?.slice(0, 5);
           toggleLoanTransactions={toggleLoanTransactions}
           loanTransactions={AllLoanTransactions}
          
+        />
+      )}
+      {openExpiredCardModal && (
+        <ExpiredCardModal
+          isOpen={openExpiredCardModal}
+          toggleExpiredCardModal={toggleExpiredCardModal}
+          hasExpiredCard={onboarding?.has_expired_card}
         />
       )}
 
