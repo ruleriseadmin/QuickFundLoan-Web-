@@ -18,7 +18,7 @@ const Hero = () => {
 
       <div className='flex lg:flex-row md:flex-row flex-col justify-center items-center gap-6 mt-6 text-[#FFFFFF]'>
         <button
-          onClick={() => window.open('https://play.google.com/store/apps/details?id=com.quickfund.quickcred', '_blank')}
+          onClick={() => window.open('https://play.google.com/store/apps/details?id=com.quickfund.quickfund', '_blank')}
           className='cursor-pointer flex lg:justify-start md:justify-start justify-center items-center p-4 bg-[#F24C5D] lg:w-[236px] md:w-[236px] w-11/12 h-[58px] rounded-[12px] gap-2'
         >
           <Image src='/images/playstore.png' alt='googlePlay' width={18} height={18} />

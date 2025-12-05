@@ -16,7 +16,7 @@ import Notification from '@/components/Notification';
 import AccountNotification from '@/components/mainDashboard/AccountNotification';
 import WelcomeNotice from '@/components/WelcomeNotice';
 import { useSearchParams, useRouter } from 'next/navigation';
-
+import ExpiredCardModal from '@/components/slideDashboard/ExpiredCardModal';
 
 type Loan = {
   loan_schedules: any[];
@@ -48,7 +48,12 @@ const LoanHistoryPage: React.FC = () => {
     const card_reference : string | null = localStorage.getItem('card_reference')
 
     const [userOffers,setUserOffers] = useState<any>([]);
-    
+    const [openExpiredCardModal, setOpenExpiredCardModal] = useState(false);
+  
+  //toggle expired card modal
+  const toggleExpiredCardModal = () => {
+    setOpenExpiredCardModal(!openExpiredCardModal);
+  };
 
   const toggleNotification = () => {
     setNotificationOpen(!notificationOpen);
@@ -262,7 +267,10 @@ const handleApplyNow = async () => {
         'Your card has been successfully tokenized. Please wait while we confirm your details.'
      );
      setNotificationOpen(true)
-    }       
+    } 
+     else if(!userVerified &&onboarding?.has_expired_card){
+        toggleExpiredCardModal();
+      }           
     else if (!userVerified) {
       await handleOpenModal();
     } else if (userVerified && onboarding?.live_check === null || onboarding?.live_check === 'failed') {
@@ -377,6 +385,13 @@ const handleApplyNow = async () => {
       <SideModal isOpen={isModalOpen} closeModal={() => setIsModalOpen(false)} />
       {openFaceScan && (
         <FaceScan isOpen={openFaceScan} toggleFaceScan={() => setOpenFaceScan(false)} />
+      )}
+       {openExpiredCardModal && (
+        <ExpiredCardModal
+          isOpen={openExpiredCardModal}
+          toggleExpiredCardModal={toggleExpiredCardModal}
+          hasExpiredCard={onboarding?.has_expired_card}
+        />
       )}
       {notificationOpen && (
         <Notification

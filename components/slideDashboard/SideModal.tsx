@@ -197,6 +197,9 @@ useEffect(() => {
     } else if (
       !onboarding?.card_tokenized) {
       await showCard();
+    }else if (
+      onboarding?.has_expired_card) {
+       await showCard();
     } else if(!onboarding.bvn_nin_exists || !onboarding?.bvn_nin_is_verified) {
       showVerifyIdentity();
     } else if (onboarding.live_check === 'completed' && bankAccounts[0]?.authorization_code !== 'complete' && debitMessage  && debitMessage !== 'Authorization does not exist or does not belong to integration'){
