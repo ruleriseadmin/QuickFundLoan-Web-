@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { IoClose } from "react-icons/io5";
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { FaLongArrowAltLeft } from 'react-icons/fa';
 import Image from "next/image";
 import Password from "./Password";  
 import SignUp from "./SignUp";
@@ -7,12 +8,10 @@ import Login from "./Login";
 import Otp from "./Otp";
 import ResetPassword from "./ResetPassword";
 
-type EntryProps = {
-  isOpen: boolean;
-  closeModal: () => void;
-};
 
-const Entry: React.FC<EntryProps> = ({ isOpen, closeModal }) => {
+
+
+const Entry = () => {
   const [showLogin, setShowLogin] = useState(true);
   const [showSignup, setShowSignup] = useState(false);
   const [showOtp, setShowOtp] = useState(false);
@@ -21,6 +20,7 @@ const Entry: React.FC<EntryProps> = ({ isOpen, closeModal }) => {
   const [phone_number, setPhone_number] = useState("");
   const [title, setTitle] = useState(""); 
   const [subtitle, setSubtitle] = useState("");
+  const router = useRouter();
 
   // Function to show login screen
   const handleShowLogin = () => {
@@ -70,18 +70,19 @@ const Entry: React.FC<EntryProps> = ({ isOpen, closeModal }) => {
     setShowSetPassword(false);
     setShowResetPassword(true);
   };
-
-  if (!isOpen) return null; // Do not render if not open
+  
 
   
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black font-outfit bg-opacity-50">
-      <div className="bg-white rounded-xl lg:w-8/12 w-11/12 min-h-[498px] h-auto p-6 relative">
-        <button onClick={closeModal} className="absolute top-2 right-2 text-xl font-bold">
-          <IoClose className="text-navfont rounded-full bg-[#E2E2E2] text-3xl mt-2 mr-2 p-1 font-bold" />
+      <div className="  w-10/12 mx-auto h-auto overflow-hidden">
+        <button
+                  onClick={() => router.push('https://www.quickfundmfb.com/')}
+                  className="bg-inherit border-2 flex justify-center my-10 items-center border-[#282828] rounded-full w-[126px] h-[44px] gap-1 font-semibold py-1 px-4 text-[16px]"
+                >
+                  <FaLongArrowAltLeft className='text-xl'/>
+                  Go back
         </button>
-      
         <div className="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 lg:mx-4 w-full h-full">
           {showLogin && (
             <Login
@@ -117,7 +118,7 @@ const Entry: React.FC<EntryProps> = ({ isOpen, closeModal }) => {
           )}
 
           {/* Divider between columns */}
-          <div className="absolute inset-y-0 left-1/2 w-[2px] h-5/6 my-auto hidden lg:block md:block bg-[#C8C8C8]" />
+          <div className="absolute inset-y-0 left-1/2 w-[2px] lg:h-4/6 md:h-3/6 lg:my-auto md:my-32 hidden lg:block md:block bg-[#C8C8C8]" />
 
           {/* Right Side */}
           <div className="w-full h-full lg:mt-12 md:mt-12 lg:ml-8 md:ml-6 md:w-11/12">
@@ -155,7 +156,6 @@ const Entry: React.FC<EntryProps> = ({ isOpen, closeModal }) => {
           </div>
         </div>
       </div>
-    </div>
   );
 };
 
