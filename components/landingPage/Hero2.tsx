@@ -65,7 +65,7 @@ const Hero2 = () => {
         </div>
 
       </div>
-      <Entry isOpen={isModalOpen} closeModal={handleCloseModal} />
+      
     </div>
   );
 };

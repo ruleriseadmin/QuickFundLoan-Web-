@@ -244,7 +244,7 @@ const NavBar = () => {
   />
 )}
 
-<Entry isOpen={isModalOpen} closeModal={handleCloseModal} />
+
 
     </>
   );
