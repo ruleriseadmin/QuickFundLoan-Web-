@@ -175,7 +175,7 @@ const Login: React.FC<LoginType> = ({ handleShowSignUp, handleShowResetPassword 
                 </div>
                 <button
                   type="button"
-                  className="absolute inset-y-0  right-6 lg:right-12 flex items-center text-[#5A5A5A] text-[16px] font-bold"
+                  className="absolute inset-y-0  right-6 lg:right-20 flex items-center text-[#5A5A5A] text-[16px] font-bold"
                   onClick={() => setShowPassword(!showPassword)} // Toggle password visibility
                 >
                  {showPassword ? <FaEyeSlash /> : <FaEye />}

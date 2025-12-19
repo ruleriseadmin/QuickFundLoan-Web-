@@ -41,16 +41,15 @@ const config: Config = {
         'gradient9': 'linear-gradient(279.76deg, #424DB1 0%, rgba(66, 77, 177, 0.9625) 51.24%, rgba(66, 77, 177, 0.92) 109.32%)',
         'gradient10': 'linear-gradient(90deg, #FF2626 0%, #13171D 100%)',
         'gradient11': 'linear-gradient(149.87deg, #FFFFFF -10.32%, #72B3BD 201.33%)',
-        
-        
-        
       },
       borderRadius: {
         'circle': '50%', 
       },
-      
-      boxShadow:{
+      dropShadow: {
         'customshadow': '0px 4px 4px rgba(0, 0, 0, 0.25)',
+      },
+      boxShadow:{
+        'customshadow': '0px 0px 20px 4px #0000001A',
       }
     },
   },

@@ -429,7 +429,7 @@ const transactionsToDisplay =  AllLoanTransactions?.slice(0, 5);
               height={38} 
               />
               <p className="text-[14px]">
-                {loan.transaction_type === 'loan' ? 'Loan disbursement' : loan.transaction_type === 'refund'? 'Refund disbursement' : loan.transaction_type === 'penalty'? 'Penalty repayment' : 'Loan repayment'}<br />
+                { loan.repayment_method === 'cashback' ? 'Cashback reward' :loan.transaction_type === 'loan' ? 'Loan disbursement' : loan.transaction_type === 'refund'? 'Refund disbursement' : loan.transaction_type === 'penalty'? 'Penalty repayment' : 'Loan repayment'}<br />
                 <span className="text-[#828282]">{loan?.transaction_date || 'N/A'}</span>
               </p>
             </div>

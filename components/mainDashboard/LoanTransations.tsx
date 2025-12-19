@@ -134,16 +134,13 @@ const LoanTransactions: React.FC<LoanTransactionsProps> = ({ isOpen, toggleLoanT
                   height={38}
                 />
                 <p className="text-[16px] text-[#282828]">
-                  {loan.transaction_type === "loan"
-                    ? "Loan disbursement"
-                    : loan.transaction_type === "refund"
-                    ? "Refund disbursement"
-                    : loan.transaction_type === 'penalty'
-                     ? "Penalty repayment"
-                    : "Loan repayment"}
-                  <br />
-                  <span className="text-[#828282] ">{loan?.transaction_date || "N/A"}</span>
-                </p>
+                { loan.repayment_method === 'cashback' ? 'Cashback reward' :
+                loan.transaction_type === 'loan' ? 'Loan disbursement' : 
+                loan.transaction_type === 'refund'? 'Refund disbursement' : 
+                loan.transaction_type === 'penalty'? 'Penalty repayment' : 
+                'Loan repayment'}<br />
+                <span className="text-[#828282]">{loan?.transaction_date || 'N/A'}</span>
+              </p>
               </div>
               <p className="text-[16px] font-semibold w-full flex justify-end col-span-1">
                       {loan.transaction_type === 'loan' || loan.transaction_type === 'refund' ? '' : '- '}
